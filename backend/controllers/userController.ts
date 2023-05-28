@@ -24,8 +24,10 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     email,
     password,
     avatar: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
+      public_id: 'this is a sample id',
+      url: 'sample profile pic url',
+      // public_id: myCloud.public_id,
+      // url: myCloud.secure_url,
     },
   })
 
