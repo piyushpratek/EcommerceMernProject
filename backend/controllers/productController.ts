@@ -4,8 +4,10 @@ import Product from '../models/productModel'
 import ErrorHandler from '../utils/errorHandler'
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors'
 import ApiFeatures from '../utils/apifeatures'
+
 // Create Product -- Admin
 export const createProduct = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    req.body.user = req.user.id
     const product = await Product.create(req.body)
 
     res.status(HttpStatus.CREATED).json({
