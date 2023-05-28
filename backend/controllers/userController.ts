@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import User from '../models/userModel'
+import User, { UserDocument } from '../models/userModel'
 import ErrorHander from '../utils/errorHandler'
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors'
 
@@ -17,7 +17,7 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
   //   crop: 'scale',
   // })
 
-  const { name, email, password } = req.body
+  const { name, email, password } = req.body as UserDocument
 
   const user = await User.create({
     name,
@@ -36,9 +36,9 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
 
 // Login User
 export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body
+  const { email, password } = req.body as UserDocument
   // checking if user has given pass and email both
-  if (!email || !password) {
+  if ((email === '') || (password === '')) {
     next(new ErrorHander('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
   }
 
@@ -97,7 +97,7 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
       success: true,
       message: `Email sent to ${user.email} successfully`,
     })
-  } catch (error) {
+  } catch (error: any) {
     user.resetPasswordToken = undefined
     user.resetPasswordExpire = undefined
 

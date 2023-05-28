@@ -40,7 +40,13 @@ if (typeof process.env.PORT === 'undefined') {
   logger.error('Please define PORT in your .env file.')
   process.exit(1)
 }
+
+if (typeof process.env.JWT_EXPIRE === 'undefined') {
+  logger.error('Please define JWT EXPIRATION in your .env file.')
+  process.exit(1)
+}
 export const MONGO_URI = process.env.MONGO_URI
 export const JWT_SECRET = process.env.JWT_SECRET
 export const NODE_ENV = process.env.NODE_ENV
 export const PORT = Number(process.env.PORT)
+export const JWT_EXPIRE = process.env.JWT_EXPIRE
