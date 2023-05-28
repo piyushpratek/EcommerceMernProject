@@ -75,9 +75,9 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
   const user = await User.findOne({ email: req.body.email })
 
   if (user == null) {
-    next(new ErrorHander('User not found', 404)); return
+    next(new ErrorHander('User not found', HttpStatus.NOT_FOUND)); return
   }
-
+  // get resetpassword token
   const resetToken = user.getResetPasswordToken()
 
   await user.save({ validateBeforeSave: false })
