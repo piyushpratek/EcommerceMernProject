@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import User, { UserDocument } from '../models/userModel'
+import User from '../models/userModel'
 import ErrorHander from '../utils/errorHandler'
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors'
 
@@ -11,11 +11,11 @@ import { HttpStatus } from '../http-status.enum'
 
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: 'avatars',
-    width: 150,
-    crop: 'scale',
-  })
+  // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //   folder: 'avatars',
+  //   width: 150,
+  //   crop: 'scale',
+  // })
 
   const { name, email, password } = req.body
 
@@ -31,30 +31,30 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     },
   })
 
-  sendToken(user, 201, res)
+  sendToken(user, HttpStatus.CREATED, res)
 })
 
 // Login User
 export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body
-
+  // checking if user has given pass and email both
   if (!email || !password) {
-    next(new ErrorHander('Please Enter Email & Password', 400)); return
+    next(new ErrorHander('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
   }
 
   const user = await User.findOne({ email }).select('+password')
 
   if (user == null) {
-    next(new ErrorHander('Invalid email or password', 401)); return
+    next(new ErrorHander('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
   }
 
   const isPasswordMatched = await user.comparePassword(password)
 
   if (!isPasswordMatched) {
-    next(new ErrorHander('Invalid email or password', 401)); return
+    next(new ErrorHander('Invalid email or password', HttpStatus.UNAUTHORIZED))
   }
 
-  sendToken(user, 200, res)
+  sendToken(user, HttpStatus.OK, res)
 })
 
 // Logout User
@@ -64,7 +64,7 @@ export const logout = catchAsyncErrors(async (req: Request, res: Response, next:
     httpOnly: true,
   })
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
     message: 'Logged Out',
   })

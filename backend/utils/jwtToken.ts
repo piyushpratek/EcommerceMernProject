@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { UserDocument } from '../models/userModel'
-
+// creating token and saving in cookie
 const sendToken = (
   user: UserDocument,
   statusCode: number,
