@@ -1,7 +1,7 @@
-import app from './src/app'
 import logger from './config/logger'
 import { PORT } from './config/config'
 import connectDB from './config/database'
+import app from './src/app'
 
 // Handling uncaught Exception
 process.on('uncaughtException', (err: Error) => {
