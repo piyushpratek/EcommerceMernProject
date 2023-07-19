@@ -7,7 +7,7 @@ import ApiFeatures from '../utils/apifeatures'
 
 // Create Product -- Admin
 export const createProduct = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-    req.body.user = req.user.id
+    req.body.user = (req as any)?.user.id
     const product = await Product.create(req.body)
 
     res.status(HttpStatus.CREATED).json({

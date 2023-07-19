@@ -7,6 +7,7 @@ import type {
 import { NODE_ENV } from '../config/config'
 import { HttpStatus } from '../http-status.enum'
 import ErrorHandler from '../utils/errorHandler'
+import logger from '../config/logger'
 
 export const errorHandler: ErrorRequestHandler = (
     err: Error,
@@ -15,7 +16,7 @@ export const errorHandler: ErrorRequestHandler = (
     next: NextFunction
 ): void => {
     // eslint-disable-next-line no-console
-    console.log('---Error Handler Middleware--:')
+    logger.error('---Error Handler Middleware--:')
     // eslint-disable-next-line no-console
     console.log({ name: err.name, message: err.message })
     // eslint-disable-next-line no-console
