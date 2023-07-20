@@ -22,7 +22,7 @@ export interface UserDocument extends Document {
   getResetPasswordToken: () => string
 }
 
-const userSchema: Schema<UserDocument> = new Schema<UserDocument>({
+const userSchema: Schema<UserDocument> = new mongoose.Schema<UserDocument>({
   name: {
     type: String,
     required: [true, 'Please Enter Your Name'],

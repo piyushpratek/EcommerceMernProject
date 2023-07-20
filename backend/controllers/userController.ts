@@ -31,7 +31,11 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     },
   })
 
-  sendToken(user, HttpStatus.CREATED, res)
+  // sendToken(user, HttpStatus.CREATED, res)
+  res.status(HttpStatus.CREATED).json({
+    success: true,
+    user,
+  })
 })
 
 // Login User
@@ -140,7 +144,7 @@ export const resetPassword = catchAsyncErrors(async (req: Request, res: Response
 
 // Get User Detail
 export const getUserDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await User.findById(req.user.id)
+  const user = await User.findById((req as any).user.id)
 
   res.status(200).json({
     success: true,
@@ -150,11 +154,11 @@ export const getUserDetails = catchAsyncErrors(async (req: Request, res: Respons
 
 // Update User password
 export const updatePassword = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await User.findById(req.user.id).select('+password')
+  const user = await User.findById((req as any).user.id).select('+password')
 
-  const isPasswordMatched = await user.comparePassword(req.body.oldPassword)
+  const isPasswordMatched = await user?.comparePassword(req.body.oldPassword)
 
-  if (!isPasswordMatched) {
+  if (isPasswordMatched === false) {
     next(new ErrorHander('Old password is incorrect', 400)); return
   }
 
@@ -162,9 +166,9 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
     next(new ErrorHander('Password does not match', 400)); return
   }
 
-  user.password = req.body.newPassword
+  (user as any).password = req.body.newPassword
 
-  await user.save()
+  await (user as any).save()
 
   sendToken(user, 200, res)
 })
