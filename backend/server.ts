@@ -9,7 +9,6 @@ process.on('uncaughtException', (err: Error) => {
     logger.info('Shutting down the server due to Uncaught Exception')
     process.exit(1)
 })
-
 void connectDB.connect()
 
 const server = app.listen(PORT, () => {
