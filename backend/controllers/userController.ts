@@ -31,17 +31,13 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     },
   })
 
-  // sendToken(user, HttpStatus.CREATED, res)
-  res.status(HttpStatus.CREATED).json({
-    success: true,
-    user,
-  })
+  sendToken(user, HttpStatus.CREATED, res)
 })
 
 // Login User
 export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body as UserDocument
-  // checking if user has given pass and email both
+  // checking if user has given password and email both
   if ((email === '') || (password === '')) {
     next(new ErrorHander('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
   }
