@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import User, { UserDocument } from '../models/userModel'
-import ErrorHander from '../utils/errorHandler'
+import ErrorHandler from '../utils/errorHandler'
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors'
 
 import sendToken from '../utils/jwtToken'
@@ -40,19 +40,19 @@ export const loginUser = catchAsyncErrors(async (req: Request, res: Response, ne
   const { email, password } = req.body as UserDocument
   // checking if user has given password and email both
   if ((email === '') || (password === '')) {
-    next(new ErrorHander('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
+    next(new ErrorHandler('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
   }
 
   const user = await User.findOne({ email }).select('+password')
 
   if (user == null) {
-    next(new ErrorHander('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
+    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
   }
 
   const isPasswordMatched = await user.comparePassword(password)
 
   if (!isPasswordMatched) {
-    next(new ErrorHander('Invalid email or password', HttpStatus.UNAUTHORIZED))
+    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED))
   }
 
   sendToken(user, HttpStatus.OK, res)
@@ -76,7 +76,7 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
   const user = await User.findOne({ email: req.body.email })
 
   if (user == null) {
-    next(new ErrorHander('User not found', HttpStatus.NOT_FOUND)); return
+    next(new ErrorHandler('User not found', HttpStatus.NOT_FOUND)); return
   }
   // get resetpassword token
   const resetToken = user.getResetPasswordToken()
@@ -114,7 +114,7 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
 
     await user.save({ validateBeforeSave: false })
 
-    next(new ErrorHander(error.message, HttpStatus.INTERNAL_SERVER_ERROR))
+    next(new ErrorHandler(error.message, HttpStatus.INTERNAL_SERVER_ERROR))
   }
 })
 
@@ -133,12 +133,12 @@ export const resetPassword = catchAsyncErrors(async (req: Request, res: Response
 
   if (user == null) {
     next(
-      new ErrorHander('Reset Password Token is invalid or has been expired', HttpStatus.BAD_REQUEST)
+      new ErrorHandler('Reset Password Token is invalid or has been expired', HttpStatus.BAD_REQUEST)
     ); return
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    next(new ErrorHander('Password does not match', HttpStatus.BAD_REQUEST)); return
+    next(new ErrorHandler('Password does not match', HttpStatus.BAD_REQUEST)); return
   }
 
   user.password = req.body.password
@@ -167,11 +167,11 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
   const isPasswordMatched = await user?.comparePassword(req.body.oldPassword)
 
   if (isPasswordMatched === false) {
-    next(new ErrorHander('Old password is incorrect', HttpStatus.BAD_REQUEST)); return
+    next(new ErrorHandler('Old password is incorrect', HttpStatus.BAD_REQUEST)); return
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
-    next(new ErrorHander('Password does not match', HttpStatus.BAD_REQUEST)); return
+    next(new ErrorHandler('Password does not match', HttpStatus.BAD_REQUEST)); return
   }
 
   (user as any).password = req.body.newPassword
@@ -216,7 +216,6 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
 
   res.status(HttpStatus.OK).json({
     success: true,
-
   })
 })
 
@@ -236,7 +235,7 @@ export const getSingleUser = catchAsyncErrors(async (req: Request, res: Response
 
   if (user == null) {
     next(
-      new ErrorHander(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
+      new ErrorHandler(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
     ); return
   }
 
@@ -271,7 +270,7 @@ export const deleteUser = catchAsyncErrors(async (req: Request, res: Response, n
 
   if (user == null) {
     next(
-      new ErrorHander(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
+      new ErrorHandler(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
     ); return
   }
 
