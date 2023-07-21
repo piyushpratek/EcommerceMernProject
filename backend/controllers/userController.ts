@@ -8,6 +8,7 @@ import sendEmail from '../utils/sendEmail'
 import crypto from 'crypto'
 import cloudinary from 'cloudinary'
 import { HttpStatus } from '../http-status.enum'
+import logger from '../config/logger'
 
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -82,9 +83,19 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
 
   await user.save({ validateBeforeSave: false })
 
-  const resetPasswordUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`
+  // const resetPasswordUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`
 
-  const message = `Your password reset token is:\n\n ${resetPasswordUrl}\n\nIf you have not requested this email, please ignore it.`
+  const protocol = req.protocol
+  const host = req.get('host')
+  let resetPasswordUrl = ''
+  if ((protocol !== '') && (host != null)) {
+    resetPasswordUrl = `${protocol}://${host}/password/reset/${resetToken}`
+  } else {
+    logger.info("Missing 'protocol' or 'host' in the request headers.")
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' })
+  }
+
+  const message = `Your password reset token is :- \n\n ${resetPasswordUrl}\n\nIf you have not requested this email then, please ignore it.`
 
   try {
     await sendEmail({
@@ -93,7 +104,7 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
       message,
     })
 
-    res.status(200).json({
+    res.status(HttpStatus.OK).json({
       success: true,
       message: `Email sent to ${user.email} successfully`,
     })
@@ -103,12 +114,13 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
 
     await user.save({ validateBeforeSave: false })
 
-    next(new ErrorHander(error.message, 500))
+    next(new ErrorHander(error.message, HttpStatus.INTERNAL_SERVER_ERROR))
   }
 })
 
 // Reset Password
 export const resetPassword = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  // creating token hash
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.token)
@@ -121,12 +133,12 @@ export const resetPassword = catchAsyncErrors(async (req: Request, res: Response
 
   if (user == null) {
     next(
-      new ErrorHander('Reset Password Token is invalid or has been expired', 400)
+      new ErrorHander('Reset Password Token is invalid or has been expired', HttpStatus.BAD_REQUEST)
     ); return
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    next(new ErrorHander('Password does not match', 400)); return
+    next(new ErrorHander('Password does not match', HttpStatus.BAD_REQUEST)); return
   }
 
   user.password = req.body.password
@@ -135,14 +147,14 @@ export const resetPassword = catchAsyncErrors(async (req: Request, res: Response
 
   await user.save()
 
-  sendToken(user, 200, res)
+  sendToken(user, HttpStatus.OK, res)
 })
 
 // Get User Detail
 export const getUserDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.findById((req as any).user.id)
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
     user,
   })
@@ -159,14 +171,14 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
-    next(new ErrorHander('Password does not match', 400)); return
+    next(new ErrorHander('Password does not match', HttpStatus.BAD_REQUEST)); return
   }
 
   (user as any).password = req.body.newPassword
 
   await (user as any).save()
 
-  sendToken(user, 200, res)
+  sendToken(user, HttpStatus.OK, res)
 })
 
 // Update User Profile
@@ -201,7 +213,7 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
     useFindAndModify: false,
   })
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
   })
 })
@@ -210,7 +222,7 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
 export const getAllUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const users = await User.find()
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
     users,
   })
@@ -226,7 +238,7 @@ export const getSingleUser = catchAsyncErrors(async (req: Request, res: Response
     ); return
   }
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
     user,
   })
@@ -246,7 +258,7 @@ export const updateUserRole = catchAsyncErrors(async (req: Request, res: Respons
     useFindAndModify: false,
   })
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
   })
 })
@@ -257,7 +269,7 @@ export const deleteUser = catchAsyncErrors(async (req: Request, res: Response, n
 
   if (user == null) {
     next(
-      new ErrorHander(`User does not exist with Id: ${req.params.id}`, 400)
+      new ErrorHander(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
     ); return
   }
 
@@ -267,7 +279,7 @@ export const deleteUser = catchAsyncErrors(async (req: Request, res: Response, n
 
   await user.deleteOne({ _id: user._id })
 
-  res.status(200).json({
+  res.status(HttpStatus.OK).json({
     success: true,
     message: 'User Deleted Successfully',
   })

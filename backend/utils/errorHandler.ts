@@ -1,6 +1,6 @@
 class ErrorHandler extends Error {
     statusCode: number
-    constructor(message: string, statusCode: number) {
+    constructor(message: string, statusCode: number, public keyValue?: any) {
         super(message)
         this.statusCode = statusCode
 
