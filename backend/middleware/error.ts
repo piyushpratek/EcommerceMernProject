@@ -39,7 +39,7 @@ export const errorHandler: ErrorRequestHandler = (
         const message = `Duplicate ${keys.join(', ')} Entered`
         err = new ErrorHandler(message, (err as any).keyValue, HttpStatus.BAD_REQUEST)
     }
-    C
+
     if ((err as any).code === 'JsonWebTokenError') {
         const message = 'Json Web Token is invalid, Try again'
         err = new ErrorHandler(message, HttpStatus.BAD_REQUEST)
