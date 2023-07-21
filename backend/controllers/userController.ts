@@ -167,7 +167,7 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
   const isPasswordMatched = await user?.comparePassword(req.body.oldPassword)
 
   if (isPasswordMatched === false) {
-    next(new ErrorHander('Old password is incorrect', 400)); return
+    next(new ErrorHander('Old password is incorrect', HttpStatus.BAD_REQUEST)); return
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
@@ -178,7 +178,7 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
 
   await (user as any).save()
 
-  sendToken(user, HttpStatus.OK, res)
+  sendToken(user as any, HttpStatus.OK, res)
 })
 
 // Update User Profile
@@ -187,27 +187,28 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
     name: req.body.name,
     email: req.body.email,
   }
+  // we will add clodinary later
 
-  if (req.body.avatar !== '') {
-    const user = await User.findById(req.user.id)
+  // if (req.body.avatar !== '') {
+  //   const user = await User.findById((req as any).user.id)
 
-    const imageId = user.avatar.public_id
+  //   const imageId = (user as any).avatar.public_id
 
-    await cloudinary.v2.uploader.destroy(imageId)
+  //   await cloudinary.v2.uploader.destroy(imageId)
 
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-      folder: 'avatars',
-      width: 150,
-      crop: 'scale',
-    })
+  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //     folder: 'avatars',
+  //     width: 150,
+  //     crop: 'scale',
+  //   })
 
-    newUserData.avatar = {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    }
-  }
+  //   newUserData.avatar = {
+  //     public_id: myCloud.public_id,
+  //     url: myCloud.secure_url,
+  //   }
+  // }
 
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  const user = await User.findByIdAndUpdate((req as any).user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -215,6 +216,7 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
 
   res.status(HttpStatus.OK).json({
     success: true,
+
   })
 })
 
