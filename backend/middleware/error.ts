@@ -32,8 +32,28 @@ export const errorHandler: ErrorRequestHandler = (
         const message = `Resource not found. Invalid: ${(err as any).path}`
         err = new ErrorHandler(message, HttpStatus.BAD_REQUEST)
     }
+    // Mongoose duplicate key error
+
+    if ((err as any).code === 11000) {
+        const keys = Object.keys((err as any).keyValue)
+        const message = `Duplicate ${keys.join(', ')} Entered`
+        err = new ErrorHandler(message, (err as any).keyValue, HttpStatus.BAD_REQUEST)
+    }
+    C
+    if ((err as any).code === 'JsonWebTokenError') {
+        const message = 'Json Web Token is invalid, Try again'
+        err = new ErrorHandler(message, HttpStatus.BAD_REQUEST)
+    }
+
+    // JWT Expire Error
+
+    if ((err as any).code === 'TokenExpireError') {
+        const message = 'Json Web Token is Expired, Try again'
+        err = new ErrorHandler(message, HttpStatus.BAD_REQUEST)
+    }
     // handle any other error
     res.status(statusCode).json({
+        success: false,
         message: err.message,
         stack: NODE_ENV === 'production' ? null : err.stack,
     })
