@@ -4,6 +4,7 @@ import productRoute from '../routes/productRoute'
 import { errorHandler } from '../middleware/error'
 import userRoute from '../routes/userRoute'
 import cookieParser from 'cookie-parser'
+import orderRoute from '../routes/orderRoute'
 const app: Application = express()
 
 app.use(express.json()) // to accept json data
@@ -16,6 +17,7 @@ app.get('/api/health', (req, res) => {
 // Route Imports
 app.use('/api/v1', productRoute)
 app.use('/api/v1', userRoute)
+app.use('/api/v1', orderRoute)
 
 // middleware for errors
 app.use(errorHandler)
