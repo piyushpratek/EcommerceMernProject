@@ -141,3 +141,64 @@ export const createProductReview = catchAsyncErrors(async (req: Request, res: Re
         success: true,
     })
 })
+
+// Get All Reviews of a product
+export const getProductReviews = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    const product = await Product.findById(req.query.id)
+
+    if (product == null) {
+        next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
+    }
+
+    res.status(HttpStatus.OK).json({
+        success: true,
+        reviews: product.reviews,
+    })
+})
+
+// Delete Review
+export const deleteReview = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    const product = await Product.findById(req.query.productId)
+
+    if (product == null) {
+        next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
+    }
+
+    const reviews = product.reviews.filter(
+        (rev) => (rev as any)._id.toString() !== (req as any).query.id.toString()
+    )
+
+    let avg = 0
+
+    reviews.forEach((rev) => {
+        avg += rev.rating
+    })
+
+    let ratings = 0
+
+    if (reviews.length === 0) {
+        ratings = 0
+    } else {
+        ratings = avg / reviews.length
+    }
+
+    const numOfReviews = reviews.length
+
+    await Product.findByIdAndUpdate(
+        req.query.productId,
+        {
+            reviews,
+            ratings,
+            numOfReviews,
+        },
+        {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+        }
+    )
+
+    res.status(HttpStatus.OK).json({
+        success: true,
+    })
+})
