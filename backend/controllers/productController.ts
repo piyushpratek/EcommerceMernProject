@@ -26,6 +26,16 @@ export const getAllProducts = catchAsyncErrors(async (req: Request, res: Respons
     })
 })
 
+// Get All Product (Admin)
+export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+    const products = await Product.find()
+
+    res.status(HttpStatus.OK).json({
+        success: true,
+        products,
+    })
+})
+
 // Get Product Details
 export const getProductDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id)
@@ -70,5 +80,64 @@ export const deleteProduct = catchAsyncErrors(async (req: Request, res: Response
     res.status(HttpStatus.OK).json({
         success: true,
         message: 'Product Deleted Successfully'
+    })
+})
+
+// Create New Review or Update the review
+
+export const createProductReview = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    const { rating, comment, productId } = req.body
+
+    interface Review {
+        user: string
+        name: string
+        rating: number
+        comment: string
+    }
+
+    const review: Review = {
+        user: (req as any).user._id,
+        name: (req as any).user.name,
+        rating: Number(rating),
+        comment,
+    }
+
+    const product = await Product.findById(productId)
+
+    if (product == null) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+            success: false,
+            message: 'Product not found',
+        })
+    }
+
+    const isReviewed = product?.reviews.find(
+        (rev) => (rev as any).user.toString() === (req as any).user._id.toString()
+    )
+
+    if (isReviewed != null) {
+        product?.reviews.forEach((rev) => {
+            if ((rev as any).user.toString() === (req as any).user._id.toString()) {
+                rev.rating = rating
+                rev.comment = comment
+            }
+        })
+    } else {
+        product?.reviews.push(review as any)
+        product.numofReviews = product?.reviews.length
+    }
+
+    let avg = 0
+
+    product?.reviews.forEach((rev) => {
+        avg += rev.rating
+    })
+
+    product.ratings = avg / product.reviews.length
+
+    await product?.save({ validateBeforeSave: false })
+
+    res.status(HttpStatus.OK).json({
+        success: true,
     })
 })
