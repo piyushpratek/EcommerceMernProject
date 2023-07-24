@@ -1,14 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import logo from "../../../Images/logo.png"
 
 const Header: React.FC = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
-                    {/* Your logo here */}
-                    {/* <img src={logo} alt="Logo" width="30" height="30" /> */}
-                    Your Logo
+                    <img src={logo} alt="Logo" width="30" height="30" />
+
                 </NavLink>
 
                 <button
