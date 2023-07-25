@@ -15,14 +15,14 @@ footer {
   align-items: center;
 }
 .leftFooter > h4 {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1vmax;
 }
 .leftFooter > p {
   text-align: center;
   font-size: 1.2vmax;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .leftFooter > img {
   width: 10vmax;
@@ -38,12 +38,12 @@ footer {
 
 .midFooter > h1 {
   font-size: 4vmax;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   color: #eb4034;
 }
 .midFooter > p {
   max-width: 60%;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   margin: 1vmax auto;
 }
 
@@ -55,14 +55,14 @@ footer {
   align-items: center;
 }
 .rightFooter > h4 {
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.4vmax;
   text-decoration: underline;
 }
 .rightFooter > a {
   text-decoration: none;
   font-size: 1.3vmax;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   color: white;
   transition: all 0.5s;
   margin: 0.5vmax;

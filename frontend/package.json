@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
+    "@types/react-alert": "^7.0.2",
     "@types/react-dom": "^18.2.7",
     "@types/webfontloader": "^1.6.35",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
