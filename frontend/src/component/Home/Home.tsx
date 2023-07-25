@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Home.css"
 import ProductCard from "./ProductCard"
-
+import { CgMouse } from "react-icons/cg";
 interface ProductInfo {
     name: string;
     images: { url: string }[];
@@ -24,7 +24,8 @@ const Home: React.FC = () => {
 
                 <a href="#container">
                     <button>
-                        Scroll<i className="bi bi-mouse"></i>
+                        Scroll
+                        <CgMouse />
                     </button>
                 </a>
             </div><h2 className="homeHeading">Featured Products</h2>
