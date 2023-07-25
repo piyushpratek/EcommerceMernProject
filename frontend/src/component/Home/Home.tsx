@@ -30,6 +30,14 @@ const Home: React.FC = () => {
             </div><h2 className="homeHeading">Featured Products</h2>
             <div className="container" id="container">
                 <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+                <ProductCard product={product} />
+
             </div>
         </>
 
