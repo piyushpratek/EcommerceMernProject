@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         <h1>ECOMMERCE.</h1>
         <p>High Quality is our first priority</p>
 
-        <p>Copyrights 2021 &copy; MePiyushPrateek</p>
+        <p>Copyrights 2023 &copy; MePiyushPrateek</p>
       </div>
 
       <div className="rightFooter">
