@@ -2,6 +2,7 @@ import React from 'react'
 import "./Home.css"
 import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
+import MetaData from '../layout/MetaData';
 interface ProductInfo {
     name: string;
     images: { url: string }[];
@@ -18,6 +19,7 @@ const product: ProductInfo = {
 const Home: React.FC = () => {
     return (
         <>
+            <MetaData title="ECOMMERCE" />
             <div className="banner">
                 <p>Welcome to Ecommerce</p>
                 <h1>FIND AMAZING PRODUCTS BELOW</h1>
