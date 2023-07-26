@@ -28,11 +28,11 @@ const productSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {
-        allProductRequest(state) {
+        ALL_PRODUCT_REQUEST(state) {
             state.loading = true;
             state.error = null;
         },
-        allProductSuccess(state, action: PayloadAction<{ products: Note[]; productsCount: number; resultPerPage: number; filteredProductsCount: number }>) {
+        ALL_PRODUCT_SUCCESS(state, action: PayloadAction<{ products: Note[]; productsCount: number; resultPerPage: number; filteredProductsCount: number }>) {
             state.loading = false;
             state.products = action.payload.products;
             state.productsCount = action.payload.productsCount;
@@ -40,7 +40,7 @@ const productSlice = createSlice({
             state.filteredProductsCount = action.payload.filteredProductsCount;
             state.error = null;
         },
-        allProductFail(state, action: PayloadAction<string>) {
+        ALL_PRODUCT_FAIL(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
         },
@@ -49,5 +49,5 @@ const productSlice = createSlice({
 });
 
 // Export the reducer and actions
-export const { allProductRequest, allProductSuccess, allProductFail } = productSlice.actions;
+export const { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL } = productSlice.actions;
 export default productSlice.reducer;
