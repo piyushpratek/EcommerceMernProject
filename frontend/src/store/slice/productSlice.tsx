@@ -2,8 +2,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Product {
-    // Define the structure of your Product object here
-    // Example: id: number; name: string; price: number;
+    _id: string;
+    name: string;
+    images: { url: string }[];
+    price: string;
+    ratings: number;
+    numOfReviews: number;
 }
 
 interface ProductState {

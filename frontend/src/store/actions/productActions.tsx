@@ -1,7 +1,9 @@
 import axios, { AxiosError } from "axios"
-import { Dispatch } from 'redux';
+import { Action, Dispatch } from 'redux';
 
 import { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS } from "../slice/productSlice"
+import { ThunkAction } from 'redux-thunk'; // Import ThunkAction type
+import { RootState } from "../store";
 
 
 // Defining the parameters that the action accepts
@@ -18,7 +20,7 @@ interface ErrorResponse {
 }
 
 //get All Products
-export const getProduct = (params: GetProductParams) => async (dispatch: Dispatch) => {
+export const getProduct = (params: GetProductParams): ThunkAction<void, RootState, unknown, Action> => async (dispatch: Dispatch) => {
     try {
         dispatch(ALL_PRODUCT_REQUEST())
         const { keyword = "", currentPage = 1, price = [0, 25000], category, ratings = 0 } = params
