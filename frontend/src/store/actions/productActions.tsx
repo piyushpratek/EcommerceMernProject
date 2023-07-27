@@ -1,10 +1,9 @@
+
+
+import { Action, Dispatch, ThunkAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { setProductsListSuccess, setProductsListFailed, setProductsListLoading } from "../slice/productSlice"
 import axios, { AxiosError } from "axios"
-import { Action, Dispatch } from 'redux';
-
-import { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS } from "../slice/productSlice"
-import { ThunkAction } from 'redux-thunk'; // Import ThunkAction type
 import { RootState } from "../store";
-
 
 // Defining the parameters that the action accepts
 export interface GetProductParams {
@@ -14,7 +13,6 @@ export interface GetProductParams {
     category?: string;
     ratings?: number;
 }
-
 interface ErrorResponse {
     message: string;
 }
@@ -22,29 +20,43 @@ interface ErrorResponse {
 //get All Products
 export const getProduct = (params: GetProductParams): ThunkAction<void, RootState, unknown, Action> => async (dispatch: Dispatch) => {
     try {
-        dispatch(ALL_PRODUCT_REQUEST())
-        const { keyword = "", currentPage = 1, price = [0, 25000], category, ratings = 0 } = params
+        dispatch(setProductsListLoading())
+        // const { keyword = "", currentPage = 1, price = [0, 25000],ratings = 0, category  } = params
+        const { category } = params
 
-        let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+        let link = `/api/v1/products`;
 
         if (category) {
-            link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+            link = `/api/v1/products`;
         }
 
         const { data } = await axios.get(link);
 
-        dispatch(ALL_PRODUCT_SUCCESS(data));
+        dispatch(setProductsListSuccess(data));
     }
     catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(ALL_PRODUCT_FAIL(message));
+        dispatch(setProductsListFailed(message));
     }
 };
+export const getAdminProduct = createAsyncThunk(
+    "products/getAdminProduct",
+    async () => {
+        try {
+            const response = await axios.get("/api/v1/admin/products");
+            return response.data.products;
+        } catch (error) {
+            // throw error.response.data.message;
+        }
+    }
+);
 
 
-// Clearing Errors
-export const clearErrors = () => async (dispatch: Dispatch) => {
-    dispatch(CLEAR_ERRORS);
-};
+
+
+
+
+
+
 

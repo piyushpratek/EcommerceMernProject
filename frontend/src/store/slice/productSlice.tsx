@@ -1,7 +1,6 @@
-// productSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Product {
+interface ProductType {
     _id: string;
     name: string;
     images: { url: string }[];
@@ -10,34 +9,41 @@ interface Product {
     numOfReviews: number;
 }
 
-interface ProductState {
-    products: Product[];
-    productsCount: number;
-    resultPerPage: number;
-    filteredProductsCount: number;
+interface ProductStateType {
+    products: ProductType[];
     loading: boolean;
     error: string | null;
+    success: boolean;
+    productsCount?: number;
+    resultPerPage?: number;
+    filteredProductsCount?: number;
 }
 
-const initialState: ProductState = {
+const initialProductState: ProductStateType = {
     products: [],
-    productsCount: 0,
-    resultPerPage: 0,
-    filteredProductsCount: 0,
     loading: false,
     error: null,
+    success: false,
 };
 
-const productSlice = createSlice({
-    name: 'products',
-    initialState,
+const productsSlice = createSlice({
+    name: 'product',
+    initialState: initialProductState,
     reducers: {
-        ALL_PRODUCT_REQUEST(state) {
+        setProductsListLoading: (state) => {
             state.loading = true;
             state.error = null;
             state.products = [];
         },
-        ALL_PRODUCT_SUCCESS(state, action: PayloadAction<{ products: Product[]; productsCount: number; resultPerPage: number; filteredProductsCount: number }>) {
+        setProductsListSuccess: (
+            state,
+            action: PayloadAction<{
+                products: ProductType[];
+                productsCount: number;
+                resultPerPage: number;
+                filteredProductsCount: number;
+            }>
+        ) => {
             state.loading = false;
             state.products = action.payload.products;
             state.productsCount = action.payload.productsCount;
@@ -45,23 +51,18 @@ const productSlice = createSlice({
             state.filteredProductsCount = action.payload.filteredProductsCount;
             state.error = null;
         },
-        ADMIN_PRODUCT_SUCCESS(state, action: PayloadAction<Product[]>) {
-            state.loading = false;
-            state.products = action.payload;
-            state.error = null;
-        },
-        ALL_PRODUCT_FAIL(state, action: PayloadAction<string>) {
+        setProductsListFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        CLEAR_ERRORS(state) {
-            state.error = null;
-        },
-        // Other reducer actions for this slice can be added here
 
     },
 });
 
-// Export the reducer and actions
-export const { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ADMIN_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS } = productSlice.actions;
-export default productSlice.reducer;
+export const {
+    setProductsListLoading,
+    setProductsListSuccess,
+    setProductsListFailed,
+} = productsSlice.actions;
+export default productsSlice.reducer;
+
