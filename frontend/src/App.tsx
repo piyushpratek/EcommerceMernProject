@@ -9,7 +9,6 @@ import Home from './component/Home/Home.tsx';
 import HeaderTesting from './component/layout/Header/HeaderTesting.tsx';
 
 
-
 function App() {
   React.useEffect(() => {
     webFont.load({
