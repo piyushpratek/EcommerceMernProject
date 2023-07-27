@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./Home.css"
 import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
 import MetaData from '../layout/MetaData';
+import { getProduct } from '../../store/actions/productActions';
+import { useDispatch } from 'react-redux';
+
+
 interface ProductInfo {
     name: string;
     images: { url: string }[];
@@ -17,6 +21,12 @@ const product: ProductInfo = {
     _id: "piyush"
 }
 const Home: React.FC = () => {
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        dispatch(getProduct({}))
+    }, [dispatch])
     return (
         <>
             <MetaData title="ECOMMERCE" />

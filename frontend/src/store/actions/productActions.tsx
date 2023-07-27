@@ -2,11 +2,10 @@ import axios, { AxiosError } from "axios"
 import { Dispatch } from 'redux';
 
 import { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS } from "../slice/productSlice"
-import { ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 
 
 // Defining the parameters that the action accepts
-interface GetProductParams {
+export interface GetProductParams {
     keyword?: string;
     currentPage?: number;
     price?: [number, number];
@@ -43,7 +42,7 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
 
 
 // Clearing Errors
-export const clearErrors = () => async (dispatch: (arg0: { type: ActionCreatorWithoutPayload<"products/CLEAR_ERRORS">; }) => void) => {
-    dispatch({ type: CLEAR_ERRORS });
+export const clearErrors = () => async (dispatch: Dispatch) => {
+    dispatch(CLEAR_ERRORS);
 };
 
