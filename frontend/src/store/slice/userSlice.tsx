@@ -1,0 +1,235 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+// Define the types for User, UserProfile, and other relevant types in your application
+interface User {
+    id: number;
+    name: string;
+    // Other properties...
+}
+
+type AllUsersData = User[];
+
+interface UserProfile {
+    username: string;
+    // Other properties...
+}
+
+interface UserState {
+    loading: boolean;
+    isAuthenticated: boolean;
+    user: User | UserProfile | null;
+    isUpdated: boolean;
+    isDeleted: boolean;
+    message: string | null;
+    success: boolean | null;
+    error: string | null;
+    users: User[];
+}
+
+const initialState: UserState = {
+    loading: false,
+    isAuthenticated: false,
+    user: null,
+    isUpdated: false,
+    isDeleted: false,
+    message: null,
+    success: null,
+    error: null,
+    users: []
+};
+
+const userSlice = createSlice({
+    name: "user",
+    initialState,
+    reducers: {
+        loginRequest(state) {
+            state.loading = true;
+            state.isAuthenticated = false;
+        },
+        loginSuccess(state, action: PayloadAction<User>) {
+            state.loading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+        },
+        loginFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = action.payload;
+        },
+        registerUserRequest(state) {
+            state.loading = true;
+            state.isAuthenticated = false;
+        },
+        registerUserSuccess(state, action: PayloadAction<User>) {
+            state.loading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+        },
+        registerUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = action.payload;
+        },
+        loadUserRequest(state) {
+            state.loading = true;
+            state.isAuthenticated = false;
+        },
+        loadUserSuccess(state, action: PayloadAction<UserProfile>) {
+            state.loading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+        },
+        loadUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = action.payload;
+        },
+        logoutSuccess(state) {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = null;
+        },
+        logoutFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        clearErrors(state) {
+            state.error = null;
+        },
+        updateProfileRequest(state) {
+            state.loading = true;
+        },
+        updateProfileSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isUpdated = action.payload;
+        },
+        updateProfileFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        updateProfileReset(state) {
+            state.isUpdated = false;
+        },
+        updatePasswordRequest(state) {
+            state.loading = true;
+        },
+        updatePasswordSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isUpdated = action.payload;
+        },
+        updatePasswordFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        updatePasswordReset(state) {
+            state.isUpdated = false;
+        },
+        forgotPasswordRequest(state) {
+            state.loading = true;
+        },
+        forgotPasswordSuccess(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.message = action.payload;
+        },
+        forgotPasswordFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        resetPasswordRequest(state) {
+            state.loading = true;
+        },
+        resetPasswordSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.success = action.payload;
+        },
+        resetPasswordFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        resetPasswordReset(state) {
+            state.success = false;
+        },
+        allUsersRequest(state) {
+            state.loading = true;
+        },
+        allUsersSuccess(state, action: PayloadAction<AllUsersData>) {
+            state.loading = false;
+            state.users = action.payload;
+        },
+        allUsersFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        deleteUserRequest(state) {
+            state.loading = true;
+        },
+        deleteUserSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isDeleted = action.payload;
+        },
+        deleteUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        deleteUserReset(state) {
+            state.isDeleted = false;
+        },
+        userDetailsRequest(state) {
+            state.loading = true;
+        },
+        userDetailsSuccess(state, action: PayloadAction<UserProfile>) {
+            state.loading = false;
+            state.user = action.payload;
+        },
+        userDetailsFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+    },
+});
+
+export const {
+    loginRequest,
+    loginSuccess,
+    loginFail,
+    registerUserRequest,
+    registerUserSuccess,
+    registerUserFail,
+    loadUserRequest,
+    loadUserSuccess,
+    loadUserFail,
+    logoutSuccess,
+    logoutFail,
+    clearErrors,
+    updateProfileRequest,
+    updateProfileSuccess,
+    updateProfileFail,
+    updateProfileReset,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail,
+    updatePasswordReset,
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFail,
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFail,
+    resetPasswordReset,
+    allUsersRequest,
+    allUsersSuccess,
+    allUsersFail,
+    deleteUserRequest,
+    deleteUserSuccess,
+    deleteUserFail,
+    deleteUserReset,
+    userDetailsRequest,
+    userDetailsSuccess,
+    userDetailsFail,
+} = userSlice.actions;
+
+export default userSlice.reducer

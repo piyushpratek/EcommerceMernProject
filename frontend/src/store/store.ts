@@ -4,10 +4,12 @@ import { useDispatch } from 'react-redux';
 
 import productSlicecopy from './slice/productSlice';
 import cartSlice from './slice/cartSlice';
+import orderSlice from './slice/orderSlice';
 export const store = configureStore({
     reducer: {
         product: productSlicecopy,
-        cart: cartSlice
+        cart: cartSlice,
+        order: orderSlice
 
     },
     // Other store configurations if needed...
