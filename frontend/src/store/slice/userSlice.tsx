@@ -196,40 +196,53 @@ export const {
     loginRequest,
     loginSuccess,
     loginFail,
+
     registerUserRequest,
     registerUserSuccess,
     registerUserFail,
+
     loadUserRequest,
     loadUserSuccess,
     loadUserFail,
-    logoutSuccess,
-    logoutFail,
-    clearErrors,
-    updateProfileRequest,
-    updateProfileSuccess,
-    updateProfileFail,
-    updateProfileReset,
-    updatePasswordRequest,
-    updatePasswordSuccess,
-    updatePasswordFail,
-    updatePasswordReset,
-    forgotPasswordRequest,
-    forgotPasswordSuccess,
-    forgotPasswordFail,
-    resetPasswordRequest,
-    resetPasswordSuccess,
-    resetPasswordFail,
-    resetPasswordReset,
+
     allUsersRequest,
     allUsersSuccess,
     allUsersFail,
+
+    clearErrors,
+
     deleteUserRequest,
     deleteUserSuccess,
     deleteUserFail,
     deleteUserReset,
+
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFail,
+
+    logoutSuccess,
+    logoutFail,
+
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFail,
+    resetPasswordReset,
+
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail,
+    updatePasswordReset,
+
+    updateProfileRequest,
+    updateProfileSuccess,
+    updateProfileFail,
+    updateProfileReset,
+
     userDetailsRequest,
     userDetailsSuccess,
     userDetailsFail,
+
+
 } = userSlice.actions;
 
 export default userSlice.reducer

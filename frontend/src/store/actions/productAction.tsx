@@ -1,5 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios'; import {
+import axios, { AxiosError } from 'axios';
+import {
     setProductsListLoading,
     setProductsListSuccess,
     setProductsListFailed,
