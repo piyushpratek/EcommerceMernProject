@@ -1,11 +1,12 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import productSlice from './slice/productSlice';
 import { useDispatch } from 'react-redux';
 
+import productSlicecopy from './slice/productSlice';
 export const store = configureStore({
     reducer: {
-        products: productSlice
+        product: productSlicecopy,
+
     },
     // Other store configurations if needed...
 });

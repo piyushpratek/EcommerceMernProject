@@ -1,0 +1,41 @@
+  ALL_PRODUCT_FAIL,         setProductsListFailed
+  ALL_PRODUCT_REQUEST,      setProductsListLoading
+  ALL_PRODUCT_SUCCESS,      setProductsListSuccess
+
+  ADMIN_PRODUCT_REQUEST,   setAdminProductsLoading
+  ADMIN_PRODUCT_SUCCESS,   setAdminProductsSuccess
+  ADMIN_PRODUCT_FAIL,      setAdminProductsFailed
+
+  NEW_PRODUCT_REQUEST,     setNewProductLoading
+  NEW_PRODUCT_SUCCESS,     setNewProductSuccess
+  NEW_PRODUCT_FAIL,        setNewProductFailed
+  NEW_PRODUCT_RESET,
+
+  UPDATE_PRODUCT_REQUEST,   setUpdateProductLoading
+  UPDATE_PRODUCT_SUCCESS,   setUpdateProductSuccess
+  UPDATE_PRODUCT_FAIL,      setUpdateProductFailed
+  UPDATE_PRODUCT_RESET,
+
+  DELETE_PRODUCT_REQUEST,   setDeleteProductLoading
+  DELETE_PRODUCT_SUCCESS,   setDeleteProductSuccess
+  DELETE_PRODUCT_FAIL,      setDeleteProductFailed
+  DELETE_PRODUCT_RESET,
+
+  PRODUCT_DETAILS_REQUEST,  setProductDetailsLoading
+  PRODUCT_DETAILS_FAIL,     setProductDetailsFailed
+  PRODUCT_DETAILS_SUCCESS,   setProductDetailsSuccess
+
+  NEW_REVIEW_REQUEST,      setNewReviewLoading
+  NEW_REVIEW_SUCCESS,      setNewReviewSuccess
+  NEW_REVIEW_FAIL,         setNewReviewFailed
+  NEW_REVIEW_RESET,
+
+  ALL_REVIEW_REQUEST,     setProductReviewsLoading
+  ALL_REVIEW_SUCCESS,     setProductReviewsSuccess
+  ALL_REVIEW_FAIL,        setProductReviewsFailed
+  
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_FAIL,
+  DELETE_REVIEW_RESET,
+  CLEAR_ERRORS,
