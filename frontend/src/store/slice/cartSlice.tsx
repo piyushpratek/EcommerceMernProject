@@ -2,8 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the type for the cart item
 interface CartItem {
-    product: string; // Assuming product ID is of type string
-    // Define other properties specific to the cart item here
+    product: string;
+    name: string;
+    price: number;
+    image: string;
+    stock: number;
+    quantity: number;
 }
 
 // Define the type for the shipping information
@@ -47,11 +51,11 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter((i) => i.product !== action.payload);
         },
 
-        saveShippingInfo: (state, action: PayloadAction<ShippingInfo>) => {
+        saveShippingInfAction: (state, action: PayloadAction<ShippingInfo>) => {
             state.shippingInfo = action.payload;
         },
     },
 });
 
-export const { addToCart, removeCartItem, saveShippingInfo } = cartSlice.actions;
+export const { addToCart, removeCartItem, saveShippingInfAction } = cartSlice.actions;
 export default cartSlice.reducer;

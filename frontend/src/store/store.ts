@@ -3,9 +3,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
 import productSlicecopy from './slice/productSlice';
+import cartSlice from './slice/cartSlice';
 export const store = configureStore({
     reducer: {
         product: productSlicecopy,
+        cart: cartSlice
 
     },
     // Other store configurations if needed...
