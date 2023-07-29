@@ -45,7 +45,10 @@ import {
 
     userDetailsFail,
     userDetailsRequest,
-    userDetailsSuccess
+    userDetailsSuccess,
+    updateUserRequest,
+    updateUserSuccess,
+    updateUserFail
 } from '../slice/userSlice';
 
 interface ErrorResponse {
@@ -227,7 +230,7 @@ export const getUserDetails = (id: string) => async (dispatch: Dispatch) => {
 // Update User
 export const updateUser = (id: string, userData: LoginParams) => async (dispatch: Dispatch) => {
     try {
-        dispatch(updateProfileRequest());
+        dispatch(updateUserRequest());
 
         const config = { headers: { "Content-Type": "application/json" } };
 
@@ -237,12 +240,11 @@ export const updateUser = (id: string, userData: LoginParams) => async (dispatch
             config
         );
 
-        dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
+        dispatch(updateUserSuccess(data));
     } catch (error) {
-        dispatch({
-            type: UPDATE_USER_FAIL,
-            payload: error.response.data.message,
-        });
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const message = axiosError?.response?.data?.message || "Error Occurred";
+        dispatch(updateUserFail(message));
     }
 };
 

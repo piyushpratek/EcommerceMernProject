@@ -189,6 +189,20 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        updateUserRequest(state) {
+            state.loading = true;
+        },
+        updateUserSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isUpdated = action.payload;
+        },
+        updateUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        updateUserReset(state) {
+            state.isUpdated = false;
+        },
     },
 });
 
@@ -241,6 +255,11 @@ export const {
     userDetailsRequest,
     userDetailsSuccess,
     userDetailsFail,
+
+    updateUserRequest,
+    updateUserSuccess,
+    updateUserFail,
+    updateUserReset
 
 
 } = userSlice.actions;
