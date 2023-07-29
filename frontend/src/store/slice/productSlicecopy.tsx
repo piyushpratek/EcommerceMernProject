@@ -173,15 +173,6 @@ const productsSlice = createSlice({
     },
 });
 
-export const {
-    allProductRequest,
-    allProductSuccess,
-    adminProductSuccess,
-    allProductFail,
-    clearErrors: clearProductsErrors,
-} = productsSlice.actions;
-
-export const productsReducer = productsSlice.reducer;
 
 // New product reducer slice
 const newProductSlice = createSlice({
@@ -317,8 +308,8 @@ const productReviewsSlice = createSlice({
 });
 
 // delete review
-const reviewSlice = createSlice({
-    name: 'review',
+const deleteReviewSlice = createSlice({
+    name: 'deletereview',
     initialState: initialReviewState,
     reducers: {
         deleteReviewRequest: (state) => {
@@ -342,6 +333,16 @@ const reviewSlice = createSlice({
 });
 
 export const {
+    allProductRequest,
+    allProductSuccess,
+    adminProductSuccess,
+    allProductFail,
+    clearErrors: clearProductsErrors,
+} = productsSlice.actions;
+
+export const productsReducer = productsSlice.reducer;
+
+export const {
     newProductRequest,
     newProductSuccess,
     newProductFail,
@@ -361,7 +362,7 @@ export const {
     updateProductReset,
     clearProductErrors,
 } = updateDeleleteproductSlice.actions;
-export default updateDeleleteproductSlice.reducer
+export const updateDeleleteproductReducer = updateDeleleteproductSlice.reducer
 
 export const {
     productDetailsRequest,
@@ -394,5 +395,5 @@ export const {
     deleteReviewFail,
     deleteReviewReset,
     clearErrors: clearReviewErrors,
-} = reviewSlice.actions;
-export const reviewReducer = reviewSlice.reducer;
+} = deleteReviewSlice.actions;
+export const deleteReviewReducer = deleteReviewSlice.reducer;

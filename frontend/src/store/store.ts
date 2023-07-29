@@ -2,13 +2,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-import productSlicecopy from './slice/productSlice';
+
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
 import userSlice from './slice/userSlice';
+import { deleteReviewReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReviewsReducer, productsReducer, updateDeleleteproductReducer } from './slice/productSlicecopy';
 export const store = configureStore({
     reducer: {
-        product: productSlicecopy,
+        products: productsReducer,
+        newProduct: newProductReducer,
+        updatedeleteproduct: updateDeleleteproductReducer,
+        productDetails: productDetailsReducer,
+        newReview: newReviewReducer,
+        productReviews: productReviewsReducer,
+        deletereview: deleteReviewReducer,
         cart: cartSlice,
         order: orderSlice,
         user: userSlice
