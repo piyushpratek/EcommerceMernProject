@@ -16,13 +16,19 @@ const Home: React.FC = () => {
     const dispatch = useAppDispatch()
     const { loading, error, products, productsCount } = useSelector((state: RootState) => state.product);
 
+    const [open, setOpen] = React.useState(!!error);
 
     useEffect(() => {
         if (error) {
+            setOpen(true)
             dispatch(clearAllErrors())
         }
         dispatch(getProduct({}))
     }, [dispatch, error])
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <>
             {error && <ErrorMessage error={error} />}
@@ -46,10 +52,14 @@ const Home: React.FC = () => {
                         ))}
 
                     </div>
-
-
-
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error">
+                            {error}
+                        </Alert>
+                    </Snackbar>
                 </>
+
+
             )}
         </>
 

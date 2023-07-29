@@ -65,16 +65,16 @@ interface ErrorResponse {
 export const getProduct = (params: GetProductParams) => async (dispatch: Dispatch) => {
     try {
         dispatch(allProductLoading())
-        const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
-        // const { category } = params
-        // let link = `/api/v1/products`;
-        // if (category) {
-        //     link = `/api/v1/products`;
-        // }
-        let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+        // const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
+        const { category } = params
+        let link = `/api/v1/products`;
         if (category) {
-            link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+            link = `/api/v1/products`;
         }
+        // let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+        // if (category) {
+        //     link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+        // }
         const { data } = await axios.get(link);
 
         dispatch(allProductSuccess(data));
