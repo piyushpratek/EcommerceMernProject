@@ -49,6 +49,7 @@ const initialState: ProductState = {
     reviews: [],
 };
 
+
 const productSlice = createSlice({
     name: 'product',
     initialState,

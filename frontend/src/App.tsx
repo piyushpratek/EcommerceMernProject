@@ -7,6 +7,7 @@ import Footer from './component/layout/Footer/Footer.tsx';
 import { Route, Routes } from 'react-router-dom';
 import Home from './component/Home/Home.tsx';
 import HeaderTesting from './component/layout/Header/HeaderTesting.tsx';
+import ProductDetails from './component/Product/ProductDetails.tsx';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       <Routes>
 
         <Route path="/" Component={Home as React.FC} />
+        <Route path="/product/:id" Component={ProductDetails as React.FC} />
       </Routes>
       <Footer />
     </>
