@@ -1,47 +1,34 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import {
-    setProductsListLoading,
-    setProductsListSuccess,
-    setProductsListFailed,
 
-    setAdminProductsLoading,
-    setAdminProductsSuccess,
-    setAdminProductsFailed,
-
-    setNewProductLoading,
-    setNewProductSuccess,
-    setNewProductFailed,
-    // resetNewProductSuccess,
-
-    setUpdateProductLoading,
-    setUpdateProductSuccess,
-    setUpdateProductFailed,
-    // resetUpdateProductSuccess,
-
-    setDeleteProductLoading,
-    setDeleteProductSuccess,
-    setDeleteProductFailed,
-    // resetDeleteProductSuccess,
-
-    setProductDetailsLoading,
-    setProductDetailsSuccess,
-    setProductDetailsFailed,
-
-    setNewReviewLoading,
-    setNewReviewSuccess,
-    setNewReviewFailed,
-    // resetNewReviewSuccess,
-
-    setProductReviewsLoading,
-    setProductReviewsSuccess,
-    setProductReviewsFailed,
-
-    setDeleteReviewLoading,
-    setDeleteReviewSuccess,
-    setDeleteReviewFailed,
-    // resetDeleteReview,
-
+    allProductLoading,
+    allProductSuccess,
+    allProductFailed,
+    adminProductsLoading,
+    adminProductsSuccess,
+    adminProductsFailed,
+    newProductLoading,
+    newProductSuccess,
+    newProductFailed,
+    updateProductLoading,
+    updateProductSuccess,
+    updateProductFailed,
+    deleteProductLoading,
+    deleteProductSuccess,
+    deleteProductFailed,
+    productDetailsLoading,
+    productDetailsSuccess,
+    productDetailsFailed,
+    newReviewLoading,
+    newReviewSuccess,
+    newReviewFailed,
+    allReviewsLoading,
+    allReviewsSuccess,
+    allReviewsFailed,
+    deleteReviewLoading,
+    deleteReviewSuccess,
+    deleteReviewFailed,
     clearErrors,
 } from "../slice/productSlice";
 
@@ -77,40 +64,44 @@ interface ErrorResponse {
 // Get All Products
 export const getProduct = (params: GetProductParams) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setProductsListLoading())
-        // const { keyword = "", currentPage = 1, price = [0, 25000],ratings = 0, category  } = params
-        const { category } = params
-        let link = `/api/v1/products`;
+        dispatch(allProductLoading())
+        const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
+        // const { category } = params
+        // let link = `/api/v1/products`;
+        // if (category) {
+        //     link = `/api/v1/products`;
+        // }
+        let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
         if (category) {
-            link = `/api/v1/products`;
+            link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
         }
         const { data } = await axios.get(link);
 
-        dispatch(setProductsListSuccess(data));
+        dispatch(allProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setProductsListFailed(message));
+        dispatch(allProductFailed(message));
     }
 };
 
 // Get All Products For Admin
 export const getAdminProduct = () => async (dispatch: Dispatch) => {
     try {
-        dispatch(setAdminProductsLoading())
+        dispatch(adminProductsLoading())
         const { data } = await axios.get('/api/v1/admin/products');
-        dispatch(setAdminProductsSuccess(data));
+        dispatch(adminProductsSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setAdminProductsFailed(message))
+        dispatch(adminProductsFailed(message))
     }
 };
 
 // Create Product
 export const createProduct = async (dispatch: Dispatch, productData: ProductData,) => {
     try {
-        dispatch(setNewProductLoading())
+        dispatch(newProductLoading())
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
@@ -119,18 +110,18 @@ export const createProduct = async (dispatch: Dispatch, productData: ProductData
             productData,
             config
         );
-        dispatch(setNewProductSuccess(data));
+        dispatch(newProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setNewProductFailed(message))
+        dispatch(newProductFailed(message))
     }
 };
 
 // Update Product
 export const updateProduct = ({ id, productData }: { id: string; productData: ProductData }) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setUpdateProductLoading())
+        dispatch(updateProductLoading())
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
@@ -139,85 +130,85 @@ export const updateProduct = ({ id, productData }: { id: string; productData: Pr
             productData,
             config
         );
-        dispatch(setUpdateProductSuccess(data));
+        dispatch(updateProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setUpdateProductFailed(message));
+        dispatch(updateProductFailed(message));
     }
 };
 
 // Delete Product
 export const deleteProduct = (id: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setDeleteProductLoading())
+        dispatch(deleteProductLoading())
         const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
-        dispatch(setDeleteProductSuccess(data));
+        dispatch(deleteProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setDeleteProductFailed(message));
+        dispatch(deleteProductFailed(message));
     }
 };
 
 // Get Products Details
 export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setProductDetailsLoading());
+        dispatch(productDetailsLoading());
 
         const { data } = await axios.get(`/api/v1/product/${id}`);
 
-        dispatch(setProductDetailsSuccess(data));
+        dispatch(productDetailsSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setProductDetailsFailed(message));
+        dispatch(productDetailsFailed(message));
     }
 };
 
 // NEW REVIEW
 export const newReview = (reviewData: ReviewData) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setNewReviewLoading());
+        dispatch(newReviewLoading());
 
         const config = {
             headers: { "Content-Type": "application/json" },
         };
 
         const { data } = await axios.put(`/api/v1/review`, reviewData, config);
-        dispatch(setNewReviewSuccess(data));
+        dispatch(newReviewSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setNewReviewFailed(message));
+        dispatch(newReviewFailed(message));
     }
 };
 
 // Get All Reviews of a Product
 export const getAllReviews = (id: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setProductReviewsLoading());
+        dispatch(allReviewsLoading());
         const { data } = await axios.get(`/api/v1/reviews?id=${id}`);
-        dispatch(setProductReviewsSuccess(data));
+        dispatch(allReviewsSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setProductReviewsFailed(message));
+        dispatch(allReviewsFailed(message));
     }
 };
 
 // Delete Review of a Product
 export const deleteReviews = (reviewId: string, productId: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setDeleteReviewLoading());
+        dispatch(deleteReviewLoading());
         const { data } = await axios.delete(
             `/api/v1/reviews?id=${reviewId}&productId=${productId}`
         );
-        dispatch(setDeleteReviewSuccess(data))
+        dispatch(deleteReviewSuccess(data))
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(setDeleteReviewFailed(message));
+        dispatch(deleteReviewFailed(message));
     }
 };
 

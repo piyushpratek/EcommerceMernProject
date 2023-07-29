@@ -8,6 +8,9 @@ import { RootState, useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import Loader from '../layout/Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 
 const Home: React.FC = () => {
     const dispatch = useAppDispatch()

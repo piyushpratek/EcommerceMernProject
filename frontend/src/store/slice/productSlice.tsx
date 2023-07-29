@@ -54,10 +54,10 @@ const productSlice = createSlice({
     initialState,
     reducers: {
         // List products
-        setProductsListLoading: (state) => {
+        allProductLoading: (state) => {
             state.loading = true;
         },
-        setProductsListSuccess: (
+        allProductSuccess: (
             state,
             action: PayloadAction<{
                 products: Product[];
@@ -73,47 +73,47 @@ const productSlice = createSlice({
             state.filteredProductsCount = action.payload.filteredProductsCount;
             state.error = null;
         },
-        setProductsListFailed: (state, action: PayloadAction<string>) => {
+        allProductFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
 
         // Admin products
-        setAdminProductsLoading: (state) => {
+        adminProductsLoading: (state) => {
             state.loading = true;
         },
-        setAdminProductsSuccess: (state, action: PayloadAction<Product[]>) => {
+        adminProductsSuccess: (state, action: PayloadAction<Product[]>) => {
             state.loading = false;
             state.products = action.payload;
             state.error = null;
         },
-        setAdminProductsFailed: (state, action: PayloadAction<string>) => {
+        adminProductsFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
 
         // Add new product
-        setNewProductLoading: (state) => {
+        newProductLoading: (state) => {
             state.loading = true;
         },
-        setNewProductSuccess: (state, action: PayloadAction<Product>) => {
+        newProductSuccess: (state, action: PayloadAction<Product>) => {
             state.loading = false;
             state.success = true;
             state.products.push(action.payload);
         },
-        setNewProductFailed: (state, action: PayloadAction<string>) => {
+        newProductFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        resetNewProductSuccess: (state) => {
+        newProductReset: (state) => {
             state.success = false;
         },
 
         // Update product
-        setUpdateProductLoading: (state) => {
+        updateProductLoading: (state) => {
             state.loading = true;
         },
-        setUpdateProductSuccess: (state, action: PayloadAction<Product>) => {
+        updateProductSuccess: (state, action: PayloadAction<Product>) => {
             state.loading = false;
             state.success = true;
             const updatedProduct = action.payload;
@@ -121,88 +121,88 @@ const productSlice = createSlice({
                 product._id === updatedProduct._id ? updatedProduct : product
             );
         },
-        setUpdateProductFailed: (state, action: PayloadAction<string>) => {
+        updateProductFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        resetUpdateProductSuccess: (state) => {
+        updateProductReset: (state) => {
             state.success = false;
         },
 
         // Delete product
-        setDeleteProductLoading: (state) => {
+        deleteProductLoading: (state) => {
             state.loading = true;
         },
-        setDeleteProductSuccess: (state, action: PayloadAction<string>) => {
+        deleteProductSuccess: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.success = true;
             state.products = state.products.filter(
                 (product) => product._id !== action.payload
             );
         },
-        setDeleteProductFailed: (state, action: PayloadAction<string>) => {
+        deleteProductFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        resetDeleteProductSuccess: (state) => {
+        deleteProductReset: (state) => {
             state.success = false;
         },
 
         // Product details
-        setProductDetailsLoading: (state) => {
+        productDetailsLoading: (state) => {
             state.loading = true;
         },
-        setProductDetailsSuccess: (state, action: PayloadAction<Product>) => {
+        productDetailsSuccess: (state, action: PayloadAction<Product>) => {
             state.loading = false;
             state.product = action.payload;
         },
-        setProductDetailsFailed: (state, action: PayloadAction<string>) => {
+        productDetailsFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
 
         // New review
-        setNewReviewLoading: (state) => {
+        newReviewLoading: (state) => {
             state.loading = true;
         },
-        setNewReviewSuccess: (state) => {
+        newReviewSuccess: (state) => {
             state.loading = false;
             state.success = true;
         },
-        setNewReviewFailed: (state, action: PayloadAction<string>) => {
+        newReviewFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        resetNewReviewSuccess: (state) => {
+        newReviewReset: (state) => {
             state.success = false;
         },
 
         // Product reviews
-        setProductReviewsLoading: (state) => {
+        allReviewsLoading: (state) => {
             state.loading = true;
         },
-        setProductReviewsSuccess: (state, action: PayloadAction<Review[]>) => {
+        allReviewsSuccess: (state, action: PayloadAction<Review[]>) => {
             state.loading = false;
             state.reviews = action.payload;
         },
-        setProductReviewsFailed: (state, action: PayloadAction<string>) => {
+        allReviewsFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
 
         // Delete review
-        setDeleteReviewLoading: (state) => {
+        deleteReviewLoading: (state) => {
             state.loading = true;
         },
-        setDeleteReviewSuccess: (state, action: PayloadAction<boolean>) => {
+        deleteReviewSuccess: (state, action: PayloadAction<boolean>) => {
             state.loading = false;
             state.isDeleted = action.payload;
         },
-        setDeleteReviewFailed: (state, action: PayloadAction<string>) => {
+        deleteReviewFailed: (state, action: PayloadAction<string>) => {
             state.loading = false;
             state.error = action.payload;
         },
-        resetDeleteReview: (state) => {
+        deleteReviewReset: (state) => {
             state.isDeleted = false;
         },
 
@@ -214,39 +214,48 @@ const productSlice = createSlice({
 });
 
 export const {
-    setProductsListLoading,
-    setProductsListSuccess,
-    setProductsListFailed,
-    setAdminProductsLoading,
-    setAdminProductsSuccess,
-    setAdminProductsFailed,
-    setNewProductLoading,
-    setNewProductSuccess,
-    setNewProductFailed,
-    resetNewProductSuccess,
-    setUpdateProductLoading,
-    setUpdateProductSuccess,
-    setUpdateProductFailed,
-    resetUpdateProductSuccess,
-    setDeleteProductLoading,
-    setDeleteProductSuccess,
-    setDeleteProductFailed,
-    resetDeleteProductSuccess,
-    setProductDetailsLoading,
-    setProductDetailsSuccess,
-    setProductDetailsFailed,
-    setNewReviewLoading,
-    setNewReviewSuccess,
-    setNewReviewFailed,
-    resetNewReviewSuccess,
-    setProductReviewsLoading,
-    setProductReviewsSuccess,
-    setProductReviewsFailed,
-    setDeleteReviewLoading,
-    setDeleteReviewSuccess,
-    setDeleteReviewFailed,
-    resetDeleteReview,
+    allProductLoading,
+    allProductSuccess,
+    allProductFailed,
+
+    adminProductsLoading,
+    adminProductsSuccess,
+    adminProductsFailed,
+
+    newProductLoading,
+    newProductSuccess,
+    newProductFailed,
+    newProductReset,
+
+    updateProductLoading,
+    updateProductSuccess,
+    updateProductFailed,
+    updateProductReset,
+
+    deleteProductLoading,
+    deleteProductSuccess,
+    deleteProductFailed,
+    deleteProductReset,
+
+    productDetailsLoading,
+    productDetailsSuccess,
+    productDetailsFailed,
+
+    newReviewLoading,
+    newReviewSuccess,
+    newReviewFailed,
+    newReviewReset,
+
+    allReviewsLoading,
+    allReviewsSuccess,
+    allReviewsFailed,
+
+    deleteReviewLoading,
+    deleteReviewSuccess,
+    deleteReviewFailed,
+    deleteReviewReset,
     clearErrors,
 } = productSlice.actions;
+
 
 export default productSlice.reducer;
