@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import './ProductDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetails } from '../../store/actions/productAction';
+import { getProductDetails } from '../../store/actionsHelper/productAction';
 import { RootState } from '../../store/store';
 import { Carousel } from 'react-responsive-carousel';
 

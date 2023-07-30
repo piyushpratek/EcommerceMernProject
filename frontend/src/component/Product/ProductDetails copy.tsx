@@ -5,10 +5,10 @@ import {
   clearAllErrors,
   getProductDetails,
   newReview,
-} from '../../store/actions/productAction';
+} from '../../store/actionsHelper/productAction';
 import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
-import { addItemsToCart } from '../../store/actions/cartAction';
+import { addItemsToCart } from '../../store/actionsHelper/cartAction';
 import { newReviewReset } from '../../store/slice/productSlice';
 import { RootState } from '../../store/store';
 import {
