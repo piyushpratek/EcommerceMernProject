@@ -41,6 +41,6 @@ export const {
     productDetailsRequest,
     productDetailsSuccess,
     productDetailsFail,
-    clearErrors: clearProductDetailsErrors,
+    clearErrors
 } = productDetailsSlice.actions;
 export const productDetailsReducer = productDetailsSlice.reducer;

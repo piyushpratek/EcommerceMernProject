@@ -55,6 +55,6 @@ export const {
     allProductSuccess,
     adminProductSuccess,
     allProductFail, adminProductRequest, adminProductFail,
-    clearErrors: clearProductsErrors,
+    clearErrors,
 } = productsSlice.actions;
 export const productsReducer = productsSlice.reducer;

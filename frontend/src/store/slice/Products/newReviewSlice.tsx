@@ -37,6 +37,6 @@ export const {
     newReviewSuccess,
     newReviewFail,
     newReviewReset,
-    clearErrors: clearNewReviewErrors,
+    clearErrors
 } = newReviewSlice.actions;
 export const newReviewReducer = newReviewSlice.reducer;

@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-import { clearErrors } from '../slice/orderSlice';
+import { clearErrors } from '../slice/Products/allProductsSlice';
 import { deleteReviewRequest, deleteReviewSuccess, deleteReviewFail } from '../slice/Products/deleteReviewSlice';
 import { newProductRequest, newProductSuccess, newProductFail } from '../slice/Products/newProductSlice';
 import { newReviewRequest, newReviewSuccess, newReviewFail } from '../slice/Products/newReviewSlice';
@@ -54,7 +54,6 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
             link = `/api/v1/products`;
         }
         const { data } = await axios.get(link);
-
         dispatch(allProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
@@ -67,12 +66,8 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
 export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(productDetailsRequest());
-        alert("hi")
         const { data } = await axios.get(`/api/v1/product/${id}`);
-
         dispatch(productDetailsSuccess(data));
-        console.log("data from server", data);
-
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

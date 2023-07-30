@@ -38,6 +38,6 @@ export const {
     deleteReviewSuccess,
     deleteReviewFail,
     deleteReviewReset,
-    clearErrors: clearReviewErrors,
+    clearErrors,
 } = deleteReviewSlice.actions;
 export const deleteReviewReducer = deleteReviewSlice.reducer;

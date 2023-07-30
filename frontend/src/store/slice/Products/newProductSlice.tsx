@@ -47,6 +47,6 @@ export const {
     newProductSuccess,
     newProductFail,
     newProductReset,
-    clearErrors: clearNewProductErrors,
+    clearErrors,
 } = newProductSlice.actions;
 export const newProductReducer = newProductSlice.reducer;

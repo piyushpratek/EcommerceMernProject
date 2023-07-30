@@ -4,19 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetails } from '../../store/actionsHelper/productAction';
 import { RootState } from '../../store/store';
 import { Carousel } from 'react-responsive-carousel';
+import { useParams } from 'react-router-dom';
 
-const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({ match }) => {
+const ProductDetails = () => {
   const dispatch = useDispatch();
-
+  const params = useParams()
   const { product, loading, error } = useSelector((state: RootState) => state.productDetails);
-  console.log("product", product)
 
   useEffect(() => {
-    if (match?.params?.id) {
-      alert("dog")
-      dispatch(getProductDetails(match?.params?.id));
+    if (params?.id) {
+      dispatch(getProductDetails(params?.id));
     }
-  }, [dispatch, match?.params?.id]);
+  }, [dispatch, params?.id]);
 
 
 

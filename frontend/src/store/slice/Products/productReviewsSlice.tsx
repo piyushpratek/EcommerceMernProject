@@ -34,6 +34,6 @@ export const {
     allReviewRequest,
     allReviewSuccess,
     allReviewFail,
-    clearErrors: clearProductReviewsErrors,
+    clearErrors
 } = productReviewsSlice.actions;
 export const productReviewsReducer = productReviewsSlice.reducer;
