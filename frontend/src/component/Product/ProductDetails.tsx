@@ -12,8 +12,11 @@ const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({ match
   console.log("product", product)
 
   useEffect(() => {
-    dispatch(getProductDetails(match.params.id));
-  }, [dispatch, match.params.id]);
+    if (match?.params?.id) {
+      alert("dog")
+      dispatch(getProductDetails(match?.params?.id));
+    }
+  }, [dispatch, match?.params?.id]);
 
 
 
@@ -22,8 +25,8 @@ const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({ match
       <div className='ProductDetails'>
         <div>
           <Carousel>
-            {product.images &&
-              product.images.map((item, i) => (
+            {product?.images &&
+              product?.images?.map((item, i) => (
                 <img
                   className='CarouselImage'
                   key={item.url}

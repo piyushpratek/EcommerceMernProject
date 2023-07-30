@@ -10,6 +10,16 @@ export interface Product {
     reviews: Review[];
 }
 
+// Product reviews state interface
+export interface Review {
+    _id: string;
+    productId: string;
+    rating: number;
+    comment: string;
+    user: string;
+    createdAt: string;
+}
+
 // Products state interface
 export interface ProductsState {
     products: Product[];
@@ -18,6 +28,12 @@ export interface ProductsState {
     productsCount?: number;
     resultPerPage?: number;
     filteredProductsCount?: number;
+}
+// Product details state interface
+export interface ProductDetailsState {
+    product: Product | null;
+    loading: boolean;
+    error: string | null;
 }
 
 // New product state interface
@@ -28,28 +44,12 @@ export interface NewProductState {
     success: boolean;
 }
 
-// Product details state interface
-export interface ProductDetailsState {
-    product: Product | null;
-    loading: boolean;
-    error: string | null;
-}
 
 // New review state interface
 export interface NewReviewState {
     loading: boolean;
     error: string | null;
     success: boolean;
-}
-
-// Product reviews state interface
-export interface Review {
-    _id: string;
-    productId: string;
-    rating: number;
-    comment: string;
-    user: string;
-    createdAt: string;
 }
 
 export interface ProductReviewsState {
@@ -65,6 +65,7 @@ export interface ReviewState {
     isDeleted: boolean;
 }
 
+//Update/Delete Product 
 export interface UpdateDeleteProductState {
     loading: boolean;
     error: string | null;

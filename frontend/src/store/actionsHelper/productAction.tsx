@@ -21,8 +21,6 @@ type ProductData = {
 };
 
 interface ReviewData {
-    // Define the properties of the review data
-    // For example:
     rating: number;
     comment: string;
     // Add other properties as needed
@@ -55,7 +53,6 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
         if (category) {
             link = `/api/v1/products`;
         }
-
         const { data } = await axios.get(link);
 
         dispatch(allProductSuccess(data));
@@ -63,6 +60,23 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(allProductFail(message));
+    }
+};
+
+// Get Products Details
+export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(productDetailsRequest());
+        alert("hi")
+        const { data } = await axios.get(`/api/v1/product/${id}`);
+
+        dispatch(productDetailsSuccess(data));
+        console.log("data from server", data);
+
+    } catch (error) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const message = axiosError?.response?.data?.message || "Error Occurred";
+        dispatch(productDetailsFail(message));
     }
 };
 
@@ -129,21 +143,6 @@ export const deleteProduct = (id: string) => async (dispatch: Dispatch) => {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(deleteProductFail(message));
-    }
-};
-
-// Get Products Details
-export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(productDetailsRequest());
-
-        const { data } = await axios.get(`/api/v1/product/${id}`);
-
-        dispatch(productDetailsSuccess(data));
-    } catch (error) {
-        const axiosError = error as AxiosError<ErrorResponse>;
-        const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(productDetailsFail(message));
     }
 };
 
