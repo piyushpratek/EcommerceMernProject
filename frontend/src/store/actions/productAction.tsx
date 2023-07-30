@@ -1,8 +1,14 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
-import { allProductRequest, allProductSuccess, newProductSuccess, updateProductSuccess, deleteProductSuccess, productDetailsSuccess, newReviewSuccess, deleteReviewSuccess, adminProductSuccess, allProductFail, allReviewFail, allReviewRequest, allReviewSuccess, deleteProductFail, deleteProductRequest, deleteReviewFail, deleteReviewRequest, newProductFail, newProductRequest, newReviewFail, newReviewRequest, productDetailsFail, productDetailsRequest, updateProductFail, updateProductRequest } from '../slice/productSlicecopy';
 import { clearErrors } from '../slice/orderSlice';
+import { deleteReviewRequest, deleteReviewSuccess, deleteReviewFail } from '../slice/Products/deleteReviewSlice';
+import { newProductRequest, newProductSuccess, newProductFail } from '../slice/Products/newProductSlice';
+import { newReviewRequest, newReviewSuccess, newReviewFail } from '../slice/Products/newReviewSlice';
+import { productDetailsRequest, productDetailsSuccess, productDetailsFail } from '../slice/Products/productDetailsSlice';
+import { allReviewRequest, allReviewSuccess, allReviewFail } from '../slice/Products/productReviewsSlice';
+import { allProductRequest, allProductSuccess, allProductFail, adminProductSuccess, adminProductRequest, adminProductFail } from '../slice/Products/allProductsSlice';
+import { updateProductRequest, updateProductSuccess, updateProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail } from '../slice/Products/updateDeleteProductSlice';
 
 
 type ProductData = {
@@ -39,15 +45,17 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
     try {
         dispatch(allProductRequest())
         // const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
+        // let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+        // if (category) {
+        //     link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+        // }
+
         const { category } = params
         let link = `/api/v1/products`;
         if (category) {
             link = `/api/v1/products`;
         }
-        // let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
-        // if (category) {
-        //     link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
-        // }
+
         const { data } = await axios.get(link);
 
         dispatch(allProductSuccess(data));
@@ -61,13 +69,13 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
 // Get All Products For Admin
 export const getAdminProduct = () => async (dispatch: Dispatch) => {
     try {
-        dispatch(allProductRequest())
+        dispatch(adminProductRequest())
         const { data } = await axios.get('/api/v1/admin/products');
         dispatch(adminProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(allProductFail(message))
+        dispatch(adminProductFail(message))
     }
 };
 

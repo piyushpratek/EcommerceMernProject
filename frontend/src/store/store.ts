@@ -6,7 +6,13 @@ import { useDispatch } from 'react-redux';
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
 import userSlice from './slice/userSlice';
-import { deleteReviewReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReviewsReducer, productsReducer, updateDeleleteproductReducer } from './slice/productSlicecopy';
+import { deleteReviewReducer } from './slice/Products/deleteReviewSlice';
+import { newProductReducer } from './slice/Products/newProductSlice';
+import { newReviewReducer } from './slice/Products/newReviewSlice';
+import { productDetailsReducer } from './slice/Products/productDetailsSlice';
+import { productReviewsReducer } from './slice/Products/productReviewsSlice';
+import { productsReducer } from './slice/Products/allProductsSlice';
+import { updateDeleleteproductReducer } from './slice/Products/updateDeleteProductSlice';
 export const store = configureStore({
     reducer: {
         products: productsReducer,

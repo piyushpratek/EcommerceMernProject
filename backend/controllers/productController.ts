@@ -18,13 +18,13 @@ export const createProduct = catchAsyncErrors(async (req: Request, res: Response
 // Get All Product
 export const getAllProducts = catchAsyncErrors(async (req: Request, res: Response) => {
     const resultPerPage = 8
-    const productCount = await Product.countDocuments()
+    const productsCount = await Product.countDocuments()
     const apiFeature = new ApiFeatures(Product.find(), req.query as any).search().filter().pagination(resultPerPage)
     const products = await apiFeature.query
     res.status(HttpStatus.OK).json({
         success: true,
         products,
-        productCount
+        productsCount
     })
 })
 
@@ -41,7 +41,6 @@ export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
 // Get Product Details
 export const getProductDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id)
-    const productCount = await Product.countDocuments()
 
     if (product == null) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
@@ -49,7 +48,6 @@ export const getProductDetails = catchAsyncErrors(async (req: Request, res: Resp
     res.status(HttpStatus.OK).json({
         success: true,
         product,
-        productCount,
     })
 })
 

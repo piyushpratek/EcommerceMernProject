@@ -1,18 +1,19 @@
 import React, { Fragment, useEffect } from 'react';
-import Carousel from '@mui/material/Carousel';
 import './ProductDetails.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetails } from '../../store/actions/productAction';
 import { RootState } from '../../store/store';
+import { Carousel } from 'react-responsive-carousel';
 
 const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({ match }) => {
   const dispatch = useDispatch();
 
-  const { product, loading, error } = useSelector((state: RootState) => state.product);
+  const { product, loading, error } = useSelector((state: RootState) => state.productDetails);
+  console.log("product", product)
 
   useEffect(() => {
     dispatch(getProductDetails(match.params.id));
-  }, [dispatch, match.params.id, getProductDetails]);
+  }, [dispatch, match.params.id]);
 
 
 

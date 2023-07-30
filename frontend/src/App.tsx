@@ -26,7 +26,7 @@ function App() {
       <Routes>
 
         <Route path="/" Component={Home as React.FC} />
-        {/* <Route path="/product/:id" Component={ProductDetails as React.FC} /> */}
+        <Route path="/product/:id" Component={ProductDetails as React.FC} />
       </Routes>
       <Footer />
     </>
