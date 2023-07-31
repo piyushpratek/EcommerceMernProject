@@ -1,7 +1,11 @@
 import { Rating } from '@mui/material';
 import profilePng from "../../Images/Profile.png";
+import { Review } from '../../store/slice/Products/productTypesRedux';
 
-const ReviewCard = ({ review }) => {
+interface reviewCardProps {
+  review: Review
+}
+const ReviewCard = ({ review }: reviewCardProps) => {
   const options = {
     value: review?.rating,
     readOnly: true,

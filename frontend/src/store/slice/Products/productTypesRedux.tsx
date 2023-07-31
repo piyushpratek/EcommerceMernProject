@@ -8,6 +8,11 @@ export interface Product {
     ratings: number;
     numOfReviews: number;
     reviews: Review[];
+    description: string;
+    Stock: number;
+    category: string;
+    user: string;
+    createdAt: Date
 }
 
 // Product reviews state interface
@@ -18,6 +23,7 @@ export interface Review {
     comment: string;
     user: string;
     createdAt: string;
+    name: string
 }
 
 // Products state interface
