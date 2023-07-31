@@ -14,10 +14,28 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* Standard style for all browsers */
+input[type='number'] {
+  /* Your standard styling here */
+  /* For example: */
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Firefox-specific style */
+@supports (-moz-appearance: textfield) {
+  input[type='number'] {
+    /* Firefox-specific styling here */
+    /* For example: */
+    background-color: yellow;
+    color: blue;
+  }
+}
 /* Firefox */
-/* input[type="number"] {
-    -moz-appearance: textfield;
-  } */
+/* input[type='number'] {
+  -moz-appearance: textfield;
+} */
 
 .greenColor {
   color: green !important;
