@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import './ProductDetails.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   clearAllErrors,
   getProductDetails,
@@ -9,8 +9,8 @@ import {
 import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
 import { addItemsToCart } from '../../store/actionsHelper/cartAction';
-import { newReviewReset } from '../../store/slice/productSlice';
-import { RootState } from '../../store/store';
+import { newReviewReset } from '../../store/slice/Products/newReviewSlice';
+import { RootState, useAppDispatch } from '../../store/store';
 import {
   Dialog,
   DialogActions,
@@ -27,7 +27,7 @@ import { Rating } from '@mui/material';
 const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({
   match,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -43,7 +43,7 @@ const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({
 
   const options = {
     size: 'large',
-    value: product.ratings,
+    value: product?.ratings,
     readOnly: true,
     precision: 0.5,
   };
@@ -52,7 +52,7 @@ const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({
 
 
   const increaseQuantity = () => {
-    if (product.Stock <= quantity) return;
+    if (product?.Stock <= quantity) return;
 
     const qty = quantity + 1;
     setQuantity(qty);

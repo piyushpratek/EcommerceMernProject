@@ -9,9 +9,13 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './component/Home/Home.tsx';
 import HeaderTesting from './component/layout/Header/HeaderTesting.tsx';
 import ProductDetails from './component/Product/ProductDetails.tsx';
+import { useSelector } from 'react-redux';
 
 
-function App() {
+const App = () => {
+  const rx = useSelector((state) => state);
+  Object.assign(window, { rx });
+  Object.assign(window, { rxs: JSON.stringify(rx) });
   React.useEffect(() => {
     webFont.load({
       google: {

@@ -15,16 +15,11 @@ const ProductDetails = () => {
   );
   const { product } = productDetails
 
-
   useEffect(() => {
     if (params.id) {
       dispatch(getProductDetails(params.id));
     }
   }, [dispatch, params.id]);
-  console.log("product.name?", product?.name);
-
-  console.log('Images:?', product?.images);
-  console.log("params.id?", params.id);
 
   if (!product) {
     // Product details are still loading or not available
@@ -35,22 +30,26 @@ const ProductDetails = () => {
     <Fragment>
       <div className='ProductDetails'>
         <div>
-          {product.images && product.images.length > 0 ? (
-            <Carousel>
-              {product.images.map((item, i) => (
-                <img
-                  key={i}
-                  src={item.url}
-                  alt={`Slide ${i + 1}`}
-                />
-              ))}
-            </Carousel>
-          ) : (
-            <div>No images available</div>
-          )}
+
+        </div>
+        <Carousel>
+          {product?.images?.map((item, i) => (
+            <img
+              className="CarouselImage"
+              key={i}
+              src={item.url}
+              alt={`${i} Slide`}
+            />
+          ))}
+        </Carousel>
+        <div>
+          <div className="detailsBlock-1">
+            <h2>{product.name}</h2>
+            <p>Product # {product._id}</p>
+          </div>
+
         </div>
 
-        {/* Rest of the component */}
 
       </div>
 
