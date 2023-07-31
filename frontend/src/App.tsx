@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // import Header from "./component/layout/Header/Header.tsx"
 import webFont from "webfontloader"

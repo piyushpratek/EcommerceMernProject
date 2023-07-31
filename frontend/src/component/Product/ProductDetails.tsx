@@ -1,44 +1,55 @@
 import { Fragment, useEffect } from 'react';
 import './ProductDetails.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getProductDetails } from '../../store/actionsHelper/productAction';
-import { RootState } from '../../store/store';
+import { RootState, useAppDispatch } from '../../store/store';
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // Import the carousel CSS
-
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const ProductDetails = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
   const params = useParams()
-  const { product } = useSelector((state: RootState) => state.productDetails);
+  const productDetails = useSelector(
+    (state: RootState) => state.productDetails
+  );
+  const { product } = productDetails
 
 
   useEffect(() => {
-    dispatch(getProductDetails(params?.id));
-  }, [dispatch, params?.id]);
+    if (params.id) {
+      dispatch(getProductDetails(params.id));
+    }
+  }, [dispatch, params.id]);
+  console.log("product.name?", product?.name);
 
+  console.log('Images:?', product?.images);
+  console.log("params.id?", params.id);
 
+  if (!product) {
+    // Product details are still loading or not available
+    return <div>Loading...</div>;
+  }
 
   return (
     <Fragment>
       <div className='ProductDetails'>
         <div>
-          <Carousel>
-            {product?.images &&
-              product?.images?.map((item, i) => (
+          {product.images && product.images.length > 0 ? (
+            <Carousel>
+              {product.images.map((item, i) => (
                 <img
-                  // className='legend'
-                  key={item.url}
+                  key={i}
                   src={item.url}
-                  alt={`${i} Slide`}
+                  alt={`Slide ${i + 1}`}
                 />
-
               ))}
-
-          </Carousel>
-
+            </Carousel>
+          ) : (
+            <div>No images available</div>
+          )}
         </div>
+
         {/* Rest of the component */}
 
       </div>

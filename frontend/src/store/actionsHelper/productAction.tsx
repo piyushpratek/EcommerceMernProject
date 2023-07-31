@@ -1,6 +1,5 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
-
 import { clearErrors } from '../slice/Products/allProductsSlice';
 import { deleteReviewRequest, deleteReviewSuccess, deleteReviewFail } from '../slice/Products/deleteReviewSlice';
 import { newProductRequest, newProductSuccess, newProductFail } from '../slice/Products/newProductSlice';
@@ -9,7 +8,6 @@ import { productDetailsRequest, productDetailsSuccess, productDetailsFail } from
 import { allReviewRequest, allReviewSuccess, allReviewFail } from '../slice/Products/productReviewsSlice';
 import { allProductRequest, allProductSuccess, allProductFail, adminProductSuccess, adminProductRequest, adminProductFail } from '../slice/Products/allProductsSlice';
 import { updateProductRequest, updateProductSuccess, updateProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail } from '../slice/Products/updateDeleteProductSlice';
-
 
 type ProductData = {
     name: string;

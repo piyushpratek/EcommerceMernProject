@@ -33,7 +33,7 @@ const ProductDetails: React.FC<{ match: { params: { id: string } } }> = ({
   const [comment, setComment] = useState('');
 
   const productDetails = useSelector(
-    (state: RootState) => state.product
+    (state: RootState) => state.productDetails
   );
   const { product, loading } = productDetails;
 
