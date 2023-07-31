@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 const Home: React.FC = () => {
     const dispatch = useAppDispatch()
     const product = useSelector((state: RootState) => state.products)
-    const { loading, error, products, productsCount } = product
+    const { loading, error, products } = product
     const [open, setOpen] = React.useState(!!error);
 
     useEffect(() => {
