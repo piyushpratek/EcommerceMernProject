@@ -65,7 +65,8 @@ export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(productDetailsRequest());
         const { data } = await axios.get(`/api/v1/product/${id}`);
-        dispatch(productDetailsSuccess(data));
+        dispatch(productDetailsSuccess(data.product));
+
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
