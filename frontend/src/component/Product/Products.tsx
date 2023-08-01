@@ -22,12 +22,13 @@ const categories = [
 
 const Products = () => {
     const dispatch = useAppDispatch();
-    const params = useParams()
+    // const params = useParams()
+    const { keyword } = useParams();
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [price, setPrice] = useState([0, 25000]);
-    const [category, setCategory] = useState("");
-    const [ratings, setRatings] = useState(0);
+    const [price, setPrice] = useState<[number, number]>([0, 25000]);
+    const [category, setCategory] = useState<string>("");
+    const [ratings, setRatings] = useState<number>(0);
     const allProducts = useSelector((state: RootState) => state.products)
     const {
         products,
@@ -38,18 +39,23 @@ const Products = () => {
         filteredProductsCount,
     } = allProducts
 
-    const keyword = params?.keyword;
+    // const keyword = params?.keyword;
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    // const setCurrentPageNo = (e, page) => {
+    //     setCurrentPage(page);
+    // };
     const setCurrentPageNo = (e, page) => {
-        setCurrentPage(page);
+        if (!isNaN(page)) {
+            setCurrentPage(page);
+        }
     };
 
     const priceHandler = (event, newPrice) => {
-        setPrice(newPrice);
+        setPrice(newPrice as [number, number]);
     };
     const count = filteredProductsCount;
 
@@ -105,7 +111,7 @@ const Products = () => {
                             <Slider
                                 value={ratings}
                                 onChange={(e, newRating) => {
-                                    setRatings(newRating);
+                                    setRatings(newRating as number);
                                 }}
                                 aria-labelledby="continuous-slider"
                                 valueLabelDisplay="auto"

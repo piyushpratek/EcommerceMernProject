@@ -34,6 +34,8 @@ const App = () => {
         <Route path="/" Component={Home} />
         <Route path="/product/:id" Component={ProductDetails} />
         <Route path="/products" Component={Products} />
+        <Route path="/products/:keyword" Component={Products} />
+
         <Route path="/search" Component={Search} />
 
       </Routes>

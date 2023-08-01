@@ -24,18 +24,16 @@ const ProductDetails = () => {
   );
   const { product, loading, error } = productDetails
 
-  const newReview = useSelector((state: RootState) => state.newReview)
-  const { success, error: reviewError } = newReview
 
   useEffect(() => {
     if (error) {
       setOpen(true)
       dispatch(clearAllErrors());
     }
-    if (params.id) {
-      dispatch(getProductDetails(params.id));
+    if (params?.id) {
+      dispatch(getProductDetails(params?.id));
     }
-  }, [dispatch, params.id, error]);
+  }, [dispatch, params?.id, error]);
 
   const options = {
     value: product?.ratings,
