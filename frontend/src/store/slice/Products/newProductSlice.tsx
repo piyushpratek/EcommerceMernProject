@@ -9,7 +9,11 @@ const initialNewProductState: NewProductState = {
         price: "",
         ratings: 0,
         numOfReviews: 0,
-        reviews: []
+        reviews: [],
+        description: "",
+        Stock: 0,
+        category: "",
+        user: ""
     },
     loading: false,
     error: null,

@@ -18,10 +18,14 @@ const ProductDetails = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const productDetails = useSelector(
     (state: RootState) => state.productDetails
   );
   const { product, loading, error } = productDetails
+
+  const newReview = useSelector((state: RootState) => state.newReview)
+  const { success, error: reviewError } = newReview
 
   useEffect(() => {
     if (error) {
@@ -33,12 +37,6 @@ const ProductDetails = () => {
     }
   }, [dispatch, params.id, error]);
 
-  // const options = {
-  //   size: "large",
-  //   value: product?.ratings,
-  //   readOnly: true,
-  //   precision: 0.5,
-  // };
   const options = {
     value: product?.ratings,
     readOnly: true,
@@ -77,7 +75,7 @@ const ProductDetails = () => {
               <Rating {...options} />
               <span className='detailsBlock-2-span'>
                 {' '}
-                ({product.numOfReviews} Reviews)
+                ({product?.numOfReviews} Reviews)
               </span>
             </div>
             <div className='detailsBlock-3'>
@@ -112,7 +110,7 @@ const ProductDetails = () => {
         {product?.reviews[0] ? (
           <div className='reviews'>
             {product?.reviews.map((review) => (
-              <ReviewCard key={review._id} review={review} />
+              <ReviewCard key={review?._id} review={review} />
             ))}
           </div>
         ) : (

@@ -12,7 +12,6 @@ export interface Product {
     Stock: number;
     category: string;
     user: string;
-    createdAt: Date
 }
 
 // Product reviews state interface
@@ -23,7 +22,7 @@ export interface Review {
     comment: string;
     user: string;
     createdAt: string;
-    name: string
+    name: string;
 }
 
 // Products state interface
