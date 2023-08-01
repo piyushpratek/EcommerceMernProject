@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductsState, Product } from "./productTypesRedux";
 
-
+// PayloadType.ts
+interface PayloadType {
+    products: Product[];
+    productsCount: number;
+    resultPerPage: number;
+    filteredProductsCount: number;
+}
 
 const initialProductsState: ProductsState = {
     products: [],
@@ -17,12 +23,7 @@ const productsSlice = createSlice({
         allProductRequest: (state) => {
             state.loading = true;
         },
-        allProductSuccess: (state, action: PayloadAction<{
-            products: Product[];
-            productsCount: number;
-            resultPerPage: number;
-            filteredProductsCount: number;
-        }>) => {
+        allProductSuccess: (state, action: PayloadAction<PayloadType>) => {
             state.loading = false;
             state.products = action.payload.products;
             state.productsCount = action.payload.productsCount;

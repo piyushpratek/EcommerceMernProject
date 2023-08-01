@@ -3,7 +3,7 @@ import "./Home.css"
 import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
 import MetaData from '../layout/MetaData';
-import { getProduct, clearAllErrors } from '../../store/actionsHelper/productAction';
+import { getProducts, clearAllErrors } from '../../store/actionsHelper/productAction';
 import { RootState, useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import Loader from '../layout/Loader/Loader';
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
             setOpen(true)
             dispatch(clearAllErrors())
         }
-        dispatch(getProduct({}))
+        dispatch(getProducts({}))
     }, [dispatch, error])
 
     const handleClose = () => {

@@ -5,7 +5,7 @@ import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
 import MetaData from "../layout/MetaData";
 import { Typography, Slider, Pagination } from "@mui/material";
-import { getProduct, clearAllErrors } from "../../store/actionsHelper/productAction";
+import { getProducts, clearAllErrors } from "../../store/actionsHelper/productAction";
 import { useParams } from "react-router-dom";
 import { Alert, Snackbar } from '@mui/material';
 import { RootState, useAppDispatch } from "../../store/store";
@@ -28,7 +28,7 @@ const Products = () => {
     const [price, setPrice] = useState([0, 25000]);
     const [category, setCategory] = useState("");
     const [ratings, setRatings] = useState(0);
-
+    const allProducts = useSelector((state: RootState) => state.products)
     const {
         products,
         loading,
@@ -36,7 +36,7 @@ const Products = () => {
         productsCount,
         resultPerPage,
         filteredProductsCount,
-    } = useSelector((state: RootState) => state.products);
+    } = allProducts
 
     const keyword = params?.keyword;
 
@@ -44,8 +44,8 @@ const Products = () => {
         setOpen(false);
     };
 
-    const setCurrentPageNo = (e) => {
-        setCurrentPage(e);
+    const setCurrentPageNo = (e, page) => {
+        setCurrentPage(page);
     };
 
     const priceHandler = (event, newPrice) => {
@@ -58,8 +58,7 @@ const Products = () => {
             setOpen(true)
             dispatch(clearAllErrors());
         }
-
-        dispatch(getProduct(keyword, currentPage, price, category, ratings));
+        dispatch(getProducts(keyword, currentPage, price, category, ratings));
     }, [dispatch, keyword, currentPage, price, category, ratings, error]);
 
     return (

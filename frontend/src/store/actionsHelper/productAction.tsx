@@ -37,7 +37,7 @@ interface ErrorResponse {
     message: string;
 }
 // Get All Products
-export const getProduct = (params: GetProductParams) => async (dispatch: Dispatch) => {
+export const getProducts = (params: GetProductParams) => async (dispatch: Dispatch) => {
     try {
         dispatch(allProductRequest())
         // const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
@@ -45,8 +45,7 @@ export const getProduct = (params: GetProductParams) => async (dispatch: Dispatc
         // if (category) {
         //     link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
         // }
-
-        const { category } = params
+        const category = params?.category
         let link = `/api/v1/products`;
         if (category) {
             link = `/api/v1/products`;

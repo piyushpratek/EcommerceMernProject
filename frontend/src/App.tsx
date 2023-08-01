@@ -11,7 +11,7 @@ import HeaderTesting from './component/layout/Header/HeaderTesting.tsx';
 import ProductDetails from './component/Product/ProductDetails.tsx';
 import { useSelector } from 'react-redux';
 import Products from './component/Product/Products.tsx';
-
+import Search from './component/Product/Search.tsx';
 
 const App = () => {
   const rx = useSelector((state) => state);
@@ -34,6 +34,8 @@ const App = () => {
         <Route path="/" Component={Home} />
         <Route path="/product/:id" Component={ProductDetails} />
         <Route path="/products" Component={Products} />
+        <Route path="/search" Component={Search} />
+
       </Routes>
       <Footer />
     </>
