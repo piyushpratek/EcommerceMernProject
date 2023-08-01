@@ -10,6 +10,7 @@ import Home from './component/Home/Home.tsx';
 import HeaderTesting from './component/layout/Header/HeaderTesting.tsx';
 import ProductDetails from './component/Product/ProductDetails.tsx';
 import { useSelector } from 'react-redux';
+import Products from './component/Product/Products.tsx';
 
 
 const App = () => {
@@ -30,8 +31,9 @@ const App = () => {
       <HeaderTesting />
       <Routes>
 
-        <Route path="/" Component={Home as React.FC} />
-        <Route path="/product/:id" Component={ProductDetails as React.FC} />
+        <Route path="/" Component={Home} />
+        <Route path="/product/:id" Component={ProductDetails} />
+        <Route path="/products" Component={Products} />
       </Routes>
       <Footer />
     </>
