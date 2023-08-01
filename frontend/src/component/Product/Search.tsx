@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Search = () => {
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate()
-  const searchSubmitHandler = (e) => {
+  const searchSubmitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (keyword.trim()) {
       navigate(`/products/${keyword}`);
