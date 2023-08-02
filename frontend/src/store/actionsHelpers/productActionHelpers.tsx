@@ -57,7 +57,6 @@ export const getProducts = (params: GetProductParams) => async (dispatch: Dispat
         }
 
         const { data } = await axios.get(link);
-        console.log('allProductSuccess?', data);
         dispatch(allProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;

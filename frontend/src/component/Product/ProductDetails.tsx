@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import './ProductDetails.css';
 import { useSelector } from 'react-redux';
-import { clearAllErrors, getProductDetails } from '../../store/actionsHelper/productAction';
+import { clearAllErrors, getProductDetails } from '../../store/actionsHelpers/productActionHelpers';
 import { RootState, useAppDispatch } from '../../store/store';
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';

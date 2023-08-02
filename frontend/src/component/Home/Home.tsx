@@ -3,7 +3,7 @@ import "./Home.css"
 import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
 import MetaData from '../layout/MetaData';
-import { getProducts, clearAllErrors } from '../../store/actionsHelper/productAction';
+import { getProducts, clearAllErrors } from '../../store/actionsHelpers/productActionHelpers';
 import { RootState, useAppDispatch } from '../../store/store';
 import { useSelector } from 'react-redux';
 import Loader from '../layout/Loader/Loader';

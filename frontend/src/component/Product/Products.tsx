@@ -5,7 +5,7 @@ import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
 import MetaData from "../layout/MetaData";
 import { Typography, Slider, Pagination } from "@mui/material";
-import { getProducts, clearAllErrors } from "../../store/actionsHelper/productAction";
+import { getProducts, clearAllErrors } from "../../store/actionsHelpers/productActionHelpers";
 import { useParams } from "react-router-dom";
 import { Alert, Snackbar } from '@mui/material';
 import { RootState, useAppDispatch } from "../../store/store";
