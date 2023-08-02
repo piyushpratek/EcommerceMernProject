@@ -28,7 +28,7 @@ interface ReviewData {
 export interface GetProductParams {
     keyword?: string;
     currentPage?: number;
-    price?: [number, number];
+    price?: [number, number] | undefined;
     category?: string;
     ratings?: number;
 }

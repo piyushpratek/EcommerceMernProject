@@ -9,6 +9,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Alert, Rating, Snackbar } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import Loader from '../layout/Loader/Loader';
+import MetaData from '../layout/MetaData';
 // import { Rating } from '@mui/material';
 
 const ProductDetails = () => {
@@ -48,6 +49,8 @@ const ProductDetails = () => {
 
   return (
     <Fragment>
+      <MetaData title={`${product.name} --ECOMMERCE`} />
+
       {loading ? <Loader /> : (<Fragment>
         <div className='ProductDetails'>
           <div>

@@ -26,7 +26,7 @@ const Products = () => {
     const { keyword } = useParams();
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [price, setPrice] = useState<[number, number]>([0, 25000]);
+    const [price, setPrice] = useState<[number, number] | undefined>([0, 25000]);
     const [category, setCategory] = useState<string>("");
     const [ratings, setRatings] = useState<number>(0);
     const allProducts = useSelector((state: RootState) => state.products)
@@ -36,24 +36,23 @@ const Products = () => {
         error,
         productsCount,
         resultPerPage,
-        filteredProductsCount,
+        filteredProductsCount
     } = allProducts
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    // const setCurrentPageNo = (e, page) => {
-    //     setCurrentPage(page);
-    // };
-    const setCurrentPageNo = (_e: Event, page: number) => {
+    const setCurrentPageNo = (_e: React.ChangeEvent<unknown>, page: number) => {
         if (!isNaN(page)) {
             setCurrentPage(page);
         }
     };
 
-    const priceHandler = (_event: Event, newPrice: [number, number]) => {
-        setPrice(newPrice);
+    const priceHandler = (_event: Event, newPrice: number | number[]) => {
+        if (Array.isArray(newPrice)) {
+            setPrice(newPrice as [number, number]);
+        }
     };
     const count = filteredProductsCount;
 
@@ -84,7 +83,7 @@ const Products = () => {
                         <Typography>Price</Typography>
                         <Slider
                             value={price}
-                            onChange={priceHandler as any}
+                            onChange={priceHandler}
                             valueLabelDisplay="auto"
                             aria-labelledby="range-slider"
                             min={0}
@@ -121,9 +120,13 @@ const Products = () => {
                     {resultPerPage < count && (
                         <div className="paginationBox">
                             <Pagination
+                                count={Math.ceil(productsCount / resultPerPage)} // Calculate the total number of pages based on the total items count and items per page
                                 page={currentPage}
-                                count={productsCount / resultPerPage}
-                                onChange={setCurrentPageNo as any}
+                                onChange={setCurrentPageNo}
+                                boundaryCount={2} // The number of first and last page links to show, adjust this based on your preference
+                                showFirstButton // Show the "First" button
+                                showLastButton // Show the "Last" button
+                                color="primary" // Set the color of the pagination, you can choose from "primary", "secondary", or "standard"
                             />
                         </div>
                     )}
