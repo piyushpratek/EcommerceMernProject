@@ -6,6 +6,7 @@ import { Product } from '../../store/slice/Products/productTypesRedux';
 interface ProductCardProps {
     product: Product;
 }
+
 const ProductCard = ({ product }: ProductCardProps) => {
     const options = {
         value: product?.ratings,

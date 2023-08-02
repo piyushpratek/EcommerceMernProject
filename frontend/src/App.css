@@ -38,8 +38,13 @@ input[type='number'] {
 } */
 
 .greenColor {
-  color: green !important;
+  color: green;
 }
 .redColor {
-  color: red !important;
+  color: red;
+}
+
+.MuiRating-root {
+  /* this changes the size of review star */
+  font-size: 0.9rem !important;
 }

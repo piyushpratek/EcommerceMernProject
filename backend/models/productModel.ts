@@ -41,7 +41,7 @@ const productModel = new mongoose.Schema({
         maxLength: [4, 'Stock cannot exceed 4 characters'],
         default: 1
     },
-    numofReviews: {
+    numOfReviews: {
         type: Number,
         default: 0
     },

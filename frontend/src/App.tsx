@@ -12,6 +12,7 @@ import ProductDetails from './component/Product/ProductDetails.tsx';
 import { useSelector } from 'react-redux';
 import Products from './component/Product/Products.tsx';
 import Search from './component/Product/Search.tsx';
+import "./App.css"
 
 const App = () => {
   const rx = useSelector((state) => state);

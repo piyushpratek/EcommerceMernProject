@@ -127,7 +127,7 @@ export const createProductReview = catchAsyncErrors(async (req: Request, res: Re
         })
     } else {
         product?.reviews.push(review as any)
-        product.numofReviews = product?.reviews.length
+        product.numOfReviews = product?.reviews.length
     }
 
     let avg = 0
