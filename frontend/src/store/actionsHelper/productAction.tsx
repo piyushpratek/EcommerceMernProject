@@ -41,20 +41,23 @@ interface ErrorResponse {
 export const getProducts = (params: GetProductParams) => async (dispatch: Dispatch) => {
     try {
         dispatch(allProductRequest())
-        const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params ?? {}
+        // const { keyword = "", currentPage = 1, price = [0, 25000], ratings = 0, category } = params
 
+        // Using more robust way instead of above.
+        const keyword = params?.keyword ?? ''
+        const currentPage = params?.currentPage ?? 1
+        const price = params?.price ?? [0, 25_000]
+        const ratings = params?.ratings ?? 0
+        const category = params?.category
+
+        // TODO: Discuss with Sahil for axios `params` api
         let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
         if (category) {
             link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
-            // link += `&category=${category}`
         }
-        // const category = params?.category
-        // const keyword = params?.keyword
-        // let link = `/api/v1/products?keyword=${keyword}`;
-        // if (category) {
-        //     link = `/api/v1/products`;
-        // }
+
         const { data } = await axios.get(link);
+        console.log('allProductSuccess?', data);
         dispatch(allProductSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;

@@ -13,6 +13,9 @@ const initialProductsState: ProductsState = {
     products: [],
     loading: false,
     error: null,
+    resultPerPage: 0,
+    filteredProductsCount: 0,
+    productsCount: 0
 };
 
 //All  Products  slice

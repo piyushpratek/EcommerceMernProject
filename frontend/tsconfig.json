@@ -18,7 +18,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /*my added rule */
+    "noImplicitAny": false // noImplicitAny= noAutomaticAny. We want automatic any so we have set its value to false.
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -30,9 +30,9 @@ export interface ProductsState {
     products: Product[];
     loading: boolean;
     error: string | null;
-    productsCount?: number;
-    resultPerPage?: number;
-    filteredProductsCount?: number;
+    productsCount: number;
+    resultPerPage: number;
+    filteredProductsCount: number;
 }
 // Product details state interface
 export interface ProductDetailsState {

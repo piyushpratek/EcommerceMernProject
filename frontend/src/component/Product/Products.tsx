@@ -39,8 +39,6 @@ const Products = () => {
         filteredProductsCount,
     } = allProducts
 
-    // const keyword = params?.keyword;
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -48,14 +46,14 @@ const Products = () => {
     // const setCurrentPageNo = (e, page) => {
     //     setCurrentPage(page);
     // };
-    const setCurrentPageNo = (e, page) => {
+    const setCurrentPageNo = (_e: Event, page: number) => {
         if (!isNaN(page)) {
             setCurrentPage(page);
         }
     };
 
-    const priceHandler = (event, newPrice) => {
-        setPrice(newPrice as [number, number]);
+    const priceHandler = (_event: Event, newPrice: [number, number]) => {
+        setPrice(newPrice);
     };
     const count = filteredProductsCount;
 
@@ -64,7 +62,7 @@ const Products = () => {
             setOpen(true)
             dispatch(clearAllErrors());
         }
-        dispatch(getProducts(keyword, currentPage, price, category, ratings));
+        dispatch(getProducts({ keyword, currentPage, price, category, ratings }));
     }, [dispatch, keyword, currentPage, price, category, ratings, error]);
 
     return (
@@ -86,7 +84,7 @@ const Products = () => {
                         <Typography>Price</Typography>
                         <Slider
                             value={price}
-                            onChange={priceHandler}
+                            onChange={priceHandler as any}
                             valueLabelDisplay="auto"
                             aria-labelledby="range-slider"
                             min={0}
@@ -110,7 +108,7 @@ const Products = () => {
                             <Typography component="legend">Ratings Above</Typography>
                             <Slider
                                 value={ratings}
-                                onChange={(e, newRating) => {
+                                onChange={(_e, newRating) => {
                                     setRatings(newRating as number);
                                 }}
                                 aria-labelledby="continuous-slider"
@@ -123,18 +121,9 @@ const Products = () => {
                     {resultPerPage < count && (
                         <div className="paginationBox">
                             <Pagination
-                                activePage={currentPage}
-                                itemsCountPerPage={resultPerPage}
-                                totalItemsCount={productsCount}
-                                onChange={setCurrentPageNo}
-                                nextPageText="Next"
-                                prevPageText="Prev"
-                                firstPageText="1st"
-                                lastPageText="Last"
-                                itemClass="page-item"
-                                linkClass="page-link"
-                                activeClass="pageItemActive"
-                                activeLinkClass="pageLinkActive"
+                                page={currentPage}
+                                count={productsCount / resultPerPage}
+                                onChange={setCurrentPageNo as any}
                             />
                         </div>
                     )}
