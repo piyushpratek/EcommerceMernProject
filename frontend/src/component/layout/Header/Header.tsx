@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../../Images/logo.png"
+import { Search, AccountCircle, ShoppingCart } from "@mui/icons-material";
 
 const Header: React.FC = () => {
     return (
@@ -43,6 +44,21 @@ const Header: React.FC = () => {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/about">
                                 About
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/search">
+                                <Search /> {/* Search Icon */}
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/login">
+                                <AccountCircle /> {/* User Profile Icon */}
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/cart">
+                                <ShoppingCart /> {/* Cart Icon */}
                             </NavLink>
                         </li>
                     </ul>
