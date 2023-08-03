@@ -1,73 +1,78 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import "./UpdateProfile.css";
 import Loader from "../layout/Loader/Loader";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import FaceIcon from "@material-ui/icons/Face";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updateProfile, loadUser } from "../../actions/userAction";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import FaceIcon from "@mui/icons-material/Face";
+import { useSelector } from "react-redux";
+import { clearAllErrors, updateProfile, loadUser } from "../../store/actionsHelpers/userActionHelpers";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from "../../constants/userConstants";
+import { updateProfileReset } from "../../store/slice/userSlice";
 import MetaData from "../layout/MetaData";
+import { RootState, useAppDispatch } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
-const UpdateProfile = ({ history }) => {
-  const dispatch = useDispatch();
+
+const UpdateProfile: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const alert = useAlert();
 
-  const { user } = useSelector((state) => state.user);
-  const { error, isUpdated, loading } = useSelector((state) => state.profile);
+  const { user } = useSelector((state: RootState) => state.user);
+  const { error, isUpdated, loading } = useSelector((state: RootState) => state.user);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string>("/Profile.png");
 
-  const updateProfileSubmit = (e) => {
+  const updateProfileSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("avatar", avatar);
-    dispatch(updateProfile(myForm));
+    dispatch(updateProfile({
+      name, email, avatar,
+      password: "dummy"
+    }));
   };
 
-  const updateProfileDataChange = (e) => {
-    const reader = new FileReader();
+  const updateProfileDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatarPreview(reader.result);
-        setAvatar(reader.result);
-      }
-    };
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === "string") {
+          setAvatarPreview(reader.result);
+          setAvatar(file);
+        }
+      };
 
-    reader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(file);
+    }
   };
 
   useEffect(() => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
-      setAvatarPreview(user.avatar.url);
+      if (user.avatar) {
+        setAvatarPreview(user.avatar.url);
+      }
     }
 
     if (error) {
       alert.error(error);
-      dispatch(clearErrors());
+      dispatch(clearAllErrors());
     }
 
     if (isUpdated) {
       alert.success("Profile Updated Successfully");
       dispatch(loadUser());
 
-      history.push("/account");
+      navigate("/account");
 
-      dispatch({
-        type: UPDATE_PROFILE_RESET,
-      });
+      dispatch(updateProfileReset());
     }
-  }, [dispatch, error, alert, history, user, isUpdated]);
+  }, [dispatch, error, alert, navigate, user, isUpdated]);
+
   return (
     <Fragment>
       {loading ? (

@@ -1,47 +1,44 @@
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import "./ResetPassword.css";
 import Loader from "../layout/Loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, resetPassword } from "../../actions/userAction";
-import { useAlert } from "react-alert";
+import { useSelector } from "react-redux";
+import { Alert, Snackbar } from '@mui/material';
 import MetaData from "../layout/MetaData";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import LockIcon from "@material-ui/icons/Lock";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockIcon from "@mui/icons-material/Lock";
+import { clearAllErrors, resetPassword } from "../../store/actionsHelpers/userActionHelpers";
+import { RootState, useAppDispatch } from "../../store/store";
 
-const ResetPassword = ({ history, match }) => {
-  const dispatch = useDispatch();
-  const alert = useAlert();
 
+const ResetPassword = ({ match }) => {
+  const dispatch = useAppDispatch();
   const { error, success, loading } = useSelector(
-    (state) => state.forgotPassword
+    (state: RootState) => state.user
   );
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [open, setOpen] = useState(false);
 
-  const resetPasswordSubmit = (e) => {
+  const handleSnackbarClose = () => {
+    setOpen(false);
+  };
+
+  const resetPasswordSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("password", password);
-    myForm.set("confirmPassword", confirmPassword);
-
-    dispatch(resetPassword(match.params.token, myForm));
+    dispatch(resetPassword(match?.params?.token));
+    setOpen(true);
   };
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      setOpen(true);
+      dispatch(clearAllErrors());
     }
-
     if (success) {
-      alert.success("Password Updated Successfully");
-
-      history.push("/login");
+      setOpen(true);
     }
-  }, [dispatch, error, alert, history, success]);
+  }, [dispatch, error, success]);
 
   return (
     <Fragment>
@@ -86,6 +83,19 @@ const ResetPassword = ({ history, match }) => {
               </form>
             </div>
           </div>
+          <Snackbar
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleSnackbarClose}
+          >
+            <Alert
+              severity={error ? "error" : "success"}
+              onClose={handleSnackbarClose}
+              sx={{ width: '100%' }}
+            >
+              {error ? error : "Password Updated Successfully"}
+            </Alert>
+          </Snackbar>
         </Fragment>
       )}
     </Fragment>

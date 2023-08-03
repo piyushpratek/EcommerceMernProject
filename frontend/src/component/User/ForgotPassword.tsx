@@ -1,41 +1,39 @@
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import "./ForgotPassword.css";
 import Loader from "../layout/Loader/Loader";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, forgotPassword } from "../../actions/userAction";
-import { useAlert } from "react-alert";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import { useSelector } from "react-redux";
+import { clearAllErrors, forgotPassword } from "../../store/actionsHelpers/userActionHelpers";
+import { Alert, Snackbar } from '@mui/material';
 import MetaData from "../layout/MetaData";
+import { RootState, useAppDispatch } from "../../store/store";
 
 const ForgotPassword = () => {
-  const dispatch = useDispatch();
-  const alert = useAlert();
+  const dispatch = useAppDispatch();
 
   const { error, message, loading } = useSelector(
-    (state) => state.forgotPassword
+    (state: RootState) => state.user
   );
 
   const [email, setEmail] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleSnackbarClose = () => {
+    setOpen(false);
+  };
 
   const forgotPasswordSubmit = (e) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("email", email);
-    dispatch(forgotPassword(myForm));
+    dispatch(forgotPassword({ email }));
+    setOpen(true);
   };
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      setOpen(true);
+      dispatch(clearAllErrors());
     }
-
-    if (message) {
-      alert.success(message);
-    }
-  }, [dispatch, error, alert, message]);
+  }, [dispatch, error]);
 
   return (
     <Fragment>
@@ -72,6 +70,19 @@ const ForgotPassword = () => {
               </form>
             </div>
           </div>
+          <Snackbar
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleSnackbarClose}
+          >
+            <Alert
+              severity={error ? "error" : "success"}
+              onClose={handleSnackbarClose}
+              sx={{ width: '100%' }}
+            >
+              {error ? error : message}
+            </Alert>
+          </Snackbar>
         </Fragment>
       )}
     </Fragment>

@@ -58,9 +58,25 @@ type LoginData = {
     email: string;
     password: string;
     name: string;
-    avatar: string
+    avatar?: (File | null) | undefined
 };
 
+type ForgotPassword = {
+    email: string
+}
+
+type ResetPasword = {
+    token: string;
+    passwords: string
+    password: string
+    confirmPassword: string
+}
+type UpdatePassword = {
+    passwords: string;
+    oldPassword: string
+    newPassword: string
+    confirmPassword: string
+}
 
 // Login
 export const login = (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -87,8 +103,10 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
     myForm.set("name", loginData.name);
     myForm.set("email", loginData.email);
     myForm.set("password", loginData.password);
-    myForm.set("avatar", loginData.avatar);
-
+    // myForm.set("avatar", loginData?.avatar);
+    if (loginData?.avatar instanceof File) {
+        myForm.set("avatar", loginData?.avatar);
+    }
     try {
         dispatch(registerUserRequest());
 
@@ -134,12 +152,24 @@ export const logout = () => async (dispatch: Dispatch) => {
 
 // Update Profile
 export const updateProfile = (userData: LoginData) => async (dispatch: Dispatch) => {
+    const myForm = new FormData();
+
+    myForm.set("name", userData?.name);
+    myForm.set("email", userData?.email);
+    // myForm.set("avatar", userData?.avatar);
+    // Check if avatar is a Blob or an object with url
+    if (userData?.avatar instanceof Blob) {
+        myForm.set("avatar", userData?.avatar);
+    } else if (userData?.avatar === null) {
+        // Treat null as undefined for the avatar property
+        myForm.delete("avatar");
+    }
     try {
         dispatch(updateProfileRequest());
 
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-        const { data } = await axios.put(`/api/v1/me/update`, userData, config);
+        const { data } = await axios.put(`/api/v1/me/update`, myForm, config);
 
         dispatch(updateProfileSuccess(data));
     } catch (error) {
@@ -150,10 +180,17 @@ export const updateProfile = (userData: LoginData) => async (dispatch: Dispatch)
 };
 
 // Update Password
-export const updatePassword = (passwords: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(updatePasswordRequest());
+export const updatePassword = (updatePassword: UpdatePassword) => async (dispatch: Dispatch) => {
 
+    const myForm = new FormData();
+    myForm.set("oldPassword", updatePassword?.oldPassword);
+    myForm.set("newPassword", updatePassword?.newPassword);
+    myForm.set("confirmPassword", updatePassword?.confirmPassword);
+
+    try {
+
+        dispatch(updatePasswordRequest());
+        const passwords = updatePassword.passwords
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
@@ -171,9 +208,12 @@ export const updatePassword = (passwords: string) => async (dispatch: Dispatch) 
 };
 
 // Forgot Password
-export const forgotPassword = (email: string) => async (dispatch: Dispatch) => {
+export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatch: Dispatch) => {
+    const myForm = new FormData();
+    myForm.set("email", forgotPassword?.email)
     try {
         dispatch(forgotPasswordRequest());
+        const email = forgotPassword?.email
 
         const config = { headers: { "Content-Type": "application/json" } };
 
@@ -188,10 +228,15 @@ export const forgotPassword = (email: string) => async (dispatch: Dispatch) => {
 };
 
 // Reset Password
-export const resetPassword = (token: string, passwords: string) => async (dispatch: Dispatch) => {
+export const resetPassword = (resetPassword: ResetPasword) => async (dispatch: Dispatch) => {
+
+    const myForm = new FormData();
+    myForm.set("password", resetPassword?.password);
+    myForm.set("confirmPassword", resetPassword?.confirmPassword);
     try {
         dispatch(resetPasswordRequest());
-
+        const token = resetPassword?.token
+        const passwords = resetPassword?.passwords
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
@@ -208,7 +253,7 @@ export const resetPassword = (token: string, passwords: string) => async (dispat
     }
 };
 
-// Reset Password
+// Get All User
 export const getAllUsers = () => async (dispatch: Dispatch) => {
     try {
         dispatch(allUsersRequest());

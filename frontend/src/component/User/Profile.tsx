@@ -8,7 +8,6 @@ import { RootState } from "../../store/store";
 
 const Profile = () => {
 
-  // const { user, loading, isAuthenticated } = useSelector((state) => state.user);
   const userProfile = useSelector((state: RootState) => state.user)
   const { loading, isAuthenticated, user } = userProfile
   const navigate = useNavigate()

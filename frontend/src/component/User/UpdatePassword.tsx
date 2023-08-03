@@ -1,53 +1,61 @@
-import React, { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import "./UpdatePassword.css";
 import Loader from "../layout/Loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, updatePassword } from "../../actions/userAction";
-import { useAlert } from "react-alert";
-import { UPDATE_PASSWORD_RESET } from "../../constants/userConstants";
+import { useSelector } from "react-redux";
+import { clearAllErrors, updatePassword } from "../../store/actionsHelpers/userActionHelpers";
 import MetaData from "../layout/MetaData";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import LockIcon from "@material-ui/icons/Lock";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockIcon from "@mui/icons-material/Lock";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import { updatePasswordReset } from "../../store/slice/userSlice";
+import { RootState, useAppDispatch } from "../../store/store";
+import { useNavigate } from "react-router-dom";
+import { Alert, Snackbar } from "@mui/material";
 
-const UpdatePassword = ({ history }) => {
-  const dispatch = useDispatch();
-  const alert = useAlert();
+const UpdatePassword = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const { error, isUpdated, loading } = useSelector((state) => state.profile);
+  const { error, isUpdated, loading } = useSelector(
+    (state: RootState) => state.user
+  );
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [open, setOpen] = useState(false);
 
-  const updatePasswordSubmit = (e) => {
+  const handleSnackbarClose = () => {
+    setOpen(false);
+  };
+
+  const updatePasswordSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("oldPassword", oldPassword);
-    myForm.set("newPassword", newPassword);
-    myForm.set("confirmPassword", confirmPassword);
-
-    dispatch(updatePassword(myForm));
+    dispatch(
+      updatePassword({
+        oldPassword,
+        newPassword,
+        confirmPassword,
+        passwords: "",
+      })
+    );
+    setOpen(true);
   };
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      setOpen(true);
+      dispatch(clearAllErrors());
     }
 
     if (isUpdated) {
-      alert.success("Profile Updated Successfully");
-
-      history.push("/account");
-
+      setOpen(true);
+      navigate("/account");
       dispatch({
-        type: UPDATE_PASSWORD_RESET,
+        type: updatePasswordReset,
       });
     }
-  }, [dispatch, error, alert, history, isUpdated]);
+  }, [dispatch, error, navigate, isUpdated]);
 
   return (
     <Fragment>
@@ -103,6 +111,19 @@ const UpdatePassword = ({ history }) => {
               </form>
             </div>
           </div>
+          <Snackbar
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleSnackbarClose}
+          >
+            <Alert
+              severity={error ? "error" : "success"}
+              onClose={handleSnackbarClose}
+              sx={{ width: "100%" }}
+            >
+              {error ? error : "Profile Updated Successfully"}
+            </Alert>
+          </Snackbar>
         </Fragment>
       )}
     </Fragment>

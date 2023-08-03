@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from "react";
+import React, { Fragment, useRef, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { Alert, Snackbar } from '@mui/material';
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,14 +10,20 @@ import { RootState, useAppDispatch } from "../../store/store";
 import { login, register, clearAllErrors } from "../../store/actionsHelpers/userActionHelpers";
 import "./LoginSignUp.css";
 
-const LoginSignUp = () => {
+interface UserFormData {
+  name: string;
+  email: string;
+  password: string;
+  avatar: (File | null) | undefined;
+}
+
+const LoginSignUp: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
 
-  const users = useSelector((state: RootState) => state.user)
-  const { loading, error, isAuthenticated } = users
-
+  const users = useSelector((state: RootState) => state.user);
+  const { loading, error, isAuthenticated } = users;
 
   const loginTab = useRef<HTMLFormElement | null>(null);
   const registerTab = useRef<HTMLFormElement | null>(null);
@@ -25,42 +31,42 @@ const LoginSignUp = () => {
 
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<UserFormData>({
     name: "",
     email: "",
     password: "",
+    avatar: null,
   });
 
-  const { name, email, password } = user;
+  const { name, email, password, avatar } = user;
 
-  const [avatar, setAvatar] = useState("/Profile.png");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState<string | ArrayBuffer | null>(null);
 
-  const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(loginEmail, loginPassword));
-    // console.log("login form submitted");
-
   };
 
-  const registerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register({ name, email, password, avatar }));
   };
 
-
-  const registerDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const registerDataChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "avatar") {
-      const reader = new FileReader();
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result as string);
-          setAvatar(reader.result as string);
-        }
-      };
+        reader.onloadend = () => {
+          if (reader.result && typeof reader.result === "string") {
+            setAvatarPreview(reader.result);
+          }
+        };
 
-      reader.readAsDataURL(e.target.files![0]);
+        reader.readAsDataURL(file);
+        setUser({ ...user, avatar: file });
+      }
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
@@ -176,7 +182,7 @@ const LoginSignUp = () => {
                 </div>
 
                 <div id="registerImage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
+                  {avatarPreview && <img src={avatarPreview as string} alt="Avatar Preview" />}
                   <input
                     type="file"
                     name="avatar"
@@ -201,4 +207,3 @@ const LoginSignUp = () => {
 };
 
 export default LoginSignUp;
-
