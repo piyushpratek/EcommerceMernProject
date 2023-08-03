@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductsState, Product } from "./productTypesRedux";
+import { ProductsState, Product } from "../../../types/productTypes";
 
 // PayloadType.ts
 interface PayloadType {

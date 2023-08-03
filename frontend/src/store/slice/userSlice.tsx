@@ -1,18 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { User, UserProfile, AllUsersData } from "../../types/userTypes";
 
-// Define the types for User, UserProfile, and other relevant types in your application
-interface User {
-    id: number;
-    name: string;
-    // Other properties...
-}
 
-type AllUsersData = User[];
-
-interface UserProfile {
-    username: string;
-    // Other properties...
-}
 
 interface UserState {
     loading: boolean;

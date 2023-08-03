@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NewReviewState } from "./productTypesRedux";
+import { NewReviewState } from "../../../types/productTypes";
 
 const initialNewReviewState: NewReviewState = {
     loading: false,

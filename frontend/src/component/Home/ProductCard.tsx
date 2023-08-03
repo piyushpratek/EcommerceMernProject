@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import "./Home.css"
 import { Rating } from '@mui/material'
-import { Product } from '../../store/slice/Products/productTypesRedux';
+import { Product } from '../../types/productTypes';
 
 interface ProductCardProps {
     product: Product;

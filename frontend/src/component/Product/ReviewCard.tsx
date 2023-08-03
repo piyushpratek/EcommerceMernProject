@@ -1,6 +1,6 @@
 import { Rating } from '@mui/material';
 import profilePng from "../../Images/Profile.png";
-import { Review } from '../../store/slice/Products/productTypesRedux';
+import { Review } from '../../types/productTypes';
 
 interface reviewCardProps {
   review: Review

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UpdateDeleteProductState } from "./productTypesRedux";
+import { UpdateDeleteProductState } from "../../../types/productTypes";
 
 const initialUpdateDeleteProductState: UpdateDeleteProductState = {
     loading: false,

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NewProductState, Product } from "./productTypesRedux";
+import { NewProductState, Product } from "../../../types/productTypes";
 
 const initialNewProductState: NewProductState = {
     product: {
