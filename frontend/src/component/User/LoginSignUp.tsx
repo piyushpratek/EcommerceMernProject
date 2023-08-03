@@ -1,17 +1,17 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
-import "./LoginSignUp.css";
-import Loader from "../layout/Loader/Loader";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Alert, Snackbar } from '@mui/material';
-import { RootState } from "../../store/store";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face";
+import Loader from "../layout/Loader/Loader";
+import { RootState, useAppDispatch } from "../../store/store";
 import { login, register, clearAllErrors } from "../../store/actionsHelpers/userActionHelpers";
+import "./LoginSignUp.css";
 
 const LoginSignUp = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const location = useLocation();
 
@@ -23,8 +23,8 @@ const LoginSignUp = () => {
   const registerTab = useRef<HTMLFormElement | null>(null);
   const switcherTab = useRef<HTMLButtonElement | null>(null);
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState<string>("");
+  const [loginPassword, setLoginPassword] = useState<string>("");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -38,24 +38,16 @@ const LoginSignUp = () => {
 
   const loginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // dispatch(login(loginEmail, loginPassword));
-    console.log("login form submitted");
+    dispatch(login(loginEmail, loginPassword));
+    // console.log("login form submitted");
 
   };
 
   const registerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
-    // dispatch(register(myForm));
-    console.log("signup form submit");
-
+    dispatch(register({ name, email, password, avatar }));
   };
+
 
   const registerDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "avatar") {

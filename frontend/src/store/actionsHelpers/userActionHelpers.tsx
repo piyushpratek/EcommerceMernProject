@@ -54,10 +54,13 @@ import {
 interface ErrorResponse {
     message: string;
 }
-type LoginParams = {
+type LoginData = {
     email: string;
     password: string;
+    name: string;
+    avatar: string
 };
+
 
 // Login
 export const login = (email: string, password: string) => async (dispatch: Dispatch) => {
@@ -79,13 +82,19 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
 };
 
 // Register
-export const register = (userData: LoginParams) => async (dispatch: Dispatch) => {
+export const register = (loginData: LoginData) => async (dispatch: Dispatch) => {
+    const myForm = new FormData();
+    myForm.set("name", loginData.name);
+    myForm.set("email", loginData.email);
+    myForm.set("password", loginData.password);
+    myForm.set("avatar", loginData.avatar);
+
     try {
         dispatch(registerUserRequest());
 
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-        const { data } = await axios.post(`/api/v1/register`, userData, config);
+        const { data } = await axios.post(`/api/v1/register`, myForm, config);
 
         dispatch(registerUserSuccess(data));
     } catch (error) {
@@ -124,7 +133,7 @@ export const logout = () => async (dispatch: Dispatch) => {
 };
 
 // Update Profile
-export const updateProfile = (userData: LoginParams) => async (dispatch: Dispatch) => {
+export const updateProfile = (userData: LoginData) => async (dispatch: Dispatch) => {
     try {
         dispatch(updateProfileRequest());
 
@@ -228,7 +237,7 @@ export const getUserDetails = (id: string) => async (dispatch: Dispatch) => {
 };
 
 // Update User
-export const updateUser = (id: string, userData: LoginParams) => async (dispatch: Dispatch) => {
+export const updateUser = (id: string, userData: LoginData) => async (dispatch: Dispatch) => {
     try {
         dispatch(updateUserRequest());
 

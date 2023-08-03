@@ -86,9 +86,6 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        clearErrors(state) {
-            state.error = null;
-        },
         updateProfileRequest(state) {
             state.loading = true;
         },
@@ -191,6 +188,9 @@ const userSlice = createSlice({
         },
         updateUserReset(state) {
             state.isUpdated = false;
+        },
+        clearErrors(state) {
+            state.error = null;
         },
     },
 });

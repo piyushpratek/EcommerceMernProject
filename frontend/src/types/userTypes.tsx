@@ -1,5 +1,5 @@
 
-// Define the types for User, UserProfile, and other relevant types in your application
+// Defining the types for User, UserProfile, and other relevant types
 export interface User {
     id: number;
     name: string;
@@ -7,14 +7,17 @@ export interface User {
     password: string;
     avatar: { url: string }
     role: string
+    createdAt: string
 }
 
-// Define the type for UserProfile
+// Defining the type for UserProfile
 export interface UserProfile {
-    username: string;
-    useremail: string;
-    userpassword: string;
-    userrole: string
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+    avatar: { url: string };
+    createdAt: string
 }
 
 export type AllUsersData = User[];
