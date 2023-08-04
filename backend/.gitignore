@@ -12,6 +12,9 @@ node_modules
 # react static build
 react-static
 
+# Ignore the .env.development file
+.env.development
+
 # testing
 /coverage
 
@@ -20,7 +23,6 @@ react-static
 
 # misc
 .DS_Store
-.env.development
 .env
 .env.local
 .env.development.local
