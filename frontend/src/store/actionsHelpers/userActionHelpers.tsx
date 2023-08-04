@@ -103,18 +103,19 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
     myForm.set("name", loginData.name);
     myForm.set("email", loginData.email);
     myForm.set("password", loginData.password);
-    // myForm.set("avatar", loginData?.avatar);
     if (loginData?.avatar instanceof File) {
         myForm.set("avatar", loginData?.avatar);
     }
     try {
+        alert(1)
         dispatch(registerUserRequest());
-
+        alert(2)
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
         const { data } = await axios.post(`/api/v1/register`, myForm, config);
-
+        alert(3)
         dispatch(registerUserSuccess(data));
+        alert(4)
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
