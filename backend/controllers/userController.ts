@@ -12,11 +12,11 @@ import logger from '../config/logger'
 
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //   folder: 'avatars',
-  //   width: 150,
-  //   crop: 'scale',
-  // })
+  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: 'avatars',
+    width: 150,
+    crop: 'scale',
+  })
 
   const { name, email, password } = req.body as UserDocument
 
@@ -25,10 +25,8 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     email,
     password,
     avatar: {
-      public_id: 'this is a sample id',
-      url: 'sample profile pic url',
-      // public_id: myCloud.public_id,
-      // url: myCloud.secure_url,
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
     },
   })
 
@@ -216,6 +214,7 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
 
   res.status(HttpStatus.OK).json({
     success: true,
+    user
   })
 })
 
