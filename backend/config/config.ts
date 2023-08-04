@@ -46,26 +46,26 @@ if (typeof process.env.JWT_EXPIRE === 'undefined') {
   process.exit(1)
 }
 
-if (typeof process.env.CLOUDINARY_NAME === 'undefined') {
-  logger.error('Please define CLOUDINARY_NAME in your .env file.')
-  process.exit(1)
-}
+// if (typeof process.env.CLOUDINARY_NAME === 'undefined') {
+//   logger.error('Please define CLOUDINARY_NAME in your .env file.')
+//   process.exit(1)
+// }
 
-if (typeof process.env.CLOUDINARY_API_KEY === 'undefined') {
-  logger.error('Please define CLOUDINARY_API_KEY in your .env file.')
-  process.exit(1)
-}
+// if (typeof process.env.CLOUDINARY_API_KEY === 'undefined') {
+//   logger.error('Please define CLOUDINARY_API_KEY in your .env file.')
+//   process.exit(1)
+// }
 
-if (typeof process.env.CLOUDINARY_API_SECRET === 'undefined') {
-  logger.error('Please define CLOUDINARY_API_SECRET in your .env file.')
-  process.exit(1)
-}
+// if (typeof process.env.CLOUDINARY_API_SECRET === 'undefined') {
+//   logger.error('Please define CLOUDINARY_API_SECRET in your .env file.')
+//   process.exit(1)
+// }
 
 export const MONGO_URI = process.env.MONGO_URI
 export const JWT_SECRET = process.env.JWT_SECRET
 export const NODE_ENV = process.env.NODE_ENV
 export const PORT = Number(process.env.PORT)
 export const JWT_EXPIRE = process.env.JWT_EXPIRE
-export const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME
-export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY
-export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET
+// export const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME
+// export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY
+// export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET

@@ -12,8 +12,9 @@ const app: Application = express()
 
 app.use(express.json()) // to accept json data
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(fileUpload)
+// app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(fileUpload)
+
 app.get('/api/health', (req, res) => {
   res.send('Api is Running')
 })
