@@ -29,8 +29,8 @@ const LoginSignUp: React.FC = () => {
   const registerTab = useRef<HTMLFormElement | null>(null);
   const switcherTab = useRef<HTMLButtonElement | null>(null);
 
-  const [loginEmail, setLoginEmail] = useState<string>("");
-  const [loginPassword, setLoginPassword] = useState<string>("");
+  const [loginEmail, setLoginEmail] = useState<string>("piyushprateek231996@gmail.com");
+  const [loginPassword, setLoginPassword] = useState<string>("sample@1234");
   const [user, setUser] = useState<UserFormData>({
     name: "example",
     email: "example1@example.com",

@@ -9,6 +9,30 @@ import cloudinary from 'cloudinary'
 import { HttpStatus } from '../http-status.enum'
 import logger from '../config/logger'
 import fs from 'fs'
+
+// Login User
+export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body as UserDocument
+  // checking if user has given password and email both
+  if ((email === '') || (password === '')) {
+    next(new ErrorHandler('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
+  }
+
+  const user = await User.findOne({ email }).select('+password')
+
+  if (user == null) {
+    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
+  }
+
+  const isPasswordMatched = await user.comparePassword(password)
+
+  if (!isPasswordMatched) {
+    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED))
+  }
+
+  sendToken(user, HttpStatus.OK, res)
+})
+
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   // Docs - https://cloudinary.com/blog/guest_post/how-to-parse-media-files-with-multer
@@ -51,29 +75,6 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
     },
   })
   sendToken(user, HttpStatus.CREATED, res)
-})
-
-// Login User
-export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password } = req.body as UserDocument
-  // checking if user has given password and email both
-  if ((email === '') || (password === '')) {
-    next(new ErrorHandler('Please Enter Email & Password', HttpStatus.BAD_REQUEST)); return
-  }
-
-  const user = await User.findOne({ email }).select('+password')
-
-  if (user == null) {
-    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
-  }
-
-  const isPasswordMatched = await user.comparePassword(password)
-
-  if (!isPasswordMatched) {
-    next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED))
-  }
-
-  sendToken(user, HttpStatus.OK, res)
 })
 
 // Logout User
