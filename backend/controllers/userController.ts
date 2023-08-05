@@ -8,17 +8,39 @@ import crypto from 'crypto'
 import cloudinary from 'cloudinary'
 import { HttpStatus } from '../http-status.enum'
 import logger from '../config/logger'
-
+import fs from 'fs'
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  // Docs - https://cloudinary.com/blog/guest_post/how-to-parse-media-files-with-multer
+
+  console.log(1, req.file)
+
+  if (req.file == null) {
+    throw new Error('Please send a file in the `avatar` field.')
+  }
+
+  const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
     folder: 'avatars',
     width: 150,
     crop: 'scale',
+    resource_type: 'auto',
   })
 
-  const { name, email, password } = req.body as UserDocument
+  fs.unlinkSync(req.file.path)
+  // if (req.file == null || typeof req.file === 'undefined') { throw new Error('Please send file in `avatar` field.') }
 
+  // TEMporary
+  // const b64 = Buffer.from(req.file.buffer).toString('base64')
+  // const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64
+
+  // const myCloud = await cloudinary.v2.uploader.upload(dataURI, {
+  //   // folder: 'avatars',
+  //   // width: 150,
+  //   // crop: 'scale',
+  //   resource_type: 'auto',
+  // })
+
+  const { name, email, password } = req.body as UserDocument
   const user = await User.create({
     name,
     email,
@@ -28,7 +50,6 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
       url: myCloud.secure_url,
     },
   })
-
   sendToken(user, HttpStatus.CREATED, res)
 })
 

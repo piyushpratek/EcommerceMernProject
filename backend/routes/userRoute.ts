@@ -14,10 +14,11 @@ import {
   deleteUser,
 } from '../controllers/userController'
 import { isAuthenticatedUser, authorizeRoles } from '../middleware/auth'
+import { uploadMulter } from '../utils/multerUtils'
 
 const router = express.Router()
 
-router.route('/register').post(registerUser)
+router.route('/register').post(uploadMulter.single('avatar'), registerUser)
 
 router.route('/login').post(loginUser)
 

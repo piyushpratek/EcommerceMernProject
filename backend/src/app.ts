@@ -6,14 +6,12 @@ import userRoute from '../routes/userRoute'
 import cookieParser from 'cookie-parser'
 import orderRoute from '../routes/orderRoute'
 import bodyParser from 'body-parser'
-import fileUpload from 'express-fileupload'
 
 const app: Application = express()
 
 app.use(express.json()) // to accept json data
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(fileUpload())
 
 app.get('/api/health', (req, res) => {
   res.send('Api is Running')

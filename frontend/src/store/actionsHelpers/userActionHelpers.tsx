@@ -106,10 +106,10 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
     if (loginData?.avatar instanceof File) {
         myForm.set("avatar", loginData?.avatar);
     }
+    console.log("refgister avatar", loginData?.avatar);
+
     try {
-        alert(1)
         dispatch(registerUserRequest());
-        alert(2)
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
         const { data } = await axios.post(`/api/v1/register`, myForm, config);

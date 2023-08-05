@@ -32,15 +32,16 @@ const LoginSignUp: React.FC = () => {
   const [loginEmail, setLoginEmail] = useState<string>("");
   const [loginPassword, setLoginPassword] = useState<string>("");
   const [user, setUser] = useState<UserFormData>({
-    name: "",
-    email: "",
-    password: "",
+    name: "example",
+    email: "example1@example.com",
+    password: "examaple@123",
     avatar: null,
   });
 
   const { name, email, password, avatar } = user;
 
-  const [avatarPreview, setAvatarPreview] = useState<string | ArrayBuffer | null>(null);
+  // const [avatar, setAvatar] = useState("/Profile.png");
+  const [avatarPreview, setAvatarPreview] = useState<string | ArrayBuffer | null>("/Profile.png");
 
   const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
