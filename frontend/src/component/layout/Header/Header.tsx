@@ -1,11 +1,10 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../../Images/logo.png"
 import { Search, AccountCircle, ShoppingCart } from "@mui/icons-material";
 
-const Header: React.FC = () => {
+const Header = () => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light" style={{ zIndex: 1 }}>
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
                     <img src={logo} alt="Logo" width="30" height="30" />
