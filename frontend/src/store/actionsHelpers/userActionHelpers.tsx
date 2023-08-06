@@ -58,6 +58,7 @@ type LoginData = {
     email: string;
     password: string;
     name: string;
+    createdAt: string
     avatar?: (File | null) | undefined
 };
 
@@ -78,7 +79,7 @@ type UpdatePassword = {
     confirmPassword: string
 }
 
-// Login
+// Login User
 export const login = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(loginRequest());
@@ -97,7 +98,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
     }
 };
 
-// Register
+// Register User
 export const register = (loginData: LoginData) => async (dispatch: Dispatch) => {
     const myForm = new FormData();
     myForm.set("name", loginData.name);
@@ -106,16 +107,13 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
     if (loginData?.avatar instanceof File) {
         myForm.set("avatar", loginData?.avatar);
     }
-    console.log("refgister avatar", loginData?.avatar);
 
     try {
         dispatch(registerUserRequest());
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
         const { data } = await axios.post(`/api/v1/register`, myForm, config);
-        alert(3)
         dispatch(registerUserSuccess(data));
-        alert(4)
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
@@ -130,7 +128,7 @@ export const loadUser = () => async (dispatch: Dispatch) => {
 
         const { data } = await axios.get(`/api/v1/me`);
 
-        dispatch(loadUserSuccess(data));
+        dispatch(loadUserSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

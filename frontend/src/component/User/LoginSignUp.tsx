@@ -9,6 +9,7 @@ import Loader from "../layout/Loader/Loader";
 import { RootState, useAppDispatch } from "../../store/store";
 import { login, register, clearAllErrors } from "../../store/actionsHelpers/userActionHelpers";
 import "./LoginSignUp.css";
+import { isDevelopmentServer } from "../../constants";
 
 interface UserFormData {
   name: string;
@@ -16,6 +17,11 @@ interface UserFormData {
   password: string;
   avatar: (File | null) | undefined;
 }
+
+const samppleName = isDevelopmentServer ? "example1" : ''
+const sampleEmail = isDevelopmentServer ? "example1@example.com" : ''
+const samplePassword = isDevelopmentServer ? "example1@123" : ''
+
 
 const LoginSignUp: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,12 +35,12 @@ const LoginSignUp: React.FC = () => {
   const registerTab = useRef<HTMLFormElement | null>(null);
   const switcherTab = useRef<HTMLButtonElement | null>(null);
 
-  const [loginEmail, setLoginEmail] = useState<string>("piyushprateek231996@gmail.com");
-  const [loginPassword, setLoginPassword] = useState<string>("sample@1234");
+  const [loginEmail, setLoginEmail] = useState<string>(sampleEmail);
+  const [loginPassword, setLoginPassword] = useState<string>(samplePassword);
   const [user, setUser] = useState<UserFormData>({
-    name: "example",
-    email: "example1@example.com",
-    password: "examaple@123",
+    name: samppleName,
+    email: sampleEmail,
+    password: samplePassword,
     avatar: null,
   });
 
@@ -50,7 +56,9 @@ const LoginSignUp: React.FC = () => {
 
   const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(register({ name, email, password, avatar }));
+    dispatch(register({
+      name, email, password, avatar, createdAt: ""
+    }));
   };
 
   const registerDataChange = (e: ChangeEvent<HTMLInputElement>) => {

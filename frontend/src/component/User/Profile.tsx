@@ -10,12 +10,15 @@ const Profile = () => {
 
   const userProfile = useSelector((state: RootState) => state.user)
   const { loading, isAuthenticated, user } = userProfile
+
   const navigate = useNavigate()
+
   useEffect(() => {
     if (isAuthenticated === false) {
       navigate("/login");
     }
   }, [navigate, isAuthenticated]);
+
   return (
     <Fragment>
       {loading ? (
@@ -40,7 +43,12 @@ const Profile = () => {
               </div>
               <div>
                 <h4>Joined On</h4>
-                <p>{String(user?.createdAt).substr(0, 10)}</p>
+                {/* <p>{String(user?.createdAt).substr(0, 10)}</p> */}
+
+                {/* <p>{user?.createdAt ? String(user.createdAt).substr(0, 10) : ''}</p> */}
+
+                <p>{user?.createdAt ? String(user.createdAt).slice(0, 10) : ''}</p>
+
               </div>
 
               <div>

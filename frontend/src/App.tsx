@@ -16,6 +16,7 @@ import LoginSignUp from './component/User/LoginSignUp.tsx';
 import store, { RootState } from './store/store.ts';
 import { loadUser } from './store/actionsHelpers/userActionHelpers.tsx';
 import UserOptions from './component/layout/Header/UserOptions.tsx';
+import Profile from './component/User/Profile.tsx';
 
 const App = () => {
 
@@ -46,6 +47,8 @@ const App = () => {
         <Route path="/products/:keyword" Component={Products} />
 
         <Route path="/search" Component={Search} />
+        <Route path="/account" Component={Profile} />
+
         <Route path="/login" Component={LoginSignUp} />
 
       </Routes>
