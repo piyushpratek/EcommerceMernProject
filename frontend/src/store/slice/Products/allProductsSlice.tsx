@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductsState, Product } from "../../../types/productTypes";
 
 // PayloadType.ts
-interface PayloadType {
+interface AllProducts {
     products: Product[];
     productsCount: number;
     resultPerPage: number;
@@ -26,7 +26,7 @@ const productsSlice = createSlice({
         allProductRequest: (state) => {
             state.loading = true;
         },
-        allProductSuccess: (state, action: PayloadAction<PayloadType>) => {
+        allProductSuccess: (state, action: PayloadAction<AllProducts>) => {
             state.loading = false;
             state.products = action.payload.products;
             state.productsCount = action.payload.productsCount;

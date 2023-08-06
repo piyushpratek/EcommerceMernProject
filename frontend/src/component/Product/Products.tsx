@@ -53,7 +53,6 @@ const Products = () => {
             setPrice(newPrice as [number, number]);
         }
     };
-    const count = filteredProductsCount;
 
     useEffect(() => {
         if (error) {
@@ -116,7 +115,7 @@ const Products = () => {
                             />
                         </fieldset>
                     </div>
-                    {resultPerPage < count && (
+                    {resultPerPage < filteredProductsCount && (
                         <div className="paginationBox">
                             <Pagination
                                 count={Math.ceil(productsCount / resultPerPage)} // Calculate the total number of pages based on the total items count and items per page

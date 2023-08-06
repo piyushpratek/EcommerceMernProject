@@ -20,9 +20,12 @@ export const getAllProducts = catchAsyncErrors(async (req: Request, res: Respons
     const resultPerPage = 8
     const productsCount = await Product.countDocuments()
     const apiFeature = new ApiFeatures(Product.find(), req.query as any).search().filter()
-    const products = await apiFeature.query
+    let products = await apiFeature.query
     const filteredProductsCount = products.length
     apiFeature.pagination(resultPerPage)
+    // we are using clone() to reexecute the query otherwise mongoose throw error : query was already executed
+    products = await apiFeature.query.clone()
+
     res.status(HttpStatus.OK).json({
         success: true,
         products,

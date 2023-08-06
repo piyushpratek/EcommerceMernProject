@@ -18,7 +18,6 @@ import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
 
 const App = () => {
-
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
 
   const rx = useAppSelector((state) => state);

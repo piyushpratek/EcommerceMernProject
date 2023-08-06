@@ -84,7 +84,7 @@ const LoginSignUp: React.FC = () => {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      console.error("==== Ecommerce Project Error ===", error);
       dispatch(clearAllErrors());
     }
 

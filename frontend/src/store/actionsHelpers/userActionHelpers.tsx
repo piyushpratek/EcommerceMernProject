@@ -90,7 +90,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
             config
         );
 
-        dispatch(loginSuccess(data));
+        dispatch(loginSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
@@ -113,7 +113,8 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
         const { data } = await axios.post(`/api/v1/register`, myForm, config);
-        dispatch(registerUserSuccess(data));
+
+        dispatch(registerUserSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
