@@ -10,7 +10,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
 
-const Home: React.FC = () => {
+const Home = () => {
     const dispatch = useAppDispatch()
     const product = useAppSelector((state) => state.products)
     const { loading, error, products } = product

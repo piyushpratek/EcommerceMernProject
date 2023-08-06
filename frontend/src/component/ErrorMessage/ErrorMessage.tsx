@@ -5,7 +5,7 @@ interface ErrorMessageProps {
   error: string | null;
 }
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ error }) => {
+const ErrorMessage = ({ error }: ErrorMessageProps) => {
   const options = {
     anchorOrigin: { vertical: "bottom", horizontal: "center" } as const,
     autoHideDuration: 5000,

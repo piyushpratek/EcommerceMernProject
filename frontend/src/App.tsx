@@ -16,6 +16,7 @@ import store, { useAppSelector } from './store/store.ts';
 import { loadUser } from './store/actionsHelpers/userActionHelpers.tsx';
 import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
+import ProtectedRoute from './component/Route/ProtectedRoute.tsx';
 
 const App = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
@@ -39,15 +40,16 @@ const App = () => {
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
 
-        <Route path="/" Component={Home} />
-        <Route path="/product/:id" Component={ProductDetails} />
-        <Route path="/products" Component={Products} />
-        <Route path="/products/:keyword" Component={Products} />
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/products/:keyword" element={<Products />} />
 
-        <Route path="/search" Component={Search} />
-        <Route path="/account" Component={Profile} />
+        <Route path="/search" element={<Search />} />
 
-        <Route path="/login" Component={LoginSignUp} />
+        <ProtectedRoute path="/account" element={<Profile />} />
+
+        <Route path="/login" element={<LoginSignUp />} />
 
       </Routes>
       <Footer />

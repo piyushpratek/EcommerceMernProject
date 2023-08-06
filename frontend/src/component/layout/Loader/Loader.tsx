@@ -1,6 +1,6 @@
 import "./Loader.css";
 
-const Loader: React.FC = () => {
+const Loader = () => {
   return (
     <div className="loading">
       <div></div>

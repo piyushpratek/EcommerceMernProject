@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
 
-const UpdateProfile: React.FC = () => {
+const UpdateProfile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const alert = useAlert();

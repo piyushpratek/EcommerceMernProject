@@ -22,7 +22,7 @@ const sampleEmail = isDevelopmentServer ? "example1@example.com" : ''
 const samplePassword = isDevelopmentServer ? "example1@123" : ''
 
 
-const LoginSignUp: React.FC = () => {
+const LoginSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
