@@ -1,14 +1,13 @@
 import { Fragment, useEffect } from "react";
-import { useSelector } from "react-redux";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import "./Profile.css";
-import { RootState } from "../../store/store";
+import { useAppSelector } from "../../store/store";
 
 const Profile = () => {
 
-  const userProfile = useSelector((state: RootState) => state.user)
+  const userProfile = useAppSelector((state) => state.user)
   const { loading, isAuthenticated, user } = userProfile
 
   const navigate = useNavigate()

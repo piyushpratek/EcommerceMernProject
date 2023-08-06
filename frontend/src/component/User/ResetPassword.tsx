@@ -1,20 +1,17 @@
 import { Fragment, useState, useEffect } from "react";
 import "./ResetPassword.css";
 import Loader from "../layout/Loader/Loader";
-import { useSelector } from "react-redux";
 import { Alert, Snackbar } from '@mui/material';
 import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import { clearAllErrors, resetPassword } from "../../store/actionsHelpers/userActionHelpers";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 
 const ResetPassword = ({ match }) => {
   const dispatch = useAppDispatch();
-  const { error, success, loading } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { error, success, loading } = useAppSelector((state) => state.user);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

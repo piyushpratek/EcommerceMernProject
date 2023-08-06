@@ -1,12 +1,11 @@
 import React, { Fragment, useRef, useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { useSelector } from "react-redux";
 import { Alert, Snackbar } from '@mui/material';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face";
 import Loader from "../layout/Loader/Loader";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { login, register, clearAllErrors } from "../../store/actionsHelpers/userActionHelpers";
 import "./LoginSignUp.css";
 import { isDevelopmentServer } from "../../constants";
@@ -28,7 +27,7 @@ const LoginSignUp: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const users = useSelector((state: RootState) => state.user);
+  const users = useAppSelector((state) => state.user);
   const { loading, error, isAuthenticated } = users;
 
   const loginTab = useRef<HTMLFormElement | null>(null);

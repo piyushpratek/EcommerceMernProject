@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
 import "./Products.css";
-import { useSelector } from "react-redux";
 import Loader from "../layout/Loader/Loader";
 import ProductCard from "../Home/ProductCard";
 import MetaData from "../layout/MetaData";
@@ -8,7 +7,7 @@ import { Typography, Slider, Pagination } from "@mui/material";
 import { getProducts, clearAllErrors } from "../../store/actionsHelpers/productActionHelpers";
 import { useParams } from "react-router-dom";
 import { Alert, Snackbar } from '@mui/material';
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 const categories = [
     "Laptop",
@@ -29,7 +28,7 @@ const Products = () => {
     const [price, setPrice] = useState<[number, number] | undefined>([0, 25000]);
     const [category, setCategory] = useState<string>("");
     const [ratings, setRatings] = useState<number>(0);
-    const allProducts = useSelector((state: RootState) => state.products)
+    const allProducts = useAppSelector((state) => state.products)
     const {
         products,
         loading,

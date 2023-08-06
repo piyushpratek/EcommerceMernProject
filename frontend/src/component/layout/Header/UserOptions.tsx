@@ -1,6 +1,5 @@
 import { Fragment, useState } from "react";
 import "./Header.css";
-import { useSelector } from "react-redux";
 import { Alert, Snackbar } from "@mui/material";
 import { logout } from "../../../store/actionsHelpers/userActionHelpers";
 import { SpeedDial, SpeedDialAction } from "@mui/material";
@@ -10,11 +9,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { RootState, useAppDispatch } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
 
 const UserOptions = ({ user }) => {
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { cartItems } = useAppSelector((state) => state.cart);
 
   const [logoutSuccess, setLogoutSuccess] = useState(false);
 

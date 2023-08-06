@@ -1,14 +1,13 @@
 import { Fragment, useState, useEffect } from "react";
 import "./UpdatePassword.css";
 import Loader from "../layout/Loader/Loader";
-import { useSelector } from "react-redux";
 import { clearAllErrors, updatePassword } from "../../store/actionsHelpers/userActionHelpers";
 import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import { updatePasswordReset } from "../../store/slice/userSlice";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
 
@@ -16,9 +15,7 @@ const UpdatePassword = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { error, isUpdated, loading } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { error, isUpdated, loading } = useAppSelector((state) => state.user);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

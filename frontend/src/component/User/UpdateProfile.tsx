@@ -3,12 +3,11 @@ import "./UpdateProfile.css";
 import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FaceIcon from "@mui/icons-material/Face";
-import { useSelector } from "react-redux";
 import { clearAllErrors, updateProfile, loadUser } from "../../store/actionsHelpers/userActionHelpers";
 import { useAlert } from "react-alert";
 import { updateProfileReset } from "../../store/slice/userSlice";
 import MetaData from "../layout/MetaData";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
 
@@ -17,8 +16,8 @@ const UpdateProfile: React.FC = () => {
   const navigate = useNavigate();
   const alert = useAlert();
 
-  const { user } = useSelector((state: RootState) => state.user);
-  const { error, isUpdated, loading } = useSelector((state: RootState) => state.user);
+  const { user } = useAppSelector((state) => state.user);
+  const { error, isUpdated, loading } = useAppSelector((state) => state.user);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,10 +26,7 @@ const UpdateProfile: React.FC = () => {
 
   const updateProfileSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateProfile({
-      name, email, avatar,
-      password: "dummy"
-    }));
+    dispatch(updateProfile({ name, email, avatar }));
   };
 
   const updateProfileDataChange = (e: ChangeEvent<HTMLInputElement>) => {

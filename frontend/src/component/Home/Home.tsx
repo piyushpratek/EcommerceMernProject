@@ -4,8 +4,7 @@ import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
 import MetaData from '../layout/MetaData';
 import { getProducts, clearAllErrors } from '../../store/actionsHelpers/productActionHelpers';
-import { RootState, useAppDispatch } from '../../store/store';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import Loader from '../layout/Loader/Loader';
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -13,7 +12,7 @@ import Alert from "@mui/material/Alert";
 
 const Home: React.FC = () => {
     const dispatch = useAppDispatch()
-    const product = useSelector((state: RootState) => state.products)
+    const product = useAppSelector((state) => state.products)
     const { loading, error, products } = product
     const [open, setOpen] = React.useState(!!error);
 

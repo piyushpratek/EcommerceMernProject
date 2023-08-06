@@ -149,19 +149,18 @@ export const logout = () => async (dispatch: Dispatch) => {
     }
 };
 
+// Remove `passsword` and `createdAt` form the `LoginData` type
+type UpdateProfileDataType = Omit<LoginData, 'password' | 'createdAt'>
+
 // Update Profile
-export const updateProfile = (userData: LoginData) => async (dispatch: Dispatch) => {
+export const updateProfile = (userData: UpdateProfileDataType) => async (dispatch: Dispatch) => {
     const myForm = new FormData();
 
     myForm.set("name", userData?.name);
     myForm.set("email", userData?.email);
-    // myForm.set("avatar", userData?.avatar);
-    // Check if avatar is a Blob or an object with url
+
     if (userData?.avatar instanceof Blob) {
         myForm.set("avatar", userData?.avatar);
-    } else if (userData?.avatar === null) {
-        // Treat null as undefined for the avatar property
-        myForm.delete("avatar");
     }
     try {
         dispatch(updateProfileRequest());

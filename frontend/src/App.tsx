@@ -8,21 +8,20 @@ import Footer from './component/layout/Footer/Footer.tsx';
 import { Route, Routes } from 'react-router-dom';
 import Home from './component/Home/Home.tsx';
 import ProductDetails from './component/Product/ProductDetails.tsx';
-import { useSelector } from 'react-redux';
 import Products from './component/Product/Products.tsx';
 import Search from './component/Product/Search.tsx';
 import "./App.css"
 import LoginSignUp from './component/User/LoginSignUp.tsx';
-import store, { RootState } from './store/store.ts';
+import store, { useAppSelector } from './store/store.ts';
 import { loadUser } from './store/actionsHelpers/userActionHelpers.tsx';
 import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
 
 const App = () => {
 
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.user);
+  const { isAuthenticated, user } = useAppSelector((state) => state.user);
 
-  const rx = useSelector((state) => state);
+  const rx = useAppSelector((state) => state);
   Object.assign(window, { rx });
   Object.assign(window, { rxs: JSON.stringify(rx) });
 

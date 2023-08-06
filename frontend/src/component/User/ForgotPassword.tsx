@@ -2,18 +2,15 @@ import { Fragment, useState, useEffect } from "react";
 import "./ForgotPassword.css";
 import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import { useSelector } from "react-redux";
 import { clearAllErrors, forgotPassword } from "../../store/actionsHelpers/userActionHelpers";
 import { Alert, Snackbar } from '@mui/material';
 import MetaData from "../layout/MetaData";
-import { RootState, useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 
 const ForgotPassword = () => {
   const dispatch = useAppDispatch();
 
-  const { error, message, loading } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { error, message, loading } = useAppSelector((state) => state.user);
 
   const [email, setEmail] = useState("");
   const [open, setOpen] = useState(false);
