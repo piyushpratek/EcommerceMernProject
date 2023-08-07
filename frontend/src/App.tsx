@@ -47,7 +47,21 @@ const App = () => {
 
         <Route path="/search" element={<Search />} />
 
-        <ProtectedRoute path="/account" element={<Profile />} />
+        {/* <ProtectedRoute path="/account" component={<Profile />} /> */}
+
+        <Route path="/account" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <Profile />
+          </ProtectedRoute>
+        }
+        />
+        {/* example protected route */}
+        {/* <Route path="/abcd" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <ABCD />
+          </ProtectedRoute>
+        }
+        /> */}
 
         <Route path="/login" element={<LoginSignUp />} />
 

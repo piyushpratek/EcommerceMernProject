@@ -1,34 +1,19 @@
-import React, { Fragment } from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../../store/store";
+import Loader from "../layout/Loader/Loader";
 
-interface ProtectedRouteProps {
-  isAdmin?: boolean;
-  element: React.ReactNode;
-  path: string;
-}
-
-const ProtectedRoute = ({ isAdmin = false, element: Element, ...rest }: ProtectedRouteProps) => {
+const ProtectedRoute = ({ isAdminOnlyRoute, children }) => {
   const { loading, isAuthenticated, user } = useAppSelector((state) => state.user);
 
-  return (
-    <Fragment>
-      {loading === false && (
-        <Route
-          {...rest}
-          element={
-            isAuthenticated === false ? (
-              <  Navigate to="/login" replace={true} />
-            ) : isAdmin && user?.role !== "admin" ? (
-              <  Navigate to="/login" replace={true} />
-            ) : (
-              Element
-            )
-          }
-        />
-      )}
-    </Fragment>
-  );
+  if (loading) { return <Loader />; }
+
+  if (!isAuthenticated) { return <Navigate to="/login" />; }
+
+  if (isAdminOnlyRoute && user?.role !== "admin") {
+    return <div>You are Not Admin So dashboard Cannot be accessed</div>
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
