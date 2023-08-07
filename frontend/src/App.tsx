@@ -47,8 +47,6 @@ const App = () => {
 
         <Route path="/search" element={<Search />} />
 
-        {/* <ProtectedRoute path="/account" component={<Profile />} /> */}
-
         <Route path="/account" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <Profile />
