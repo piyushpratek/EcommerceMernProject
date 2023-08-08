@@ -1,23 +1,27 @@
-import React, { Fragment, useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { Fragment, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import "./UpdateProfile.css";
 import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FaceIcon from "@mui/icons-material/Face";
-import { clearAllErrors, updateProfile, loadUser } from "../../store/actionsHelpers/userActionHelpers";
-import { useAlert } from "react-alert";
+import {
+  clearAllErrors,
+  updateProfile,
+  loadUser
+} from "../../store/actionsHelpers/userActionHelpers";
 import { updateProfileReset } from "../../store/slice/userSlice";
 import MetaData from "../layout/MetaData";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-
+import { Alert, Snackbar } from '@mui/material';
 
 const UpdateProfile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const alert = useAlert();
 
   const { user } = useAppSelector((state) => state.user);
-  const { error, isUpdated, loading } = useAppSelector((state) => state.user);
+  const { error, isUpdated, loading } = useAppSelector(
+    (state) => state.user
+  );
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,19 +59,19 @@ const UpdateProfile = () => {
     }
 
     if (error) {
-      alert.error(error);
+      <Alert severity="error">{error}</Alert>
       dispatch(clearAllErrors());
     }
 
     if (isUpdated) {
-      alert.success("Profile Updated Successfully");
+      <Alert severity="success">Profile Updated Successfully</Alert>
       dispatch(loadUser());
 
       navigate("/account");
 
       dispatch(updateProfileReset());
     }
-  }, [dispatch, error, alert, navigate, user, isUpdated]);
+  }, [dispatch, error, navigate, user, isUpdated]);
 
   return (
     <Fragment>
@@ -125,6 +129,13 @@ const UpdateProfile = () => {
               </form>
             </div>
           </div>
+
+          <Snackbar open={!!error || isUpdated} autoHideDuration={6000} onClose={() => dispatch(clearAllErrors())}>
+
+            <Alert onClose={() => dispatch(clearAllErrors())} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
+              {error ? error : "Profile Updated Successfully"}
+            </Alert>
+          </Snackbar>
         </Fragment>
       )}
     </Fragment>

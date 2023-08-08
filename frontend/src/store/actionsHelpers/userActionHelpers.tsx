@@ -156,21 +156,16 @@ type UpdateProfileDataType = Omit<LoginData, 'password' | 'createdAt'>
 // Update Profile
 export const updateProfile = (userData: UpdateProfileDataType) => async (dispatch: Dispatch) => {
     const myForm = new FormData();
-
     myForm.set("name", userData?.name);
     myForm.set("email", userData?.email);
-
     if (userData?.avatar instanceof Blob) {
         myForm.set("avatar", userData?.avatar);
     }
     try {
         dispatch(updateProfileRequest());
-
         const config = { headers: { "Content-Type": "multipart/form-data" } };
-
         const { data } = await axios.put(`/api/v1/me/update`, myForm, config);
-
-        dispatch(updateProfileSuccess(data));
+        dispatch(updateProfileSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

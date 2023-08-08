@@ -17,6 +17,7 @@ import { loadUser } from './store/actionsHelpers/userActionHelpers.tsx';
 import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
 import ProtectedRoute from './component/Route/ProtectedRoute.tsx';
+import UpdateProfile from './component/User/UpdateProfile.tsx';
 
 const App = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
@@ -50,6 +51,13 @@ const App = () => {
         <Route path="/account" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <Profile />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/me/update" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <UpdateProfile />
           </ProtectedRoute>
         }
         />

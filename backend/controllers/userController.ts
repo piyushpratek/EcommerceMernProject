@@ -35,10 +35,6 @@ export const loginUser = catchAsyncErrors(async (req: Request, res: Response, ne
 
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  // Docs - https://cloudinary.com/blog/guest_post/how-to-parse-media-files-with-multer
-
-  console.log(1, req.file)
-
   if (req.file == null) {
     throw new Error('Please send a file in the `avatar` field.')
   }
@@ -51,18 +47,6 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
   })
 
   fs.unlinkSync(req.file.path)
-  // if (req.file == null || typeof req.file === 'undefined') { throw new Error('Please send file in `avatar` field.') }
-
-  // TEMporary
-  // const b64 = Buffer.from(req.file.buffer).toString('base64')
-  // const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64
-
-  // const myCloud = await cloudinary.v2.uploader.upload(dataURI, {
-  //   // folder: 'avatars',
-  //   // width: 150,
-  //   // crop: 'scale',
-  //   resource_type: 'auto',
-  // })
 
   const { name, email, password } = req.body as UserDocument
   const user = await User.create({
@@ -203,36 +187,33 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
 // Update User Profile
 export const updateProfile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const newUserData = {
-    name: req.body.name,
-    email: req.body.email,
+    name: req?.body?.name,
+    email: req?.body?.email,
+    avatar: req?.body?.avatar
   }
-  // we will add clodinary later
+  if (req.body.avatar !== '') {
+    const user = await User.findById((req as any).user.id)
 
-  // if (req.body.avatar !== '') {
-  //   const user = await User.findById((req as any).user.id)
+    const imageId = (user as any)?.avatar?.public_id
 
-  //   const imageId = (user as any).avatar.public_id
+    await cloudinary.v2.uploader.destroy(imageId)
 
-  //   await cloudinary.v2.uploader.destroy(imageId)
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    })
 
-  //   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  //     folder: 'avatars',
-  //     width: 150,
-  //     crop: 'scale',
-  //   })
-
-  //   newUserData.avatar = {
-  //     public_id: myCloud.public_id,
-  //     url: myCloud.secure_url,
-  //   }
-  // }
-
+    newUserData.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    }
+  }
   const user = await User.findByIdAndUpdate((req as any).user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
   })
-
   res.status(HttpStatus.OK).json({
     success: true,
     user
