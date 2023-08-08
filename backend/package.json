@@ -6,6 +6,7 @@
     "start": "node ./dist/server.js",
     "start:dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only --clear ./server.ts",
     "start:prod": "cross-env NODE_ENV=production ts-node-dev --respawn --transpile-only --clear ./server.ts",
+    "start:prod:debug": "cross-env NODE_ENV=production ts-node-dev --respawn --transpile-only --clear --inspect -- ./server.ts",
     "lint": "eslint . --max-warnings=0",
     "lint-fix": "eslint . --fix"
   },

@@ -186,30 +186,33 @@ export const updatePassword = catchAsyncErrors(async (req: Request, res: Respons
 
 // Update User Profile
 export const updateProfile = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  const newUserData = {
+  const newUserData: Partial<UserDocument> = {
     name: req?.body?.name,
     email: req?.body?.email,
-    avatar: req?.body?.avatar
   }
-  if (req.body.avatar !== '') {
-    const user = await User.findById((req as any).user.id)
 
-    const imageId = (user as any)?.avatar?.public_id
+  let user = await User.findById((req as any).user.id)
 
+  const imageId = user?.avatar?.public_id
+  if (imageId != null) {
     await cloudinary.v2.uploader.destroy(imageId)
+  }
 
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  if (req.file != null) {
+    const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
       folder: 'avatars',
       width: 150,
       crop: 'scale',
+      resource_type: 'auto',
     })
-
+    fs.unlinkSync(req.file.path)
     newUserData.avatar = {
       public_id: myCloud.public_id,
       url: myCloud.secure_url,
     }
   }
-  const user = await User.findByIdAndUpdate((req as any).user.id, newUserData, {
+
+  user = await User.findByIdAndUpdate((req as any).user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,

@@ -32,7 +32,7 @@ router.route('/me').get(isAuthenticatedUser, getUserDetails)
 
 router.route('/password/update').put(isAuthenticatedUser, updatePassword)
 
-router.route('/me/update').put(isAuthenticatedUser, updateProfile)
+router.route('/me/update').put(uploadMulter.single('avatar'), isAuthenticatedUser, updateProfile)
 
 router
   .route('/admin/users')

@@ -193,7 +193,7 @@ export const updatePassword = (updatePassword: UpdatePassword) => async (dispatc
             config
         );
 
-        dispatch(updatePasswordSuccess(data));
+        dispatch(updatePasswordSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
