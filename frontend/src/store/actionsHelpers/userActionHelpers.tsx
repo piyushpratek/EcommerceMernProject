@@ -104,8 +104,12 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
     myForm.set("name", loginData.name);
     myForm.set("email", loginData.email);
     myForm.set("password", loginData.password);
-    if (loginData?.avatar instanceof File) {
-        myForm.set("avatar", loginData?.avatar);
+
+    const userHasUploadedAvatarImage = loginData?.avatar instanceof File
+    if (userHasUploadedAvatarImage) {
+        myForm.set("avatar", loginData?.avatar as any);
+    } {
+        myForm.set("avatar_default_url", '/Profile.png'); // set default avatar iamge
     }
 
     try {

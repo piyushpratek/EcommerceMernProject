@@ -20,7 +20,7 @@ export const loginUser = catchAsyncErrors(async (req: Request, res: Response, ne
 
   const user = await User.findOne({ email }).select('+password')
 
-  if (user == null) {
+  if (!user) {
     next(new ErrorHandler('Invalid email or password', HttpStatus.UNAUTHORIZED)); return
   }
 
@@ -35,27 +35,32 @@ export const loginUser = catchAsyncErrors(async (req: Request, res: Response, ne
 
 // Register a User
 export const registerUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
-  if (req.file == null) {
-    throw new Error('Please send a file in the `avatar` field.')
+  const userHasUploadedAvatarImage = req.file
+
+  let myCloud
+  if (userHasUploadedAvatarImage) {
+    const file = req.file as any // type `any` is necessary to fix eslint error
+    myCloud = await cloudinary.v2.uploader.upload(file.path, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+      resource_type: 'auto',
+    })
+    fs.unlinkSync(file.path)
   }
 
-  const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
-    folder: 'avatars',
-    width: 150,
-    crop: 'scale',
-    resource_type: 'auto',
-  })
-
-  fs.unlinkSync(req.file.path)
-
   const { name, email, password } = req.body as UserDocument
+  const avatarDefaultUrl = req.body.avatar_default_url
+  if (!avatarDefaultUrl) { throw new Error('Please send `avatar_default_url` if you do not want to upload an image.') }
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
+      // NOTE: If user has provided both uploaded_image + has provided avatar url,
+      // then uploaded image will be updated in database.
+      public_id: userHasUploadedAvatarImage ? myCloud?.public_id : 'default_id',
+      url: userHasUploadedAvatarImage ? myCloud?.secure_url : avatarDefaultUrl,
     },
   })
   sendToken(user, HttpStatus.CREATED, res)
@@ -78,7 +83,7 @@ export const logout = catchAsyncErrors(async (req: Request, res: Response, next:
 export const forgotPassword = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.findOne({ email: req.body.email })
 
-  if (user == null) {
+  if (!user) {
     next(new ErrorHandler('User not found', HttpStatus.NOT_FOUND)); return
   }
   // get resetpassword token
@@ -91,7 +96,7 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
   const protocol = req.protocol
   const host = req.get('host')
   let resetPasswordUrl = ''
-  if ((protocol !== '') && (host != null)) {
+  if ((protocol !== '') && host) {
     resetPasswordUrl = `${protocol}://${host}/password/reset/${resetToken}`
   } else {
     logger.info("Missing 'protocol' or 'host' in the request headers.")
@@ -134,7 +139,7 @@ export const resetPassword = catchAsyncErrors(async (req: Request, res: Response
     resetPasswordExpire: { $gt: Date.now() },
   })
 
-  if (user == null) {
+  if (!user) {
     next(
       new ErrorHandler('Reset Password Token is invalid or has been expired', HttpStatus.BAD_REQUEST)
     ); return
@@ -194,11 +199,11 @@ export const updateProfile = catchAsyncErrors(async (req: Request, res: Response
   let user = await User.findById((req as any).user.id)
 
   const imageId = user?.avatar?.public_id
-  if (imageId != null) {
+  if (imageId) {
     await cloudinary.v2.uploader.destroy(imageId)
   }
 
-  if (req.file != null) {
+  if (req.file) {
     const myCloud = await cloudinary.v2.uploader.upload(req.file.path, {
       folder: 'avatars',
       width: 150,
@@ -237,7 +242,7 @@ export const getAllUser = catchAsyncErrors(async (req: Request, res: Response, n
 export const getSingleUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.findById(req.params.id)
 
-  if (user == null) {
+  if (!user) {
     next(
       new ErrorHandler(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
     ); return
@@ -272,7 +277,7 @@ export const updateUserRole = catchAsyncErrors(async (req: Request, res: Respons
 export const deleteUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   const user = await User.findById(req.params.id)
 
-  if (user == null) {
+  if (!user) {
     next(
       new ErrorHandler(`User does not exist with Id: ${req.params.id}`, HttpStatus.BAD_REQUEST)
     ); return

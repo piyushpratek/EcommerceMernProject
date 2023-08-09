@@ -45,7 +45,7 @@ export const getSingleOrder = catchAsyncErrors(async (req: Request, res: Respons
         'name email'
     )
 
-    if (order == null) {
+    if (!order) {
         next(new ErrorHandler('Order not found with this Id', HttpStatus.NOT_FOUND)); return
     }
 
@@ -86,7 +86,7 @@ export const getAllOrders = catchAsyncErrors(async (req: Request, res: Response,
 export const updateOrder = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findById(req.params.id)
 
-    if (order == null) {
+    if (!order) {
         next(new ErrorHandler('Order not found with this Id', HttpStatus.NOT_FOUND)); return
     }
 
@@ -114,7 +114,7 @@ export const updateOrder = catchAsyncErrors(async (req: Request, res: Response, 
 async function updateStock(id: mongoose.Schema.Types.ObjectId, quantity: number): Promise<void> {
     const product = await Product.findById(id)
 
-    if (product == null) {
+    if (!product) {
         throw new ErrorHandler('Product not found with this Id', HttpStatus.NOT_FOUND)
     }
 
@@ -127,7 +127,7 @@ async function updateStock(id: mongoose.Schema.Types.ObjectId, quantity: number)
 export const deleteOrder = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findById(req.params.id)
 
-    if (order == null) {
+    if (!order) {
         next(new ErrorHandler('Order not found with this Id', HttpStatus.NOT_FOUND)); return
     }
 

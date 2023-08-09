@@ -1,12 +1,11 @@
-
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: "tsconfig.json",
+    project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
-    sourceType: "module",
+    sourceType: 'module',
   },
-  plugins: ["@typescript-eslint/eslint-plugin"],
+  plugins: ['@typescript-eslint/eslint-plugin'],
   env: {
     sourceType: 'module',
     project: 'tsconfig.json',
@@ -23,7 +22,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  ignorePatterns: [".eslintrc.js"],
+  ignorePatterns: ['.eslintrc.js'],
   rules: {
     'no-unused-vars': 'warn',
     'comma-dangle': 'off',
@@ -44,7 +43,7 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
     '@typescript-eslint/require-await': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off', // Good rule
   },
   overrides: [],
-}
-
+};

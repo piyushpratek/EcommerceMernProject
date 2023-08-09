@@ -49,7 +49,7 @@ export const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
 export const getProductDetails = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id)
 
-    if (product == null) {
+    if (!product) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
     }
     res.status(HttpStatus.OK).json({
@@ -61,7 +61,7 @@ export const getProductDetails = catchAsyncErrors(async (req: Request, res: Resp
 // update Product -- Admin
 export const updateProduct = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     let product = await Product.findById(req.params.id)
-    if (product == null) {
+    if (!product) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
     }
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -79,7 +79,7 @@ export const updateProduct = catchAsyncErrors(async (req: Request, res: Response
 export const deleteProduct = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id)
 
-    if (product == null) {
+    if (!product) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
     }
     await product.deleteOne()
@@ -111,7 +111,7 @@ export const createProductReview = catchAsyncErrors(async (req: Request, res: Re
 
     const product = await Product.findById(productId)
 
-    if (product == null) {
+    if (!product) {
         return res.status(HttpStatus.NOT_FOUND).json({
             success: false,
             message: 'Product not found',
@@ -122,7 +122,7 @@ export const createProductReview = catchAsyncErrors(async (req: Request, res: Re
         (rev) => (rev as any).user.toString() === (req as any).user._id.toString()
     )
 
-    if (isReviewed != null) {
+    if (isReviewed) {
         product?.reviews.forEach((rev) => {
             if ((rev as any).user.toString() === (req as any).user._id.toString()) {
                 rev.rating = rating
@@ -153,7 +153,7 @@ export const createProductReview = catchAsyncErrors(async (req: Request, res: Re
 export const getProductReviews = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.query.id)
 
-    if (product == null) {
+    if (!product) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
     }
 
@@ -167,7 +167,7 @@ export const getProductReviews = catchAsyncErrors(async (req: Request, res: Resp
 export const deleteReview = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.query.productId)
 
-    if (product == null) {
+    if (!product) {
         next(new ErrorHandler('Product not found', HttpStatus.NOT_FOUND)); return
     }
 
