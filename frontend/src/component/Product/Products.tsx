@@ -29,6 +29,7 @@ const Products = () => {
     const [category, setCategory] = useState<string>("");
     const [ratings, setRatings] = useState<number>(0);
     const allProducts = useAppSelector((state) => state.products)
+
     const {
         products,
         loading,
