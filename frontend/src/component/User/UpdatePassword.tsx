@@ -26,6 +26,8 @@ const UpdatePassword = () => {
     setOpen(false);
   };
 
+  console.log('pass?', oldPassword, newPassword, confirmPassword)
+
   const updatePasswordSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(
@@ -33,7 +35,6 @@ const UpdatePassword = () => {
         oldPassword,
         newPassword,
         confirmPassword,
-        passwords: "",
       })
     );
     setOpen(true);
@@ -108,6 +109,7 @@ const UpdatePassword = () => {
               </form>
             </div>
           </div>
+          {/* //TODO --fix this later-- onfailed attemp password we get "Profile Updated Successfully"  */}
           <Snackbar
             open={open}
             autoHideDuration={5000}

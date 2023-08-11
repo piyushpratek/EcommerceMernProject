@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     setOpen(false);
   };
 
-  const forgotPasswordSubmit = (e) => {
+  const forgotPasswordSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(forgotPassword({ email }));
     setOpen(true);

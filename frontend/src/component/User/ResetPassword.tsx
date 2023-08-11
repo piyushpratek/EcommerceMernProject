@@ -7,10 +7,12 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import { clearAllErrors, resetPassword } from "../../store/actionsHelpers/userActionHelpers";
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useParams } from "react-router-dom";
 
 
-const ResetPassword = ({ match }) => {
+const ResetPassword = () => {
   const dispatch = useAppDispatch();
+  const params = useParams()
   const { error, success, loading } = useAppSelector((state) => state.user);
 
   const [password, setPassword] = useState("");
@@ -21,10 +23,34 @@ const ResetPassword = ({ match }) => {
     setOpen(false);
   };
 
+  interface ResetPassword {
+    token: string;
+    password: string;
+    confirmPassword: string;
+    passwords: string
+
+  }
   const resetPasswordSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    dispatch(resetPassword(match?.params?.token));
-    setOpen(true);
+
+    //   dispatch(resetPassword(params?.token));
+    //   setOpen(true);
+    // };
+    if (params?.token) {
+      const resetPasswordData: ResetPassword = {
+        token: params.token,
+        password: 'newPassword',
+        confirmPassword: 'newPassword',
+        passwords: ""
+
+      }
+      dispatch(resetPassword(resetPasswordData));
+      setOpen(true);
+    } else {
+
+      console.error("Token is missing.");
+
+    }
   };
 
   useEffect(() => {

@@ -64,6 +64,7 @@ type LoginData = {
 
 type ForgotPassword = {
     email: string
+
 }
 
 type ResetPasword = {
@@ -73,10 +74,9 @@ type ResetPasword = {
     confirmPassword: string
 }
 type UpdatePassword = {
-    passwords: string;
-    oldPassword: string
-    newPassword: string
-    confirmPassword: string
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string,
 }
 
 // Login User
@@ -178,17 +178,9 @@ export const updateProfile = (userData: UpdateProfileDataType) => async (dispatc
 };
 
 // Update Password
-export const updatePassword = (updatePassword: UpdatePassword) => async (dispatch: Dispatch) => {
-
-    const myForm = new FormData();
-    myForm.set("oldPassword", updatePassword?.oldPassword);
-    myForm.set("newPassword", updatePassword?.newPassword);
-    myForm.set("confirmPassword", updatePassword?.confirmPassword);
-
+export const updatePassword = (passwords: UpdatePassword) => async (dispatch: Dispatch) => {
     try {
-
         dispatch(updatePasswordRequest());
-        const passwords = updatePassword.passwords
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
@@ -217,7 +209,7 @@ export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatc
 
         const { data } = await axios.post(`/api/v1/password/forgot`, email, config);
 
-        dispatch(forgotPasswordSuccess(data));
+        dispatch(forgotPasswordSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
@@ -225,7 +217,7 @@ export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatc
     }
 };
 
-// Reset Password
+// Reset Password  
 export const resetPassword = (resetPassword: ResetPasword) => async (dispatch: Dispatch) => {
 
     const myForm = new FormData();

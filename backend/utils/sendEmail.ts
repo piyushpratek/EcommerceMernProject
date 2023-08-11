@@ -10,7 +10,6 @@ const sendEmail = async (options: EmailOptions): Promise<void> => {
   const transporter: Transporter = nodemailer.createTransport({
     host: process.env.SMPT_HOST,
     port: parseInt((process.env as any).SMPT_PORT),
-    service: process.env.SMPT_SERVICE,
     auth: {
       user: process.env.SMPT_MAIL,
       pass: process.env.SMPT_PASSWORD,

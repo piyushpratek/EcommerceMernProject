@@ -18,6 +18,9 @@ import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
 import ProtectedRoute from './component/Route/ProtectedRoute.tsx';
 import UpdateProfile from './component/User/UpdateProfile.tsx';
+import UpdatePassword from './component/User/UpdatePassword.tsx';
+import ForgotPassword from './component/User/ForgotPassword.tsx';
+import ResetPassword from './component/User/ResetPassword.tsx';
 
 const App = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
@@ -61,6 +64,19 @@ const App = () => {
           </ProtectedRoute>
         }
         />
+
+        <Route path="/password/update" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <UpdatePassword />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/password/forgot" element={<ForgotPassword />} />
+
+        <Route path="/password/reset/:token" element={<ResetPassword />} />
+
+
         {/* example protected route */}
         {/* <Route path="/abcd" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
