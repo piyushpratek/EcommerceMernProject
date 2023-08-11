@@ -27,10 +27,10 @@ const ResetPassword = () => {
     token: string;
     password: string;
     confirmPassword: string;
-    passwords: string
 
   }
-  const resetPasswordSubmit = (e: { preventDefault: () => void; }) => {
+
+  const resetPasswordSubmit = (e: any) => {
     e.preventDefault();
 
     //   dispatch(resetPassword(params?.token));
@@ -41,7 +41,6 @@ const ResetPassword = () => {
         token: params.token,
         password: 'newPassword',
         confirmPassword: 'newPassword',
-        passwords: ""
 
       }
       dispatch(resetPassword(resetPasswordData));
@@ -52,7 +51,6 @@ const ResetPassword = () => {
 
     }
   };
-
   useEffect(() => {
     if (error) {
       setOpen(true);

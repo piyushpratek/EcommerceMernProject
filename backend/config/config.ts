@@ -61,6 +61,11 @@ if (typeof process.env.CLOUDINARY_API_SECRET === 'undefined') {
   process.exit(1)
 }
 
+if (typeof process.env.FRONTEND_URL === 'undefined') {
+  logger.error('Please define FRONTEND_URL in your .env file.')
+  process.exit(1)
+}
+
 export const MONGO_URI = process.env.MONGO_URI
 export const JWT_SECRET = process.env.JWT_SECRET
 export const NODE_ENV = process.env.NODE_ENV
@@ -69,3 +74,4 @@ export const JWT_EXPIRE = process.env.JWT_EXPIRE
 export const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME
 export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET
+export const FRONTEND_URL = process.env.FRONTEND_URL

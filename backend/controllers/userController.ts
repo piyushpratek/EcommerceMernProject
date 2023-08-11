@@ -7,8 +7,8 @@ import sendEmail from '../utils/sendEmail'
 import crypto from 'crypto'
 import cloudinary from 'cloudinary'
 import { HttpStatus } from '../http-status.enum'
-import logger from '../config/logger'
 import fs from 'fs'
+import { FRONTEND_URL } from '../config/config'
 
 // Login User
 export const loginUser = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
@@ -93,17 +93,19 @@ export const forgotPassword = catchAsyncErrors(async (req: Request, res: Respons
 
   // const resetPasswordUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`
 
-  const protocol = req.protocol
-  const host = req.get('host')
-  let resetPasswordUrl = ''
-  if ((protocol !== '') && host) {
-    resetPasswordUrl = `${protocol}://${host}/password/reset/${resetToken}`
-  } else {
-    logger.info("Missing 'protocol' or 'host' in the request headers.")
-    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' })
-  }
+  // const protocol = req.protocol
+  // const host = req.get('host')
+  // let resetPasswordUrl = ''
+  // if ((protocol !== '') && host) {
+  //   resetPasswordUrl = `${protocol}://${host}/password/reset/${resetToken}`
+  // } else {
+  //   logger.info("Missing 'protocol' or 'host' in the request headers.")
+  //   return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' })
+  // }
 
-  const message = `Your password reset token is :- \n\n ${resetPasswordUrl}\n\nIf you have not requested this email then, please ignore it.`
+  const resetPassword = `${FRONTEND_URL}/password/reset/${resetToken}`
+
+  const message = `Your password reset token is new :- \n\n ${resetPassword}\n\nIf you have not requested this email then, please ignore it.`
 
   try {
     await sendEmail({

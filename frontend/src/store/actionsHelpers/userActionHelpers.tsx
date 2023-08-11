@@ -69,7 +69,6 @@ type ForgotPassword = {
 
 type ResetPasword = {
     token: string;
-    passwords: string
     password: string
     confirmPassword: string
 }
@@ -199,15 +198,12 @@ export const updatePassword = (passwords: UpdatePassword) => async (dispatch: Di
 
 // Forgot Password
 export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatch: Dispatch) => {
-    const myForm = new FormData();
-    myForm.set("email", forgotPassword?.email)
     try {
         dispatch(forgotPasswordRequest());
-        const email = forgotPassword?.email
-
         const config = { headers: { "Content-Type": "application/json" } };
+        const payload = { email: forgotPassword?.email }
 
-        const { data } = await axios.post(`/api/v1/password/forgot`, email, config);
+        const { data } = await axios.post(`/api/v1/password/forgot`, payload, config);
 
         dispatch(forgotPasswordSuccess(data.user));
     } catch (error) {
@@ -219,23 +215,18 @@ export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatc
 
 // Reset Password  
 export const resetPassword = (resetPassword: ResetPasword) => async (dispatch: Dispatch) => {
-
-    const myForm = new FormData();
-    myForm.set("password", resetPassword?.password);
-    myForm.set("confirmPassword", resetPassword?.confirmPassword);
     try {
         dispatch(resetPasswordRequest());
-        const token = resetPassword?.token
-        const passwords = resetPassword?.passwords
+        const payload = resetPassword
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
-            `/api/v1/password/reset/${token}`,
-            passwords,
+            `/api/v1/password/reset/${resetPassword?.token}`,
+            payload,
             config
         );
 
-        dispatch(resetPasswordSuccess(data));
+        dispatch(resetPasswordSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
