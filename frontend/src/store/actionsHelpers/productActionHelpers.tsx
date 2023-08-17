@@ -93,7 +93,7 @@ export const getAdminProduct = () => async (dispatch: Dispatch) => {
 };
 
 // Create Product
-export const createProduct = async (dispatch: Dispatch, productData: ProductData,) => {
+export const createProduct = async (dispatch: Dispatch, payload: ProductData,) => {
     try {
         dispatch(newProductRequest())
         const config = {
@@ -101,7 +101,7 @@ export const createProduct = async (dispatch: Dispatch, productData: ProductData
         };
         const { data } = await axios.post(
             `/api/v1/admin/product/new`,
-            productData,
+            payload,
             config
         );
         dispatch(newProductSuccess(data));
@@ -112,16 +112,18 @@ export const createProduct = async (dispatch: Dispatch, productData: ProductData
     }
 };
 
+type UpdateProduct = { id: string; productData: ProductData };
 // Update Product
-export const updateProduct = ({ id, productData }: { id: string; productData: ProductData }) => async (dispatch: Dispatch) => {
+export const updateProduct = (updateProductData: UpdateProduct) => async (dispatch: Dispatch) => {
+    const payload = updateProductData.productData;
     try {
         dispatch(updateProductRequest())
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
         const { data } = await axios.put(
-            `/api/v1/admin/product/${id}`,
-            productData,
+            `/api/v1/admin/product/${updateProductData.id}`,
+            payload,
             config
         );
         dispatch(updateProductSuccess(data));
@@ -146,7 +148,7 @@ export const deleteProduct = (id: string) => async (dispatch: Dispatch) => {
 };
 
 // NEW REVIEW
-export const newReview = (reviewData: ReviewData) => async (dispatch: Dispatch) => {
+export const newReview = (payload: ReviewData) => async (dispatch: Dispatch) => {
     try {
         dispatch(newReviewRequest());
 
@@ -154,7 +156,7 @@ export const newReview = (reviewData: ReviewData) => async (dispatch: Dispatch) 
             headers: { "Content-Type": "application/json" },
         };
 
-        const { data } = await axios.put(`/api/v1/review`, reviewData, config);
+        const { data } = await axios.put(`/api/v1/review`, payload, config);
         dispatch(newReviewSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;

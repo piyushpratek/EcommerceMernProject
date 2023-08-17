@@ -7,13 +7,13 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import { clearAllErrors, resetPassword } from "../../store/actionsHelpers/userActionHelpers";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
   const dispatch = useAppDispatch();
-  const params = useParams()
   const { error, success, loading } = useAppSelector((state) => state.user);
+  const navigate = useNavigate()
+  const params = useParams<{ token: string }>()
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,35 +22,13 @@ const ResetPassword = () => {
   const handleSnackbarClose = () => {
     setOpen(false);
   };
-
-  interface ResetPassword {
-    token: string;
-    password: string;
-    confirmPassword: string;
-
-  }
-
   const resetPasswordSubmit = (e: any) => {
     e.preventDefault();
 
-    //   dispatch(resetPassword(params?.token));
-    //   setOpen(true);
-    // };
-    if (params?.token) {
-      const resetPasswordData: ResetPassword = {
-        token: params.token,
-        password: 'newPassword',
-        confirmPassword: 'newPassword',
-
-      }
-      dispatch(resetPassword(resetPasswordData));
-      setOpen(true);
-    } else {
-
-      console.error("Token is missing.");
-
-    }
+    dispatch(resetPassword({ token: params.token!, password, confirmPassword }));
+    setOpen(true);
   };
+
   useEffect(() => {
     if (error) {
       setOpen(true);
@@ -58,8 +36,9 @@ const ResetPassword = () => {
     }
     if (success) {
       setOpen(true);
+      navigate("/login")
     }
-  }, [dispatch, error, success]);
+  }, [dispatch, error, navigate, success]);
 
   return (
     <Fragment>
@@ -74,7 +53,6 @@ const ResetPassword = () => {
 
               <form
                 className="resetPasswordForm"
-                onSubmit={resetPasswordSubmit}
               >
                 <div>
                   <LockOpenIcon />
@@ -96,11 +74,11 @@ const ResetPassword = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
-                <input
-                  type="submit"
-                  value="Update"
+                <button
                   className="resetPasswordBtn"
-                />
+                  onClick={resetPasswordSubmit}
+                >Update
+                </button >
               </form>
             </div>
           </div>

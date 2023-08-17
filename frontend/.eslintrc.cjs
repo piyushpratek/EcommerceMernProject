@@ -15,5 +15,6 @@ module.exports = {
       { allowConstantExport: true },
     ],
     '@typescript-eslint/no-explicit-any': 'off',
+    'no-multiple-empty-lines': ['warn', { max: 1 }],
   },
 };

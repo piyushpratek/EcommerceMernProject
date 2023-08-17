@@ -76,8 +76,6 @@ const App = () => {
 
         <Route path="/password/reset/:token" element={<ResetPassword />} />
 
-
-
         {/* example protected route */}
         {/* <Route path="/abcd" element={
           <ProtectedRoute isAdminOnlyRoute={false} >

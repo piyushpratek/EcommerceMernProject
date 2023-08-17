@@ -27,7 +27,6 @@ import {
     forgotPasswordRequest,
     forgotPasswordSuccess,
 
-
     logoutFail,
     logoutSuccess,
 
@@ -111,11 +110,13 @@ export const register = (loginData: LoginData) => async (dispatch: Dispatch) => 
         myForm.set("avatar_default_url", '/Profile.png'); // set default avatar iamge
     }
 
+    const payload = myForm;
+
     try {
         dispatch(registerUserRequest());
         const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-        const { data } = await axios.post(`/api/v1/register`, myForm, config);
+        const { data } = await axios.post(`/api/v1/register`, payload, config);
 
         dispatch(registerUserSuccess(data.user));
     } catch (error) {
@@ -164,10 +165,11 @@ export const updateProfile = (userData: UpdateProfileDataType) => async (dispatc
     if (userData?.avatar instanceof Blob) {
         myForm.set("avatar", userData?.avatar);
     }
+    const payload = myForm;
     try {
         dispatch(updateProfileRequest());
         const config = { headers: { "Content-Type": "multipart/form-data" } };
-        const { data } = await axios.put(`/api/v1/me/update`, myForm, config);
+        const { data } = await axios.put(`/api/v1/me/update`, payload, config);
         dispatch(updateProfileSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
@@ -177,14 +179,14 @@ export const updateProfile = (userData: UpdateProfileDataType) => async (dispatc
 };
 
 // Update Password
-export const updatePassword = (passwords: UpdatePassword) => async (dispatch: Dispatch) => {
+export const updatePassword = (payload: UpdatePassword) => async (dispatch: Dispatch) => {
     try {
         dispatch(updatePasswordRequest());
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
             `/api/v1/password/update`,
-            passwords,
+            payload,
             config
         );
 
@@ -197,11 +199,10 @@ export const updatePassword = (passwords: UpdatePassword) => async (dispatch: Di
 };
 
 // Forgot Password
-export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatch: Dispatch) => {
+export const forgotPassword = (payload: ForgotPassword) => async (dispatch: Dispatch) => {
     try {
         dispatch(forgotPasswordRequest());
         const config = { headers: { "Content-Type": "application/json" } };
-        const payload = { email: forgotPassword?.email }
 
         const { data } = await axios.post(`/api/v1/password/forgot`, payload, config);
 
@@ -214,14 +215,14 @@ export const forgotPassword = (forgotPassword: ForgotPassword) => async (dispatc
 };
 
 // Reset Password  
-export const resetPassword = (resetPassword: ResetPasword) => async (dispatch: Dispatch) => {
+export const resetPassword = (payload: ResetPasword) => async (dispatch: Dispatch) => {
     try {
         dispatch(resetPasswordRequest());
-        const payload = resetPassword
+
         const config = { headers: { "Content-Type": "application/json" } };
 
         const { data } = await axios.put(
-            `/api/v1/password/reset/${resetPassword?.token}`,
+            `/api/v1/password/reset/${payload?.token}`,
             payload,
             config
         );
@@ -263,7 +264,7 @@ export const getUserDetails = (id: string) => async (dispatch: Dispatch) => {
 };
 
 // Update User
-export const updateUser = (id: string, userData: LoginData) => async (dispatch: Dispatch) => {
+export const updateUser = (id: string, payload: LoginData) => async (dispatch: Dispatch) => {
     try {
         dispatch(updateUserRequest());
 
@@ -271,7 +272,7 @@ export const updateUser = (id: string, userData: LoginData) => async (dispatch: 
 
         const { data } = await axios.put(
             `/api/v1/admin/user/${id}`,
-            userData,
+            payload,
             config
         );
 

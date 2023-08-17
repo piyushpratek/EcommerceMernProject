@@ -31,6 +31,7 @@ module.exports = {
       { assertFunctionNames: ['expect', 'request.**.expect'] },
     ],
     'no-console': 'warn',
+    'no-multiple-empty-lines': ['warn', { max: 1 }],
     '@typescript-eslint/no-extra-semi': 'warn',
     '@typescript-eslint/semi': 'warn',
     '@typescript-eslint/no-explicit-any': 'off',

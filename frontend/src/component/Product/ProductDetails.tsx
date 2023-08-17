@@ -23,7 +23,6 @@ const ProductDetails = () => {
   const productDetails = useAppSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails
 
-
   useEffect(() => {
     if (error) {
       setOpen(true)

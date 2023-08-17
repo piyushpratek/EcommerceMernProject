@@ -17,7 +17,7 @@ interface ErrorResponse {
 }
 
 // Create Order
-export const createOrder = (order: Order) => async (dispatch: Dispatch) => {
+export const createOrder = (payload: Order) => async (dispatch: Dispatch) => {
     try {
         dispatch(createOrderRequest());
 
@@ -26,7 +26,7 @@ export const createOrder = (order: Order) => async (dispatch: Dispatch) => {
                 "Content-Type": "application/json",
             },
         };
-        const { data } = await axios.post("/api/v1/order/new", order, config);
+        const { data } = await axios.post("/api/v1/order/new", payload, config);
 
         dispatch(createOrderSuccess(data));
     } catch (error) {
@@ -67,7 +67,7 @@ export const getAllOrders = () => async (dispatch: Dispatch) => {
 };
 
 // Update Order
-export const updateOrder = (id: string, order: Order) => async (dispatch: Dispatch) => {
+export const updateOrder = (id: string, payload: Order) => async (dispatch: Dispatch) => {
     try {
         dispatch(updateOrderRequest());
 
@@ -76,7 +76,7 @@ export const updateOrder = (id: string, order: Order) => async (dispatch: Dispat
                 "Content-Type": "application/json",
             },
         };
-        const { data } = await axios.put(`/api/v1/admin/order/${id}`, order, config);
+        const { data } = await axios.put(`/api/v1/admin/order/${id}`, payload, config);
 
         dispatch(updateOrderSuccess(data.success));
     } catch (error) {
