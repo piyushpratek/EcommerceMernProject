@@ -49,7 +49,6 @@ export interface NewProductState {
     success: boolean;
 }
 
-
 // New review state interface
 export interface NewReviewState {
     loading: boolean;

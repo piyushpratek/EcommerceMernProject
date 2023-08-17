@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProductReviewsState, Review } from "../../../types/productTypes";
 
-
 const initialProductReviewsState: ProductReviewsState = {
     reviews: [],
     loading: false,

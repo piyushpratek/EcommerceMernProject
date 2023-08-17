@@ -7,7 +7,6 @@ const initialReviewState: ReviewState = {
     isDeleted: false,
 };
 
-
 // delete review
 const deleteReviewSlice = createSlice({
     name: 'deletereview',

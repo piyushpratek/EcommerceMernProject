@@ -3,7 +3,6 @@ import MetaData from "../layout/MetaData";
 import "./Search.css";
 import { useNavigate } from "react-router-dom";
 
-
 const Search = () => {
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate()

@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserProfile, AllUsersData } from "../../types/userTypes";
 
-
-
 interface UserState {
     loading: boolean;
     isAuthenticated: boolean;
@@ -249,7 +247,6 @@ export const {
     updateUserSuccess,
     updateUserFail,
     updateUserReset
-
 
 } = userSlice.actions;
 

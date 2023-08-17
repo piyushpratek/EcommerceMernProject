@@ -9,7 +9,6 @@ import Loader from '../layout/Loader/Loader';
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-
 const Home = () => {
     const dispatch = useAppDispatch()
     const product = useAppSelector((state) => state.products)
@@ -55,7 +54,6 @@ const Home = () => {
                         </Alert>
                     </Snackbar>
                 </>
-
 
             )}
         </>
