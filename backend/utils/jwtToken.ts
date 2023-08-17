@@ -1,5 +1,6 @@
 import { Response } from 'express'
 import { UserDocument } from '../models/userModel'
+import { COOKIE_EXPIRE } from '../config/config'
 // creating token and saving in cookie
 const sendToken = (
   user: UserDocument,
@@ -9,7 +10,7 @@ const sendToken = (
   const token = user.getJWTToken()
 
   // Options for cookie
-  const cookieExpireValue = parseInt(process.env.COOKIE_EXPIRE!)
+  const cookieExpireValue = parseInt(COOKIE_EXPIRE)
   const options = {
     expires: new Date(
       Date.now() + cookieExpireValue * 24 * 60 * 60 * 1000
