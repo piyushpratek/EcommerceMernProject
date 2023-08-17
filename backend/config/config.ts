@@ -13,11 +13,11 @@ logger.success('NODE_ENV:', process.env.NODE_ENV)
 
 let envPath: string | undefined
 
-if (!process.env.NODE_ENV) {
+if (process.env.NODE_ENV === 'production') {
   envPath = '.env'
 }
 
-if (!process.env.NODE_ENV) {
+if (process.env.NODE_ENV === 'development') {
   envPath = '.env.development'
 }
 
