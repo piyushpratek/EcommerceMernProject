@@ -44,7 +44,6 @@ const LoginSignUp = () => {
 
   const { name, email, password, avatar } = user;
 
-  // const [avatar, setAvatar] = useState("/Profile.png");
   const [avatarPreview, setAvatarPreview] = useState<string | ArrayBuffer | null>("/Profile.png");
 
   const loginSubmit = (e: FormEvent<HTMLFormElement>) => {

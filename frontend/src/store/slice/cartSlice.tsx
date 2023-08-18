@@ -12,11 +12,12 @@ interface CartItem {
 
 // Define the type for the shipping information
 interface ShippingInfo {
-    // Define the properties of the shipping information
-    // For example:
     address: string;
     city: string;
-    // Add other properties as needed
+    state: string;
+    country: string;
+    pinCode: string;
+    phoneNo: string
 }
 
 // Define the initial state
@@ -51,11 +52,11 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter((i) => i.product !== action.payload);
         },
 
-        saveShippingInfAction: (state, action: PayloadAction<ShippingInfo>) => {
+        saveShippingInfoAction: (state, action: PayloadAction<ShippingInfo>) => {
             state.shippingInfo = action.payload;
         },
     },
 });
 
-export const { addToCart, removeCartItem, saveShippingInfAction } = cartSlice.actions;
+export const { addToCart, removeCartItem, saveShippingInfoAction } = cartSlice.actions;
 export default cartSlice.reducer;

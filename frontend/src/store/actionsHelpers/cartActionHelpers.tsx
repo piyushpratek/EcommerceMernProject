@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import axios from "axios";
 import { RootState } from "../store";
-import { addToCart, removeCartItem, saveShippingInfAction } from '../slice/cartSlice';
+import { addToCart, removeCartItem, saveShippingInfoAction } from '../slice/cartSlice';
 
 interface AddToCartPayload {
     product: string;
@@ -13,10 +13,12 @@ interface AddToCartPayload {
 }
 
 interface SaveShippingInfoPayload {
-    // Define the properties for shipping info
-    // For example:
     address: string;
     city: string;
+    state: string;
+    country: string;
+    pinCode: string;
+    phoneNo: string
 }
 
 // Add to Cart
@@ -38,15 +40,17 @@ export const addItemsToCart = (id: string, quantity: number) => async (dispatch:
 
 };
 
+//Remove from cart
 export const removeItemsFromCart = (id: string) => async (dispatch: Dispatch, getState: () => RootState) => {
 
     dispatch(removeCartItem(id));
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 }
 
+//Save Shipping Info
 export const saveShippingInfo = (data: SaveShippingInfoPayload) => async (dispatch: Dispatch) => {
 
-    dispatch(saveShippingInfAction(data));
+    dispatch(saveShippingInfoAction(data));
     localStorage.setItem("shippingInfo", JSON.stringify(data));
 
 };

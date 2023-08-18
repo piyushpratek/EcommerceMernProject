@@ -22,6 +22,7 @@ import UpdatePassword from './component/User/UpdatePassword.tsx';
 import ForgotPassword from './component/User/ForgotPassword.tsx';
 import ResetPassword from './component/User/ResetPassword.tsx';
 import Cart from './component/Cart/Cart.tsx';
+import Shipping from './component/Cart/Shipping.tsx';
 
 const App = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
@@ -80,6 +81,13 @@ const App = () => {
         <Route path="/login" element={<LoginSignUp />} />
 
         <Route path="/cart" element={<Cart />} />
+
+        <Route path="/shipping" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <Shipping />
+          </ProtectedRoute>
+        }
+        />
 
       </Routes>
       <Footer />

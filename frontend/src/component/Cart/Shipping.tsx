@@ -1,22 +1,24 @@
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import "./Shipping.css";
-import { useSelector, useDispatch } from "react-redux";
-import { saveShippingInfo } from "../../actions/cartAction";
+import { saveShippingInfo } from "../../store/actionsHelpers/cartActionHelpers";
 import MetaData from "../layout/MetaData";
-import PinDropIcon from "@material-ui/icons/PinDrop";
-import HomeIcon from "@material-ui/icons/Home";
-import LocationCityIcon from "@material-ui/icons/LocationCity";
-import PublicIcon from "@material-ui/icons/Public";
-import PhoneIcon from "@material-ui/icons/Phone";
-import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
+import PinDropIcon from '@mui/icons-material/PinDrop';
+import HomeIcon from '@mui/icons-material/Home';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import PublicIcon from '@mui/icons-material/Public';
+import PhoneIcon from '@mui/icons-material/Phone';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 import { Country, State } from "country-state-city";
-import { useAlert } from "react-alert";
-import CheckoutSteps from "../Cart/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
-const Shipping = ({ history }) => {
-  const dispatch = useDispatch();
-  const alert = useAlert();
-  const { shippingInfo } = useSelector((state) => state.cart);
+const Shipping = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  const { shippingInfo } = useAppSelector((state) => state.cart);
 
   const [address, setAddress] = useState(shippingInfo.address);
   const [city, setCity] = useState(shippingInfo.city);
@@ -25,17 +27,19 @@ const Shipping = ({ history }) => {
   const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
   const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
 
-  const shippingSubmit = (e) => {
+  const shippingSubmit = (e: any) => {
     e.preventDefault();
 
     if (phoneNo.length < 10 || phoneNo.length > 10) {
-      alert.error("Phone Number should be 10 digits Long");
+      <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert severity="error">Phone Number should be 10 digits Long</Alert>
+      </Stack>
       return;
     }
     dispatch(
       saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
     );
-    history.push("/order/confirm");
+    navigate("/order/confirm");
   };
 
   return (
@@ -94,7 +98,8 @@ const Shipping = ({ history }) => {
                 required
                 value={phoneNo}
                 onChange={(e) => setPhoneNo(e.target.value)}
-                size="10"
+                style={{ width: '10ch' }}
+              // size="10"
               />
             </div>
 
@@ -107,12 +112,11 @@ const Shipping = ({ history }) => {
                 onChange={(e) => setCountry(e.target.value)}
               >
                 <option value="">Country</option>
-                {Country &&
-                  Country.getAllCountries().map((item) => (
-                    <option key={item.isoCode} value={item.isoCode}>
-                      {item.name}
-                    </option>
-                  ))}
+                {Country?.getAllCountries()?.map((item) => (
+                  <option key={item.isoCode} value={item.isoCode}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -126,12 +130,11 @@ const Shipping = ({ history }) => {
                   onChange={(e) => setState(e.target.value)}
                 >
                   <option value="">State</option>
-                  {State &&
-                    State.getStatesOfCountry(country).map((item) => (
-                      <option key={item.isoCode} value={item.isoCode}>
-                        {item.name}
-                      </option>
-                    ))}
+                  {State?.getStatesOfCountry(country)?.map((item) => (
+                    <option key={item.isoCode} value={item.isoCode}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             )}
