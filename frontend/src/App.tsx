@@ -21,6 +21,7 @@ import UpdateProfile from './component/User/UpdateProfile.tsx';
 import UpdatePassword from './component/User/UpdatePassword.tsx';
 import ForgotPassword from './component/User/ForgotPassword.tsx';
 import ResetPassword from './component/User/ResetPassword.tsx';
+import Cart from './component/Cart/Cart.tsx';
 
 const App = () => {
   const { isAuthenticated, user } = useAppSelector((state) => state.user);
@@ -76,15 +77,9 @@ const App = () => {
 
         <Route path="/password/reset/:token" element={<ResetPassword />} />
 
-        {/* example protected route */}
-        {/* <Route path="/abcd" element={
-          <ProtectedRoute isAdminOnlyRoute={false} >
-            <ABCD />
-          </ProtectedRoute>
-        }
-        /> */}
-
         <Route path="/login" element={<LoginSignUp />} />
+
+        <Route path="/cart" element={<Cart />} />
 
       </Routes>
       <Footer />

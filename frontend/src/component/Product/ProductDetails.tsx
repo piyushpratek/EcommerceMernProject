@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
 import './ProductDetails.css';
-// import { useSelector } from 'react-redux';
 import { clearAllErrors, getProductDetails } from '../../store/actionsHelpers/productActionHelpers';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { useParams } from 'react-router-dom';
@@ -10,12 +9,30 @@ import { Alert, Rating, Snackbar } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
-// import { Rating } from '@mui/material';
+import { addItemsToCart } from '../../store/actionsHelpers/cartActionHelpers';
 
 const ProductDetails = () => {
   const dispatch = useAppDispatch()
-  const params = useParams()
+  const params = useParams<{ id: string }>()
   const [open, setOpen] = useState(false);
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const increaseQuantity = () => {
+    if (quantity < product!.Stock) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(params.id!, quantity))
+    // alert.success("Item Added To Cart");
+  }
   const handleClose = () => {
     setOpen(false);
   };
@@ -80,11 +97,11 @@ const ProductDetails = () => {
               <h1>{`₹${product.price}`}</h1>
               <div className='detailsBlock-3-1'>
                 <div className='detailsBlock-3-1-1'>
-                  <button>-</button>
-                  <input value="1" type='number' />
-                  <button>+</button>
+                  <button onClick={decreaseQuantity}>-</button>
+                  <input readOnly value={quantity} type='number' />
+                  <button onClick={increaseQuantity}>+</button>
                 </div >{" "}
-                <button>Add to Cart</button>
+                <button onClick={addToCartHandler}>Add to Cart</button>
               </div >
               <p>
                 Status:{" "}
