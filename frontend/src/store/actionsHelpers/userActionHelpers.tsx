@@ -210,11 +210,14 @@ export const forgotPassword = (payload: ForgotPassword) => async (dispatch: Disp
 
         const { data } = await axios.post(`/api/v1/password/forgot`, payload, config);
 
-        dispatch(forgotPasswordSuccess(data.user));
+        dispatch(forgotPasswordSuccess(data.message));
+        dispatch(setAlertMessage({ message: data.message, severity: "success" }))
+
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(forgotPasswordFail(message));
+        dispatch(setAlertMessage({ message, severity: "error" }))
     }
 };
 
@@ -232,10 +235,12 @@ export const resetPassword = (payload: ResetPasword) => async (dispatch: Dispatc
         );
 
         dispatch(resetPasswordSuccess(data.user));
+        dispatch(setAlertMessage({ message: "Password Updated Successfully", severity: "success" }))
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(resetPasswordFail(message));
+        dispatch(setAlertMessage({ message, severity: "error" }))
     }
 };
 

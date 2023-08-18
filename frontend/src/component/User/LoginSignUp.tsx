@@ -202,6 +202,7 @@ const LoginSignUp = () => {
           </div>
         </Fragment>
       )}
+      {/* //TODO */}
       {/* Snackbar for displaying alerts */}
       <Snackbar open={Boolean(error)} autoHideDuration={6000} onClose={() => dispatch(clearAllErrors())}>
         <Alert severity="error" onClose={() => dispatch(clearAllErrors())}>

@@ -81,6 +81,7 @@ export const getProductDetails = (id: string) => async (dispatch: Dispatch) => {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(productDetailsFail(message));
+        dispatch(setAlertMessage({ message: message, severity: "error" }))
     }
 };
 

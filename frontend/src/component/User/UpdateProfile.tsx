@@ -129,7 +129,7 @@ const UpdateProfile = () => {
               </form>
             </div>
           </div>
-
+          {/* //TODO */}
           <Snackbar open={!!error || isUpdated} autoHideDuration={6000} onClose={() => dispatch(clearAllErrors())}>
 
             <Alert onClose={() => dispatch(clearAllErrors())} severity={error ? "error" : "success"} sx={{ width: '100%' }}>

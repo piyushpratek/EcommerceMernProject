@@ -129,6 +129,7 @@ const Products = () => {
                             />
                         </div>
                     )}
+                    {/* //TODO */}
                     <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity={error ? 'error' : 'success'}>
                             {error ? error : 'Review Submitted Successfully'}

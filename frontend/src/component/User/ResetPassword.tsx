@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import "./ResetPassword.css";
 import Loader from "../layout/Loader/Loader";
-import { Alert, Snackbar } from '@mui/material';
 import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
@@ -17,25 +16,18 @@ const ResetPassword = () => {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [open, setOpen] = useState(false);
 
-  const handleSnackbarClose = () => {
-    setOpen(false);
-  };
   const resetPasswordSubmit = (e: any) => {
     e.preventDefault();
 
     dispatch(resetPassword({ token: params.token!, password, confirmPassword }));
-    setOpen(true);
   };
 
   useEffect(() => {
     if (error) {
-      setOpen(true);
       dispatch(clearAllErrors());
     }
     if (success) {
-      setOpen(true);
       navigate("/login")
     }
   }, [dispatch, error, navigate, success]);
@@ -82,19 +74,7 @@ const ResetPassword = () => {
               </form>
             </div>
           </div>
-          <Snackbar
-            open={open}
-            autoHideDuration={5000}
-            onClose={handleSnackbarClose}
-          >
-            <Alert
-              severity={error ? "error" : "success"}
-              onClose={handleSnackbarClose}
-              sx={{ width: '100%' }}
-            >
-              {error ? error : "Password Updated Successfully"}
-            </Alert>
-          </Snackbar>
+
         </Fragment>
       )}
     </Fragment>

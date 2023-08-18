@@ -5,16 +5,16 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Alert, Rating, Snackbar } from '@mui/material';
+import { Rating } from '@mui/material';
 import ReviewCard from './ReviewCard';
 import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
 import { addItemsToCart } from '../../store/actionsHelpers/cartActionHelpers';
+import { setAlertMessage } from '../../store/slice/userSlice';
 
 const ProductDetails = () => {
   const dispatch = useAppDispatch()
   const params = useParams<{ id: string }>()
-  const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
 
   const increaseQuantity = () => {
@@ -31,21 +31,22 @@ const ProductDetails = () => {
 
   const addToCartHandler = () => {
     dispatch(addItemsToCart(params.id!, quantity))
-    // alert.success("Item Added To Cart");
-
+    dispatch(setAlertMessage({ message: "Item Added To Cart", severity: "error" }))
   }
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const productDetails = useAppSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails
 
   useEffect(() => {
     if (error) {
-      setOpen(true)
       dispatch(clearAllErrors());
     }
+    //TODO
+    // if (success) {
+    //   alert.success("Review Submitted Successfully");
+    //   dispatch({ type: NEW_REVIEW_RESET });
+    // }
+
     if (params?.id) {
       dispatch(getProductDetails(params?.id));
     }
@@ -59,9 +60,10 @@ const ProductDetails = () => {
 
   if (!product) {
     // Product details are still loading or not available
-    return <div>Loading...</div>;
+    return <Loader />;
   }
-
+  //TODO
+  // dispatch(setAlertMessage({ message: "Review Submitted Successfully", severity: "success" }))
   return (
     <Fragment>
       <MetaData title={`${product.name} --ECOMMERCE`} />
@@ -133,11 +135,6 @@ const ProductDetails = () => {
           <p className='noReviews'>No Reviews Yet</p>
         )}
 
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity={error ? 'error' : 'success'}>
-            {error ? error : 'Review Submitted Successfully'}
-          </Alert>
-        </Snackbar>
       </Fragment>)}
     </Fragment>
 

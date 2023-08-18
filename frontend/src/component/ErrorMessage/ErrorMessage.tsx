@@ -10,7 +10,10 @@ const ErrorMessage = ({ error }: ErrorMessageProps) => {
     anchorOrigin: { vertical: "bottom", horizontal: "center" } as const,
     autoHideDuration: 5000,
   };
+  {/* //TODO */ }
+
   return (
+
     <Snackbar open={Boolean(error)} autoHideDuration={options.autoHideDuration} anchorOrigin={options.anchorOrigin} >
       <Alert variant="filled" severity="error">
         {error}
