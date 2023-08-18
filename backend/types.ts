@@ -7,3 +7,4 @@ export interface CustomRequest<T = any> extends Request {
     user?: UserDocument
     body: T
 }
+

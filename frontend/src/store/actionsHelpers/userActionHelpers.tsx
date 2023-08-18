@@ -47,7 +47,8 @@ import {
     userDetailsSuccess,
     updateUserRequest,
     updateUserSuccess,
-    updateUserFail
+    updateUserFail,
+    setAlertMessage
 } from '../slice/userSlice';
 
 interface ErrorResponse {
@@ -89,10 +90,13 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
         );
 
         dispatch(loginSuccess(data.user));
+        dispatch(setAlertMessage({ message: "Login Successful", severity: "success" }))
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(loginFail(message));
+        dispatch(setAlertMessage({ message: message, severity: "error" }))
+
     }
 };
 

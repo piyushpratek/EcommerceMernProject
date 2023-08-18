@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import "./Home.css"
 import ProductCard from "./ProductCard"
 import { CgMouse } from "react-icons/cg";
@@ -6,26 +6,19 @@ import MetaData from '../layout/MetaData';
 import { getProducts, clearAllErrors } from '../../store/actionsHelpers/productActionHelpers';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import Loader from '../layout/Loader/Loader';
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 
 const Home = () => {
     const dispatch = useAppDispatch()
     const product = useAppSelector((state) => state.products)
     const { loading, error, products } = product
-    const [open, setOpen] = React.useState(!!error);
 
     useEffect(() => {
         if (error) {
-            setOpen(true)
             dispatch(clearAllErrors())
         }
         dispatch(getProducts({}))
     }, [dispatch, error])
 
-    const handleClose = () => {
-        setOpen(false);
-    };
     return (
         <>
             {loading ? (<Loader />) : (
@@ -48,11 +41,7 @@ const Home = () => {
                         ))}
 
                     </div>
-                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity="error">
-                            {error}
-                        </Alert>
-                    </Snackbar>
+
                 </>
 
             )}

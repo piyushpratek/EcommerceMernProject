@@ -12,8 +12,7 @@ import { Country, State } from "country-state-city";
 import CheckoutSteps from "./CheckoutSteps";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import { setAlertMessage } from "../../store/slice/userSlice";
 
 const Shipping = () => {
   const dispatch = useAppDispatch();
@@ -31,14 +30,13 @@ const Shipping = () => {
     e.preventDefault();
 
     if (phoneNo.length < 10 || phoneNo.length > 10) {
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="error">Phone Number should be 10 digits Long</Alert>
-      </Stack>
+      dispatch(setAlertMessage({
+        message: "Phone Number should be 10 digits Long",
+        severity: "error"
+      }))
       return;
     }
-    dispatch(
-      saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
-    );
+    dispatch(saveShippingInfo({ address, city, state, country, pinCode, phoneNo }));
     navigate("/order/confirm");
   };
 
@@ -98,7 +96,7 @@ const Shipping = () => {
                 required
                 value={phoneNo}
                 onChange={(e) => setPhoneNo(e.target.value)}
-                style={{ width: '10ch' }}
+              // style={{ width: '10ch' }}
               // size="10"
               />
             </div>

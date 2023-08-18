@@ -1,6 +1,5 @@
 import { Fragment, useState } from "react";
 import "./Header.css";
-import { Alert, Snackbar } from "@mui/material";
 import { logout } from "../../../store/actionsHelpers/userActionHelpers";
 import { SpeedDial, SpeedDialAction } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
@@ -11,12 +10,10 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
+import { setAlertMessage } from "../../../store/slice/userSlice";
 
 const UserOptions = ({ user }) => {
   const { cartItems } = useAppSelector((state) => state.cart);
-
-  const [logoutSuccess, setLogoutSuccess] = useState(false);
-
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -59,9 +56,9 @@ const UserOptions = ({ user }) => {
   }
   function logoutUser() {
     dispatch(logout());
+    dispatch(setAlertMessage({ message: "Logout Successful", severity: "success" }))
     setOpen(false);
-    setLogoutSuccess(true);
-    setTimeout(() => setLogoutSuccess(false), 3000);
+
   }
 
   return (
@@ -93,32 +90,7 @@ const UserOptions = ({ user }) => {
           />
         ))}
       </SpeedDial>
-      <Snackbar
-        open={logoutSuccess}
-        autoHideDuration={3000}
-        onClose={() => setLogoutSuccess(false)}
-      >
-        <Alert
-          onClose={() => setLogoutSuccess(false)}
-          severity="success"
-          sx={{ width: '100%' }}
-        >
-          Logout Successful
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={Boolean(cartItems.length)}
-        autoHideDuration={6000}
-        onClose={() => { }}
-      >
-        <Alert
-          onClose={() => { }}
-          severity="info"
-          sx={{ width: '100%' }}
-        >
-          You have items in your cart.
-        </Alert>
-      </Snackbar>
+
     </Fragment>
   );
 };

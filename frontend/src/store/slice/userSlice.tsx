@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserProfile, AllUsersData } from "../../types/userTypes";
 
+type AlertSeverity = 'error' | 'warning' | 'info' | 'success';
+type AlertMessageType = { message: string, severity: AlertSeverity };
 interface UserState {
     loading: boolean;
     isAuthenticated: boolean;
@@ -11,6 +13,7 @@ interface UserState {
     success: boolean | null;
     error: string | null;
     users: User[];
+    alertMessage: AlertMessageType;
 }
 
 const initialState: UserState = {
@@ -22,7 +25,11 @@ const initialState: UserState = {
     message: null,
     success: null,
     error: null,
-    users: []
+    users: [],
+    alertMessage: {
+        message: '',
+        severity: 'info',
+    },
 };
 
 const userSlice = createSlice({
@@ -190,6 +197,12 @@ const userSlice = createSlice({
         clearErrors(state) {
             state.error = null;
         },
+        setAlertMessage(state, action: PayloadAction<AlertMessageType>) {
+            state.alertMessage = action.payload;
+        },
+        clearAlertMessage(state) {
+            state.alertMessage = { message: '', severity: 'info' };
+        }
     },
 });
 
@@ -246,8 +259,10 @@ export const {
     updateUserRequest,
     updateUserSuccess,
     updateUserFail,
-    updateUserReset
+    updateUserReset,
 
+    setAlertMessage,
+    clearAlertMessage,
 } = userSlice.actions;
 
 export default userSlice.reducer

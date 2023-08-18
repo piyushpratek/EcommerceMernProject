@@ -12,7 +12,7 @@ import Products from './component/Product/Products.tsx';
 import Search from './component/Product/Search.tsx';
 import "./App.css"
 import LoginSignUp from './component/User/LoginSignUp.tsx';
-import store, { useAppSelector } from './store/store.ts';
+import store, { useAppDispatch, useAppSelector } from './store/store.ts';
 import { loadUser } from './store/actionsHelpers/userActionHelpers.tsx';
 import UserOptions from './component/layout/Header/UserOptions.tsx';
 import Profile from './component/User/Profile.tsx';
@@ -23,9 +23,12 @@ import ForgotPassword from './component/User/ForgotPassword.tsx';
 import ResetPassword from './component/User/ResetPassword.tsx';
 import Cart from './component/Cart/Cart.tsx';
 import Shipping from './component/Cart/Shipping.tsx';
+import { Alert, Snackbar } from '@mui/material';
+import { clearAlertMessage } from './store/slice/userSlice.tsx';
 
 const App = () => {
-  const { isAuthenticated, user } = useAppSelector((state) => state.user);
+  const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const rx = useAppSelector((state) => state);
   Object.assign(window, { rx });
@@ -90,6 +93,22 @@ const App = () => {
         />
 
       </Routes>
+
+      <Snackbar open={Boolean(alertMessage.message)} autoHideDuration={6_000} onClose={() => dispatch(clearAlertMessage())}>
+        <Alert
+          onClose={() => dispatch(clearAlertMessage())}
+          severity={alertMessage.severity}
+          sx={{
+            position: "fixed",
+            top: "90vh",
+            left: "90px",
+            // width: "25vw",
+          }}
+
+        >
+          {alertMessage.message}
+        </Alert >
+      </Snackbar>
       <Footer />
     </>
   )
