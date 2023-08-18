@@ -32,6 +32,7 @@ const ProductDetails = () => {
   const addToCartHandler = () => {
     dispatch(addItemsToCart(params.id!, quantity))
     // alert.success("Item Added To Cart");
+
   }
   const handleClose = () => {
     setOpen(false);

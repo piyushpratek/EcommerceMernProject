@@ -26,9 +26,12 @@ interface CartState {
     shippingInfo: ShippingInfo;
 }
 
+const initialCartItems = JSON.parse(localStorage.getItem("cartItems") || "[]")
+const initialShippingInfo = JSON.parse(localStorage.getItem("shippingInfo") || "{}")
+
 const initialState: CartState = {
-    cartItems: [],
-    shippingInfo: {} as ShippingInfo, // Initialize an empty object, can be modified later
+    cartItems: initialCartItems,
+    shippingInfo: initialShippingInfo as ShippingInfo,
 };
 
 const cartSlice = createSlice({
