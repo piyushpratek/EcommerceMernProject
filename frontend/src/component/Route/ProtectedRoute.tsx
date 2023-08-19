@@ -4,7 +4,6 @@ import Loader from "../layout/Loader/Loader";
 
 const ProtectedRoute = ({ isAdminOnlyRoute, children }) => {
   const { loading, isAuthenticated, user } = useAppSelector((state) => state.user);
-
   if (loading) { return <Loader />; }
 
   if (!isAuthenticated) { return <Navigate to="/login" />; }

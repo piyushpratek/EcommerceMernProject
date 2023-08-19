@@ -71,6 +71,16 @@ if (!process.env.COOKIE_EXPIRE) {
   process.exit(1)
 }
 
+if (!process.env.STRIPE_SECRET_KEY) {
+  logger.error('Please define STRIPE_SECRET_KEY in your .env file.')
+  process.exit(1)
+}
+
+if (!process.env.STRIPE_API_KEY) {
+  logger.error('Please define STRIPE_API_KEY in your .env file.')
+  process.exit(1)
+}
+
 export const MONGO_URI = process.env.MONGO_URI
 export const JWT_SECRET = process.env.JWT_SECRET
 export const NODE_ENV = process.env.NODE_ENV
@@ -81,4 +91,6 @@ export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET
 export const FRONTEND_URL = process.env.FRONTEND_URL
 export const COOKIE_EXPIRE = process.env.COOKIE_EXPIRE
+export const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
+export const STRIPE_API_KEY = process.env.STRIPE_API_KEY
 

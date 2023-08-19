@@ -51,7 +51,7 @@ import {
     setAlertMessage
 } from '../slice/userSlice';
 
-interface ErrorResponse {
+export interface ErrorResponse {
     message: string;
 }
 type LoginData = {

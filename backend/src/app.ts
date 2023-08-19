@@ -6,6 +6,7 @@ import userRoute from '../routes/userRoute'
 import cookieParser from 'cookie-parser'
 import orderRoute from '../routes/orderRoute'
 import bodyParser from 'body-parser'
+import paymentRoute from '../routes/paymentRoute'
 
 const app: Application = express()
 
@@ -21,6 +22,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/v1', productRoute)
 app.use('/api/v1', userRoute)
 app.use('/api/v1', orderRoute)
+app.use('/api/v1', paymentRoute)
 
 // middleware for errors
 app.use(errorHandler)

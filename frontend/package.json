@@ -16,6 +16,8 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.3",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/react-stripe-js": "^2.1.2",
+    "@stripe/stripe-js": "^2.1.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "country-state-city": "^3.1.4",

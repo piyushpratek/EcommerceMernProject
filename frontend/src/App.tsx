@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import Header from "./component/layout/Header/Header.tsx"
 import webFont from "webfontloader"
-import React from 'react';
+import React, { useState } from 'react';
 import Footer from './component/layout/Footer/Footer.tsx';
 import { Route, Routes } from 'react-router-dom';
 import Home from './component/Home/Home.tsx';
@@ -26,6 +26,11 @@ import Shipping from './component/Cart/Shipping.tsx';
 import { Alert, Snackbar } from '@mui/material';
 import { clearAlertMessage } from './store/slice/userSlice.tsx';
 import ConfirmOrder from './component/Cart/ConfirmOrder.tsx';
+import axios from 'axios';
+
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import Payment from './component/Cart/Payment.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -35,6 +40,14 @@ const App = () => {
   Object.assign(window, { rx });
   Object.assign(window, { rxs: JSON.stringify(rx) });
 
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get("/api/v1/stripeapikey");
+
+    setStripeApiKey(data.stripeApiKey);
+  }
+
   React.useEffect(() => {
     webFont.load({
       google: {
@@ -42,13 +55,26 @@ const App = () => {
       }
     })
     store.dispatch(loadUser())
+    getStripeApiKey()
   }, [])
 
   return (
     <>
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
+
       <Routes>
+        {stripeApiKey &&
+          (
+            <Route path="/process/payment" element={
+              <ProtectedRoute isAdminOnlyRoute={false} >
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Payment />
+                </Elements>
+              </ProtectedRoute>
+            }
+            />
+          )}
 
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -100,7 +126,7 @@ const App = () => {
         }
         />
 
-      </Routes>
+      </Routes >
 
       <Snackbar open={Boolean(alertMessage.message)} autoHideDuration={6_000} onClose={() => dispatch(clearAlertMessage())}>
         <Alert

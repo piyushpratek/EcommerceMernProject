@@ -2,14 +2,15 @@ import axios, { AxiosError } from "axios";
 import { createOrderRequest, createOrderSuccess, createOrderFail, myOrdersRequest, myOrdersSuccess, myOrdersFail, allOrdersRequest, allOrdersSuccess, allOrdersFail, updateOrderRequest, updateOrderSuccess, updateOrderFail, deleteOrderRequest, deleteOrderSuccess, deleteOrderFail, orderDetailsRequest, orderDetailsSuccess, orderDetailsFail, clearErrors } from "../slice/orderSlice";
 import { Dispatch } from '@reduxjs/toolkit';
 
+// TODO
 export interface Order {
-    // Define the properties of an order object
-    // For example: _id, product, quantity, price, etc.
-    _id: string;
-    product: string;
-    quantity: number;
-    price: number;
-    // ...
+    shippingInfo: any,
+    orderItems: any,
+    paymentInfo: any,
+    itemsPrice: number,
+    taxPrice: number,
+    shippingPrice: number,
+    totalPrice: number,
 }
 
 interface ErrorResponse {
