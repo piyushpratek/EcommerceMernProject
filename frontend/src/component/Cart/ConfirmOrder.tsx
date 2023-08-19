@@ -1,14 +1,15 @@
-import React, { Fragment } from "react";
-import CheckoutSteps from "../Cart/CheckoutSteps";
-import { useSelector } from "react-redux";
+import { Fragment } from "react";
+import CheckoutSteps from "./CheckoutSteps";
 import MetaData from "../layout/MetaData";
 import "./ConfirmOrder.css";
-import { Link } from "react-router-dom";
-import { Typography } from "@material-ui/core";
+import { Link, useNavigate } from "react-router-dom";
+import { Typography } from '@mui/material';
+import { useAppSelector } from "../../store/store";
 
-const ConfirmOrder = ({ history }) => {
-  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.user);
+const ConfirmOrder = () => {
+  const navigate = useNavigate()
+  const { shippingInfo, cartItems } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.user);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
@@ -33,7 +34,7 @@ const ConfirmOrder = ({ history }) => {
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
-    history.push("/process/payment");
+    navigate("/process/payment");
   };
 
   return (
@@ -47,7 +48,7 @@ const ConfirmOrder = ({ history }) => {
             <div className="confirmshippingAreaBox">
               <div>
                 <p>Name:</p>
-                <span>{user.name}</span>
+                <span>{user?.name}</span>
               </div>
               <div>
                 <p>Phone:</p>
@@ -62,19 +63,18 @@ const ConfirmOrder = ({ history }) => {
           <div className="confirmCartItems">
             <Typography>Your Cart Items:</Typography>
             <div className="confirmCartItemsContainer">
-              {cartItems &&
-                cartItems.map((item) => (
-                  <div key={item.product}>
-                    <img src={item.image} alt="Product" />
-                    <Link to={`/product/${item.product}`}>
-                      {item.name}
-                    </Link>{" "}
-                    <span>
-                      {item.quantity} X ₹{item.price} ={" "}
-                      <b>₹{item.price * item.quantity}</b>
-                    </span>
-                  </div>
-                ))}
+              {cartItems?.map((item) => (
+                <div key={item.product}>
+                  <img src={item.image} alt="Product" />
+                  <Link to={`/product/${item.product}`}>
+                    {item.name}
+                  </Link>{" "}
+                  <span>
+                    {item.quantity} X ₹{item.price} ={" "}
+                    <b>₹{item.price * item.quantity}</b>
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

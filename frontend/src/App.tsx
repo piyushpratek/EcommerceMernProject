@@ -25,6 +25,7 @@ import Cart from './component/Cart/Cart.tsx';
 import Shipping from './component/Cart/Shipping.tsx';
 import { Alert, Snackbar } from '@mui/material';
 import { clearAlertMessage } from './store/slice/userSlice.tsx';
+import ConfirmOrder from './component/Cart/ConfirmOrder.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -88,6 +89,13 @@ const App = () => {
         <Route path="/shipping" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <Shipping />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/order/confirm" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <ConfirmOrder />
           </ProtectedRoute>
         }
         />
