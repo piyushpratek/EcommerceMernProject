@@ -47,7 +47,6 @@ const Payment = () => {
     paymentInfo: null as any
   };
 
-  console.log('order value?', order);
   const submitHandler = async (e: any) => {
     e.preventDefault();
 

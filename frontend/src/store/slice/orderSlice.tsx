@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { User, UserProfile } from "../../types/userTypes";
+import { ShippingInfo } from "./cartSlice";
 
 interface OrderState {
     loading: boolean;
@@ -9,8 +11,13 @@ interface OrderState {
     error: string | null;
 }
 export interface Order {
+    orderItems: any[];
+    orderStatus: string;
+    totalPrice: number;
     _id: string;
-    // Add other properties of an order as needed
+    user: User | UserProfile | null
+    shippingInfo: ShippingInfo
+    paymentInfo: any
 }
 const initialState: OrderState = {
     loading: false,

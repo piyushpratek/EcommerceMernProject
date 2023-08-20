@@ -11,7 +11,7 @@ interface CartItem {
 }
 
 // Define the type for the shipping information
-interface ShippingInfo {
+export interface ShippingInfo {
     address: string;
     city: string;
     state: string;

@@ -31,6 +31,8 @@ import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Payment from './component/Cart/Payment.tsx';
+import OrderSuccess from './component/Cart/OrderSuccess.tsx';
+import MyOrders from './component/Order/MyOrders.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -64,17 +66,6 @@ const App = () => {
       {isAuthenticated && <UserOptions user={user} />}
 
       <Routes>
-        {stripeApiKey &&
-          (
-            <Route path="/process/payment" element={
-              <ProtectedRoute isAdminOnlyRoute={false} >
-                <Elements stripe={loadStripe(stripeApiKey)}>
-                  <Payment />
-                </Elements>
-              </ProtectedRoute>
-            }
-            />
-          )}
 
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -122,6 +113,32 @@ const App = () => {
         <Route path="/order/confirm" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <ConfirmOrder />
+          </ProtectedRoute>
+        }
+        />
+
+        {stripeApiKey &&
+          (
+            <Route path="/process/payment" element={
+              <ProtectedRoute isAdminOnlyRoute={false} >
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Payment />
+                </Elements>
+              </ProtectedRoute>
+            }
+            />
+          )}
+
+        <Route path="/success" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <OrderSuccess />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/orders" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <MyOrders />
           </ProtectedRoute>
         }
         />
