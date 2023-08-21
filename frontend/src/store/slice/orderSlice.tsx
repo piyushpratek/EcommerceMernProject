@@ -11,6 +11,8 @@ interface OrderState {
     error: string | null;
 }
 export interface Order {
+    id: any;
+    status: string;
     orderItems: any[];
     orderStatus: string;
     totalPrice: number;

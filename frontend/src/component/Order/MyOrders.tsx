@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from "react";
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams } from '@mui/x-data-grid';
 import "./myOrders.css";
 import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
@@ -10,10 +10,25 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { myOrders, clearAllErrors } from "../../store/actionsHelpers/orderActionHelpers";
 import { setAlertMessage } from "../../store/slice/userSlice";
 
+interface CustomCellParams extends GridCellParams {
+  value: string;
+  id: string;
+}
+
 const MyOrders = () => {
   const dispatch = useAppDispatch();
   const { loading, error, orders } = useAppSelector((state) => state.order);
   const { user } = useAppSelector((state) => state.user);
+
+  const getStatusCellClassName = (params: CustomCellParams): string => {
+    return params.value === "Delivered" ? "greenColor" : "redColor";
+  };
+
+  const renderActionsCell = (params: CustomCellParams): JSX.Element => (
+    <Link to={`/order/${params.row.id}`}>
+      <LaunchIcon />
+    </Link>
+  );
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
@@ -23,11 +38,7 @@ const MyOrders = () => {
       headerName: "Status",
       minWidth: 150,
       flex: 0.5,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
-      },
+      cellClassName: getStatusCellClassName
     },
     {
       field: "itemsQty",
@@ -52,24 +63,18 @@ const MyOrders = () => {
       minWidth: 150,
       type: "number",
       sortable: false,
-      renderCell: (params) => {
-        return (
-          <Link to={`/order/${params.getValue(params.id, "id")}`}>
-            <LaunchIcon />
-          </Link>
-        );
-      },
+      renderCell: renderActionsCell
     },
   ];
 
-  interface Row {
-    itemsQty: number;
-    id: string;
-    status: string;
-    amount: number;
-  }
+  // interface Row {
+  //   itemsQty: number;
+  //   id: string;
+  //   status: string;
+  //   amount: number;
+  // }
 
-  const rows: Row[] = orders.map((item) => ({
+  const rows = orders.map((item) => ({
     itemsQty: item.orderItems.length,
     id: item._id,
     status: item.orderStatus,
@@ -94,9 +99,9 @@ const MyOrders = () => {
         <div className="myOrdersPage">
           <DataGrid
             rows={rows}
-            columns={columns}
-            // pageSize={10}
-            // disableSelectionOnClick
+            columns={columns as any}
+            // pageSize={10 } 
+            disableRowSelectionOnClick
             className="myOrdersTable"
             autoHeight
           />
