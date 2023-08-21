@@ -1,26 +1,26 @@
 import { Fragment, useEffect } from "react";
 import "./orderDetails.css";
 import MetaData from "../layout/MetaData";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Typography } from '@mui/material';
 import { getOrderDetails, clearAllErrors } from "../../store/actionsHelpers/orderActionHelpers";
 import Loader from "../layout/Loader/Loader";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { setAlertMessage } from "../../store/slice/userSlice";
 
-const OrderDetails = ({ match }) => {
+const OrderDetails = () => {
   const { order, error, loading } = useAppSelector((state) => state.order);
 
   const dispatch = useAppDispatch();
-
+  const params = useParams()
   useEffect(() => {
     if (error) {
       dispatch(setAlertMessage({ message: error, severity: "error" }))
       dispatch(clearAllErrors());
     }
-
-    dispatch(getOrderDetails(match.params.id));
-  }, [dispatch, error, match.params.id]);
+    const orderId = params?.id || "";
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, error, params.id]);
   return (
     <Fragment>
       {loading ? (
