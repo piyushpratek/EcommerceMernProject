@@ -52,6 +52,21 @@ export const myOrders = () => async (dispatch: Dispatch) => {
     }
 };
 
+// Get Order Details
+export const getOrderDetails = (id: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(orderDetailsRequest());
+
+        const { data } = await axios.get(`/api/v1/order/${id}`);
+
+        dispatch(orderDetailsSuccess(data.order));
+    } catch (error) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const message = axiosError?.response?.data?.message || "Error Occurred";
+        dispatch(orderDetailsFail(message));
+    }
+};
+
 // Get All Orders (admin)
 export const getAllOrders = () => async (dispatch: Dispatch) => {
     try {
@@ -102,20 +117,6 @@ export const deleteOrder = (id: string) => async (dispatch: Dispatch) => {
     }
 };
 
-// Get Order Details
-export const getOrderDetails = (id: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(orderDetailsRequest());
-
-        const { data } = await axios.get(`/api/v1/order/${id}`);
-
-        dispatch(orderDetailsSuccess(data.order));
-    } catch (error) {
-        const axiosError = error as AxiosError<ErrorResponse>;
-        const message = axiosError?.response?.data?.message || "Error Occurred";
-        dispatch(orderDetailsFail(message));
-    }
-};
 // Clearing Errors
 export const clearAllErrors = () => async (dispatch: Dispatch) => {
     dispatch(clearErrors());

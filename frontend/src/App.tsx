@@ -33,6 +33,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Payment from './component/Cart/Payment.tsx';
 import OrderSuccess from './component/Cart/OrderSuccess.tsx';
 import MyOrders from './component/Order/MyOrders.tsx';
+import OrderDetails from './component/Order/OrderDetails.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -139,6 +140,13 @@ const App = () => {
         <Route path="/orders" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <MyOrders />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/order/:id" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <OrderDetails />
           </ProtectedRoute>
         }
         />

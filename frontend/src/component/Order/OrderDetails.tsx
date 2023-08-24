@@ -13,6 +13,7 @@ const OrderDetails = () => {
 
   const dispatch = useAppDispatch();
   const params = useParams()
+
   useEffect(() => {
     if (error) {
       dispatch(setAlertMessage({ message: error, severity: "error" }))
@@ -31,7 +32,7 @@ const OrderDetails = () => {
           <div className="orderDetailsPage">
             <div className="orderDetailsContainer">
               <Typography component="h1">
-                Order #{order && order._id}
+                Order #{order?._id}
               </Typography>
               <Typography>Shipping Info</Typography>
               <div className="orderDetailsContainerBox">

@@ -19,10 +19,9 @@ type ProductData = {
     imageUrl: string;
 };
 
-interface ReviewData {
+export interface ReviewData {
     rating: number;
     comment: string;
-    // Add other properties as needed
 }
 
 // Defining the parameters that the action accepts

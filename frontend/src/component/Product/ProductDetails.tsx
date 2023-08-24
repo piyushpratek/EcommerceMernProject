@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import './ProductDetails.css';
-import { clearAllErrors, getProductDetails } from '../../store/actionsHelpers/productActionHelpers';
+import { clearAllErrors, getProductDetails, newReview } from '../../store/actionsHelpers/productActionHelpers';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { useParams } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
@@ -11,11 +11,20 @@ import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
 import { addItemsToCart } from '../../store/actionsHelpers/cartActionHelpers';
 import { setAlertMessage } from '../../store/slice/userSlice';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
 const ProductDetails = () => {
   const dispatch = useAppDispatch()
+
   const params = useParams<{ id: string }>()
   const [quantity, setQuantity] = useState<number>(1);
+  const [open, setOpen] = useState<boolean>(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const increaseQuantity = () => {
     if (quantity < product!.Stock) {
@@ -31,26 +40,46 @@ const ProductDetails = () => {
 
   const addToCartHandler = () => {
     dispatch(addItemsToCart(params.id!, quantity))
-    dispatch(setAlertMessage({ message: "Item Added To Cart", severity: "error" }))
+    dispatch(setAlertMessage({ message: "Item Added To Cart", severity: "success" }))
   }
+  const submitReviewToggle = () => {
+    // open ? setOpen(false) : setOpen(true);
+    setOpen(!open)
+  };
+
+  const reviewSubmitHandler = () => {
+    const reviewData = {
+      rating: rating,
+      comment: comment,
+      productId: params.id,
+    };
+
+    dispatch(newReview(reviewData));
+
+    setOpen(false);
+  };
 
   const productDetails = useAppSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails
+  const { success, error: reviewError } = useAppSelector((state) => state.newReview)
 
   useEffect(() => {
     if (error) {
+      dispatch(setAlertMessage({ message: error, severity: "error" }))
       dispatch(clearAllErrors());
     }
-    //TODO
-    // if (success) {
-    //   alert.success("Review Submitted Successfully");
-    //   dispatch({ type: NEW_REVIEW_RESET });
-    // }
+    if (reviewError) {
+      dispatch(setAlertMessage({ message: reviewError, severity: "error" }))
+      dispatch(clearAllErrors())
+    }
+    if (success) {
+      dispatch(setAlertMessage({ message: "Review Submitted Successfully", severity: "success" }))
+    }
 
     if (params?.id) {
       dispatch(getProductDetails(params?.id));
     }
-  }, [dispatch, params?.id, error]);
+  }, [dispatch, params?.id, error, reviewError, success]);
 
   const options = {
     value: product?.ratings,
@@ -62,8 +91,7 @@ const ProductDetails = () => {
     // Product details are still loading or not available
     return <Loader />;
   }
-  //TODO
-  // dispatch(setAlertMessage({ message: "Review Submitted Successfully", severity: "success" }))
+
   return (
     <Fragment>
       <MetaData title={`${product.name} --ECOMMERCE`} />
@@ -104,7 +132,7 @@ const ProductDetails = () => {
                   <input readOnly value={quantity} type='number' />
                   <button onClick={increaseQuantity}>+</button>
                 </div >{" "}
-                <button onClick={addToCartHandler}>Add to Cart</button>
+                <button disabled={product.Stock < 1 ? true : false} onClick={addToCartHandler}>Add to Cart</button>
               </div >
               <p>
                 Status:{" "}
@@ -117,13 +145,48 @@ const ProductDetails = () => {
             <div className='detailsBlock-4'>
               Description : <p>{product?.description}</p>
             </div>
-            <button className='submitReview'>
+            <button className='submitReview' onClick={submitReviewToggle}>
               Submit Review
             </button>
           </div>
         </div>
 
         <h3 className='reviewsHeading'>REVIEWS</h3>
+
+        <Dialog
+          aria-labelledby="simple-dialog-title"
+          open={open}
+          onClose={submitReviewToggle}
+        >
+          <DialogTitle>Submit Review</DialogTitle>
+          <DialogContent className="submitDialog">
+            <Rating
+              value={rating}
+              onChange={(_event, newValue) => {
+                if (newValue !== null) {
+                  setRating(newValue);
+                }
+              }}
+              size="large"
+            />
+
+            <textarea
+              className="submitDialogTextArea"
+              cols={30}
+              rows={5}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></textarea>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={submitReviewToggle} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={reviewSubmitHandler} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         {product?.reviews[0] ? (
           <div className='reviews'>
