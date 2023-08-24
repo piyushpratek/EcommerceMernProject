@@ -10,13 +10,14 @@ import { allProductRequest, allProductSuccess, allProductFail, adminProductSucce
 import { updateProductRequest, updateProductSuccess, updateProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail } from '../slice/Products/updateDeleteProductSlice';
 import { setAlertMessage } from '../slice/userSlice';
 
-type ProductData = {
+export type ProductData = {
     name: string;
     price: number;
     category: string;
     description: string;
     stock: number;
     imageUrl: string;
+
 };
 
 export interface ReviewData {
@@ -98,15 +99,26 @@ export const getAdminProduct = () => async (dispatch: Dispatch) => {
 };
 
 // Create Product
-export const createProduct = async (dispatch: Dispatch, payload: ProductData,) => {
+export const createProduct = async (dispatch: Dispatch, payload: ProductData, images: File[]) => {
+
     try {
         dispatch(newProductRequest())
+        const myForm = new FormData();
+        myForm.append('name', payload.name);
+        myForm.append('description', payload.description);
+        myForm.append('category', payload.category);
+        myForm.append('price', payload.price.toString());
+        myForm.append('stock', payload.stock.toString());
+
+        images.forEach((image) => {
+            myForm.append('images', image);
+        });
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
         const { data } = await axios.post(
             `/api/v1/admin/product/new`,
-            payload,
+            myForm,
             config
         );
         dispatch(newProductSuccess(data));
