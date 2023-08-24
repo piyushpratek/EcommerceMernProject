@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { newReviewReset } from '../../store/slice/Products/newReviewSlice';
 
 const ProductDetails = () => {
   const dispatch = useAppDispatch()
@@ -74,6 +75,7 @@ const ProductDetails = () => {
     }
     if (success) {
       dispatch(setAlertMessage({ message: "Review Submitted Successfully", severity: "success" }))
+      dispatch(newReviewReset)
     }
 
     if (params?.id) {

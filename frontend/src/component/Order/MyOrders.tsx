@@ -10,11 +10,6 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { myOrders, clearAllErrors } from "../../store/actionsHelpers/orderActionHelpers";
 import { setAlertMessage } from "../../store/slice/userSlice";
 
-// interface CustomCellParams extends GridCellParams {
-//   value: string;
-//   id: string;
-// }
-
 const MyOrders = () => {
   const dispatch = useAppDispatch();
   const { loading, error, orders } = useAppSelector((state) => state.order);
@@ -26,7 +21,8 @@ const MyOrders = () => {
     </Link>
   );
   const getStatusCellClassName = (params: GridValueGetterParams): string => {
-    return (params.value.id) === "Delivered" ? "greenColor" : "redColor";
+    const status = params.value as string
+    return status === "Delivered" ? "greenColor" : "redColor";
   };
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
