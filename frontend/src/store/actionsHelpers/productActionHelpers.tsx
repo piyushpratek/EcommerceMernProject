@@ -90,7 +90,7 @@ export const getAdminProduct = () => async (dispatch: Dispatch) => {
     try {
         dispatch(adminProductRequest())
         const { data } = await axios.get('/api/v1/admin/products');
-        dispatch(adminProductSuccess(data));
+        dispatch(adminProductSuccess(data.products));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

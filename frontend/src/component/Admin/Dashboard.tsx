@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import MetaData from '../layout/MetaData';
-import { Line } from 'react-chartjs-2';
+import { Line, Doughnut } from 'react-chartjs-2';
 import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
@@ -22,6 +22,17 @@ const Dashboard = () => {
         backgroundColor: ['tomato'],
         hoverBackgroundColor: ['rgb(197, 72, 49)'],
         data: [0, 4000],
+      },
+    ],
+  };
+
+  const doughnutState = {
+    labels: ['Out of Stock', 'InStock'],
+    datasets: [
+      {
+        backgroundColor: ['#00A6B4', '#6800B4'],
+        hoverBackgroundColor: ['#4B5000', '#35014F'],
+        data: [2, 10],
       },
     ],
   };
@@ -65,9 +76,9 @@ const Dashboard = () => {
           <Line data={lineState} />
         </div>
 
-        {/* <div className='doughnutChart'>
+        <div className='doughnutChart'>
           <Doughnut data={doughnutState} />
-        </div> */}
+        </div>
       </div>
     </div>
   );

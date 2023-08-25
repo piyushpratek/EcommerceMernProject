@@ -26,8 +26,6 @@ const UpdatePassword = () => {
     setOpen(false);
   };
 
-  console.log('pass?', oldPassword, newPassword, confirmPassword)
-
   const updatePasswordSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     dispatch(

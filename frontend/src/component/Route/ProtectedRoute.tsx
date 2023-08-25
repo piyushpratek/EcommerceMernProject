@@ -12,6 +12,12 @@ const ProtectedRoute = ({ isAdminOnlyRoute, children }) => {
   }
 
   return children;
+
+  // return (
+  //   <Routes>
+  //     <Route {...rest} element={children} />
+  //   </Routes>
+  // );
 };
 
 export default ProtectedRoute;
