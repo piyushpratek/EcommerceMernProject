@@ -60,7 +60,7 @@ const ProductList = () => {
       flex: 1,
     },
     {
-      field: 'stock',
+      field: 'Stock',
       headerName: 'Stock',
       type: 'number',
       minWidth: 150,

@@ -10,9 +10,28 @@ import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
 import { LinearScale } from 'chart.js';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { useEffect } from 'react';
+import { getAdminProduct } from '../../store/actionsHelpers/productActionHelpers';
+import { getAllOrders } from '../../store/actionsHelpers/orderActionHelpers';
+import { getAllUsers } from '../../store/actionsHelpers/userActionHelpers';
 Chart.register(LinearScale)
 
 const Dashboard = () => {
+  const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
+  let outOfStock = 0;
+  products &&
+    products?.forEach((item) => {
+      if (item.Stock === 0) {
+        outOfStock += 1;
+      }
+    });
+  useEffect(() => {
+    dispatch(getAdminProduct());
+    // dispatch(getAllOrders());
+    // dispatch(getAllUsers());
+  }, [dispatch]);
 
   const lineState = {
     labels: ['Initial Amount', 'Amount Earned'],
@@ -32,7 +51,7 @@ const Dashboard = () => {
       {
         backgroundColor: ['#00A6B4', '#6800B4'],
         hoverBackgroundColor: ['#4B5000', '#35014F'],
-        data: [2, 10],
+        data: [outOfStock, products.length - outOfStock],
       },
     ],
   };
@@ -54,8 +73,8 @@ const Dashboard = () => {
           <div className='dashboardSummaryBox2'>
             <Link to='/admin/products'>
               <p>Product</p>
-              {/* <p>{products && products.length}</p> */}
-              <p>50</p>
+              <p>{products && products.length}</p>
+              {/* <p>50</p> */}
             </Link>
             <Link to='/admin/orders'>
               <p>Orders</p>
