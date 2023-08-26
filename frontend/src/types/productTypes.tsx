@@ -12,7 +12,6 @@ export interface Product {
     Stock: number;
     category: string;
     user: string;
-    outOfStock: number
 }
 
 // Product reviews state interface

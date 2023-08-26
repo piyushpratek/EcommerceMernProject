@@ -24,15 +24,13 @@ const NewProduct = () => {
     (state) => state.newProduct
   );
 
-  const [productData, setProductData] = useState({
-    name: '',
-    price: 0,
-    description: '',
-    category: '',
-    Stock: 0,
-    images: [],
-    imagesPreview: [],
-  });
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [stock, setStock] = useState(0);
+  const [imagesPreview, setImagesPreview] = useState<(string | ArrayBuffer | null)[]>([]);
+  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
 
   const categories = [
     'Laptop',
@@ -58,40 +56,52 @@ const NewProduct = () => {
         })
       );
       navigate('/admin/dashboard');
-      dispatch(newProductReset);
+      dispatch(newProductReset());
     }
   }, [dispatch, error, navigate, success]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(createProduct(productData, productData.images));
+    dispatch(createProduct({ name, price, description, category, stock, images }));
   };
 
-  const createProductImagesChange = e => {
-    const files = Array.from(e.target.files);
-
-    setProductData(prevData => ({
-      ...prevData,
-      images: [],
-      imagesPreview: [],
-    }));
+  const createProductImagesChange = (e) => {
+    const files = Array.from(e.target.files)
+    setImages([])
+    setImagesPreview([])
 
     files.forEach((file) => {
-      const reader = new FileReader();
+      const reader = new FileReader()
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setProductData(prevData => ({
-            ...prevData,
-            imagesPreview: [...prevData.imagesPreview, reader.result],
-            images: [...prevData.images, reader.result],
-          }));
+          setImagesPreview((old) => [...old, reader.result]);
+          setImages((old) => [...old, reader.result]);
         }
       };
 
-      reader.readAsDataURL(file);
-    });
-  };
+      reader.readAsDataURL(file as any)
+    })
+  }
+  // const createProductImagesChange = e => {
+  //   const files = Array.from(e.target.files);
+
+  //   setImages([]);
+  //   setImagesPreview([]);
+
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+
+  //     reader.onload = () => {
+  //       if (reader.readyState === 2) {
+  //         setImagesPreview((prevImagesPreview) => [...prevImagesPreview, reader.result]);
+  //         setImages((prevImages) => [...prevImages, reader.result]);
+  //       }
+  //     };
+
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
 
   return (
     <Fragment>
@@ -122,7 +132,7 @@ const NewProduct = () => {
                 type='number'
                 placeholder='Price'
                 required
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPrice(parseFloat(e.target.value))}
               />
             </div>
 
@@ -133,8 +143,8 @@ const NewProduct = () => {
                 placeholder='Product Description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                cols='30'
-                rows='1'
+                cols={30}
+                rows={1}
               ></textarea>
             </div>
 
@@ -156,7 +166,7 @@ const NewProduct = () => {
                 type='number'
                 placeholder='Stock'
                 required
-                onChange={(e) => setStock(e.target.value)}
+                onChange={(e) => setStock(parseInt(e.target.value))}
               />
             </div>
 
@@ -172,7 +182,7 @@ const NewProduct = () => {
 
             <div id='createProductFormImage'>
               {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt='Product Preview' />
+                <img key={index} src={image as any} alt='Product Preview' />
               ))}
             </div>
 

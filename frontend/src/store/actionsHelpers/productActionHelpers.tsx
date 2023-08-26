@@ -16,7 +16,7 @@ export type ProductData = {
     category: string;
     description: string;
     stock: number;
-    imageUrl: string;
+    images: File[]
 
 };
 
@@ -99,29 +99,31 @@ export const getAdminProduct = () => async (dispatch: Dispatch) => {
 };
 
 // Create Product
-export const createProduct = async (dispatch: Dispatch, payload: ProductData, images: File[]) => {
+export const createProduct = (productData: ProductData) => async (dispatch: Dispatch) => {
 
+    const myForm = new FormData();
+    myForm.set('name', productData.name);
+    myForm.set('description', productData.description);
+    myForm.set('category', productData.category);
+    myForm.set('price', productData.price.toString());
+    myForm.set('stock', productData.stock.toString());
+
+    const images: File[] = [];
+    images.forEach((image) => {
+        myForm.append('images', image);
+    });
+    const payload = myForm;
     try {
         dispatch(newProductRequest())
-        const myForm = new FormData();
-        myForm.append('name', payload.name);
-        myForm.append('description', payload.description);
-        myForm.append('category', payload.category);
-        myForm.append('price', payload.price.toString());
-        myForm.append('stock', payload.stock.toString());
-
-        images.forEach((image) => {
-            myForm.append('images', image);
-        });
         const config = {
             headers: { 'Content-Type': 'application/json' },
         };
         const { data } = await axios.post(
             `/api/v1/admin/product/new`,
-            myForm,
+            payload,
             config
         );
-        dispatch(newProductSuccess(data));
+        dispatch(newProductSuccess(data.products));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
