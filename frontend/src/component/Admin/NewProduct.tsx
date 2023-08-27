@@ -16,6 +16,17 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Sidebar from './Sidebar';
 import { newProductReset } from '../../store/slice/Products/newProductSlice';
 import { useNavigate } from 'react-router-dom';
+import { isDevelopmentServer } from '../../constants';
+
+const categories = [
+  'Laptop',
+  'Footwear',
+  'Bottom',
+  'Tops',
+  'Attire',
+  'Camera',
+  'SmartPhones',
+];
 
 const NewProduct = () => {
   const dispatch = useAppDispatch();
@@ -23,24 +34,14 @@ const NewProduct = () => {
   const { loading, error, success } = useAppSelector(
     (state) => state.newProduct
   );
-
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [stock, setStock] = useState(0);
-  const [imagesPreview, setImagesPreview] = useState<(string | ArrayBuffer | null)[]>([]);
-  const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
-
-  const categories = [
-    'Laptop',
-    'Footwear',
-    'Bottom',
-    'Tops',
-    'Attire',
-    'Camera',
-    'SmartPhones',
-  ];
+  // Todo - setnewProduct from single state 
+  const [name, setName] = useState(isDevelopmentServer ? "sample1" : "");
+  const [price, setPrice] = useState(isDevelopmentServer ? 110 : 0);
+  const [description, setDescription] = useState(isDevelopmentServer ? "sample description" : '');
+  const [category, setCategory] = useState(isDevelopmentServer ? categories[4] : "");
+  const [stock, setStock] = useState(isDevelopmentServer ? 2 : 0);
+  const [imagesPreview, setImagesPreview] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
 
   useEffect(() => {
     if (error) {
@@ -62,47 +63,32 @@ const NewProduct = () => {
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(createProduct({ name, price, description, category, stock, images }));
+    dispatch(createProduct({
+      name, price, description, category, stock, images
+    }));
   };
 
-  const createProductImagesChange = (e) => {
+  const createProductImagesChange = (e: any) => {
     const files = Array.from(e.target.files)
-    setImages([])
-    setImagesPreview([])
+
+    setImages(files as any);
+    setImagesPreview([]);
 
     files.forEach((file) => {
-      const reader = new FileReader()
+      const reader = new FileReader();
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, reader.result]);
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        if (result && typeof reader.result === 'string') {
+          setImagesPreview((old) => [...old, reader.result] as any);
         }
+
       };
 
-      reader.readAsDataURL(file as any)
-    })
-  }
-  // const createProductImagesChange = e => {
-  //   const files = Array.from(e.target.files);
-
-  //   setImages([]);
-  //   setImagesPreview([]);
-
-  //   files.forEach((file) => {
-  //     const reader = new FileReader();
-
-  //     reader.onload = () => {
-  //       if (reader.readyState === 2) {
-  //         setImagesPreview((prevImagesPreview) => [...prevImagesPreview, reader.result]);
-  //         setImages((prevImages) => [...prevImages, reader.result]);
-  //       }
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
-
+      reader.readAsDataURL(file as any);
+    });
+  };
+  //Todo add loader at submit button
   return (
     <Fragment>
       <MetaData title='Create Product' />
@@ -131,6 +117,7 @@ const NewProduct = () => {
               <input
                 type='number'
                 placeholder='Price'
+                value={price}
                 required
                 onChange={(e) => setPrice(parseFloat(e.target.value))}
               />
@@ -150,7 +137,7 @@ const NewProduct = () => {
 
             <div>
               <AccountTreeIcon />
-              <select onChange={(e) => setCategory(e.target.value)}>
+              <select value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value=''>Choose Category</option>
                 {categories.map((cate) => (
                   <option key={cate} value={cate}>
@@ -165,6 +152,7 @@ const NewProduct = () => {
               <input
                 type='number'
                 placeholder='Stock'
+                value={stock}
                 required
                 onChange={(e) => setStock(parseInt(e.target.value))}
               />

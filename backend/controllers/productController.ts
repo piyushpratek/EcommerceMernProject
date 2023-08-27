@@ -4,10 +4,34 @@ import Product from '../models/productModel'
 import ErrorHandler from '../utils/errorHandler'
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors'
 import ApiFeatures from '../utils/apifeatures'
+import cloudinary from 'cloudinary'
+import fs from 'fs'
 
 // Create Product -- Admin
 export const createProduct = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+    let images: any = []
+    if (typeof req.files === 'string') {
+        images.push(req.files)
+    } else {
+        images = req.files
+    }
+
+    const imagesLinks: any = []
+    for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i].path, {
+            folder: 'products',
+            resource_type: 'image',
+        })
+        // delete temporary uploaded files
+        fs.unlinkSync(images[i].path)
+        imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+        })
+    }
+    req.body.images = imagesLinks
     req.body.user = (req as any)?.user.id
+
     const product = await Product.create(req.body)
 
     res.status(HttpStatus.CREATED).json({
@@ -15,6 +39,7 @@ export const createProduct = catchAsyncErrors(async (req: Request, res: Response
         product
     })
 })
+
 // Get All Product
 export const getAllProducts = catchAsyncErrors(async (req: Request, res: Response) => {
     const resultPerPage = 8

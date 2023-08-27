@@ -44,8 +44,9 @@ export const registerUser = catchAsyncErrors(async (req: Request, res: Response,
       folder: 'avatars',
       width: 150,
       crop: 'scale',
-      resource_type: 'auto',
+      resource_type: 'image',
     })
+    // delete temporary uploaded files
     fs.unlinkSync(file.path)
   }
 

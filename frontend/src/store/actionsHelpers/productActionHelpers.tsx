@@ -16,8 +16,7 @@ export type ProductData = {
     category: string;
     description: string;
     stock: number;
-    images: File[]
-
+    images: File[];
 };
 
 export interface ReviewData {
@@ -106,17 +105,17 @@ export const createProduct = (productData: ProductData) => async (dispatch: Disp
     myForm.set('description', productData.description);
     myForm.set('category', productData.category);
     myForm.set('price', productData.price.toString());
-    myForm.set('stock', productData.stock.toString());
+    myForm.set('Stock', productData.stock.toString());
 
-    const images: File[] = [];
-    images.forEach((image) => {
+    productData.images.forEach((image) => {
         myForm.append('images', image);
     });
+
     const payload = myForm;
     try {
         dispatch(newProductRequest())
         const config = {
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'multipart/form-data' },
         };
         const { data } = await axios.post(
             `/api/v1/admin/product/new`,
