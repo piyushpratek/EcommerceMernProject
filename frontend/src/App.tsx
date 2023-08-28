@@ -38,6 +38,8 @@ import Dashboard from './component/Admin/Dashboard.tsx';
 import ProductList from './component/Admin/ProductList.tsx';
 import NewProduct from './component/Admin/NewProduct.tsx';
 import UpdateProduct from './component/Admin/UpdateProduct.tsx';
+import OrderList from './component/Admin/OrderList.tsx';
+import ProcessOrder from './component/Admin/ProcessOrder.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -179,6 +181,20 @@ const App = () => {
         <Route path="/admin/product/:id" element={
           <ProtectedRoute isAdminOnlyRoute={true} >
             <UpdateProduct />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/admin/orders" element={
+          <ProtectedRoute isAdminOnlyRoute={true} >
+            <OrderList />
+          </ProtectedRoute>
+        }
+        />
+
+        <Route path="/admin/order/:id" element={
+          <ProtectedRoute isAdminOnlyRoute={true} >
+            <ProcessOrder />
           </ProtectedRoute>
         }
         />

@@ -1,56 +1,62 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import MetaData from '../layout/MetaData';
-import { Link } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import { Link, useParams } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import SideBar from './Sidebar';
 import {
   getOrderDetails,
-  clearErrors,
+  clearAllErrors,
   updateOrder,
-} from '../../actions/orderAction';
-import { useSelector, useDispatch } from 'react-redux';
+} from '../../store/actionsHelpers/orderActionHelpers';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import Loader from '../layout/Loader/Loader';
-import { useAlert } from 'react-alert';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import { Button } from '@material-ui/core';
-import { UPDATE_ORDER_RESET } from '../../constants/orderConstants';
+import { setAlertMessage } from '../../store/slice/userSlice';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import Button from '@mui/material/Button';
+import { updateOrderReset } from '../../store/slice/orderSlice';
 import './processOrder.css';
 
-const ProcessOrder = ({ history, match }) => {
-  const { order, error, loading } = useSelector((state) => state.orderDetails);
-  const { error: updateError, isUpdated } = useSelector((state) => state.order);
+const ProcessOrder = () => {
+  const params = useParams<{ id: string }>()
 
-  const updateOrderSubmitHandler = (e) => {
+  const { order, error, loading, isUpdated, error: updateError } = useAppSelector(
+    (state) => state.order
+  );
+  const [status, setStatus] = useState('');
+
+  const updateOrderSubmitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    const myForm = new FormData();
+    if (params?.id) {
 
-    myForm.set('status', status);
-
-    dispatch(updateOrder(match.params.id, myForm));
+      dispatch(updateOrder(params?.id, status));
+    }
   };
 
-  const dispatch = useDispatch();
-  const alert = useAlert();
-
-  const [status, setStatus] = useState('');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
+      dispatch(setAlertMessage({ message: error, severity: 'error' }));
+      dispatch(clearAllErrors());
     }
     if (updateError) {
-      alert.error(updateError);
-      dispatch(clearErrors());
+      dispatch(setAlertMessage({ message: updateError, severity: 'error' }));
+      dispatch(clearAllErrors());
     }
     if (isUpdated) {
-      alert.success('Order Updated Successfully');
-      dispatch({ type: UPDATE_ORDER_RESET });
+      dispatch(
+        setAlertMessage({
+          message: 'Order Updated Successfully',
+          severity: 'success',
+        })
+      );
+      dispatch(updateOrderReset());
     }
-
-    dispatch(getOrderDetails(match.params.id));
-  }, [dispatch, alert, error, match.params.id, isUpdated, updateError]);
+    if (params?.id) {
+      dispatch(getOrderDetails(params?.id));
+    }
+  }, [dispatch, error, params?.id, isUpdated, updateError]);
 
   return (
     <Fragment>
@@ -64,7 +70,7 @@ const ProcessOrder = ({ history, match }) => {
             <div
               className='confirmOrderPage'
               style={{
-                display: order.orderStatus === 'Delivered' ? 'block' : 'grid',
+                display: order?.orderStatus === 'Delivered' ? 'block' : 'grid',
               }}
             >
               <div>
@@ -73,19 +79,19 @@ const ProcessOrder = ({ history, match }) => {
                   <div className='orderDetailsContainerBox'>
                     <div>
                       <p>Name:</p>
-                      <span>{order.user && order.user.name}</span>
+                      <span>{order?.user?.name}</span>
                     </div>
                     <div>
                       <p>Phone:</p>
                       <span>
-                        {order.shippingInfo && order.shippingInfo.phoneNo}
+                        {order?.shippingInfo.phoneNo}
                       </span>
                     </div>
                     <div>
                       <p>Address:</p>
                       <span>
-                        {order.shippingInfo &&
-                          `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
+                        {
+                          `${order?.shippingInfo.address}, ${order?.shippingInfo.city}, ${order?.shippingInfo.state}, ${order?.shippingInfo.pinCode}, ${order?.shippingInfo.country}`}
                       </span>
                     </div>
                   </div>
@@ -95,14 +101,12 @@ const ProcessOrder = ({ history, match }) => {
                     <div>
                       <p
                         className={
-                          order.paymentInfo &&
-                          order.paymentInfo.status === 'succeeded'
+                          order?.paymentInfo.status === 'succeeded'
                             ? 'greenColor'
                             : 'redColor'
                         }
                       >
-                        {order.paymentInfo &&
-                        order.paymentInfo.status === 'succeeded'
+                        {order?.paymentInfo.status === 'succeeded'
                           ? 'PAID'
                           : 'NOT PAID'}
                       </p>
@@ -110,7 +114,7 @@ const ProcessOrder = ({ history, match }) => {
 
                     <div>
                       <p>Amount:</p>
-                      <span>{order.totalPrice && order.totalPrice}</span>
+                      <span>{order?.totalPrice}</span>
                     </div>
                   </div>
 
@@ -118,13 +122,12 @@ const ProcessOrder = ({ history, match }) => {
                   <div className='orderDetailsContainerBox'>
                     <div>
                       <p
-                        className={
-                          order.orderStatus && order.orderStatus === 'Delivered'
-                            ? 'greenColor'
-                            : 'redColor'
+                        className={order?.orderStatus === 'Delivered'
+                          ? 'greenColor'
+                          : 'redColor'
                         }
                       >
-                        {order.orderStatus && order.orderStatus}
+                        {order?.orderStatus}
                       </p>
                     </div>
                   </div>
@@ -132,26 +135,25 @@ const ProcessOrder = ({ history, match }) => {
                 <div className='confirmCartItems'>
                   <Typography>Your Cart Items:</Typography>
                   <div className='confirmCartItemsContainer'>
-                    {order.orderItems &&
-                      order.orderItems.map((item) => (
-                        <div key={item.product}>
-                          <img src={item.image} alt='Product' />
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
-                          </Link>{' '}
-                          <span>
-                            {item.quantity} X ₹{item.price} ={' '}
-                            <b>₹{item.price * item.quantity}</b>
-                          </span>
-                        </div>
-                      ))}
+                    {order?.orderItems.map((item) => (
+                      <div key={item.product}>
+                        <img src={item.image} alt='Product' />
+                        <Link to={`/product/${item.product}`}>
+                          {item.name}
+                        </Link>{' '}
+                        <span>
+                          {item.quantity} X ₹{item.price} ={' '}
+                          <b>₹{item.price * item.quantity}</b>
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
               {/*  */}
               <div
                 style={{
-                  display: order.orderStatus === 'Delivered' ? 'none' : 'block',
+                  display: order?.orderStatus === 'Delivered' ? 'none' : 'block',
                 }}
               >
                 <form
@@ -164,11 +166,11 @@ const ProcessOrder = ({ history, match }) => {
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value=''>Choose Category</option>
-                      {order.orderStatus === 'Processing' && (
+                      {order?.orderStatus === 'Processing' && (
                         <option value='Shipped'>Shipped</option>
                       )}
 
-                      {order.orderStatus === 'Shipped' && (
+                      {order?.orderStatus === 'Shipped' && (
                         <option value='Delivered'>Delivered</option>
                       )}
                     </select>

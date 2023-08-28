@@ -83,7 +83,10 @@ export const getAllOrders = () => async (dispatch: Dispatch) => {
 };
 
 // Update Order
-export const updateOrder = (id: string, payload: Order) => async (dispatch: Dispatch) => {
+export const updateOrder = (id: string, status: string) => async (dispatch: Dispatch) => {
+    const myForm = new FormData();
+    myForm.set('status', status);
+    const payload = myForm
     try {
         dispatch(updateOrderRequest());
 

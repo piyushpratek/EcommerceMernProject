@@ -28,7 +28,7 @@ const OrderList = () => {
     (state) => state.order
   );
 
-  const deleteOrderHandler = (id) => {
+  const deleteOrderHandler = (id: any) => {
     dispatch(deleteOrder(id));
   };
 
@@ -57,10 +57,11 @@ const OrderList = () => {
     dispatch(getAllOrders());
   }, [dispatch, error, deleteError, navigate, isDeleted]);
 
-  const getStatusCellClassName = (params): string => {
+  const getStatusCellClassName = (params: any): string => {
     const status = params.value as string
     return status === "Delivered" ? "greenColor" : "redColor";
   };
+
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'Order ID', minWidth: 300, flex: 1 },
 
@@ -69,7 +70,7 @@ const OrderList = () => {
       headerName: 'Status',
       minWidth: 150,
       flex: 0.5,
-      cellClassName: getStatusCellClassName
+      cellClassName: getStatusCellClassName,
     },
     {
       field: 'itemsQty',
@@ -122,15 +123,14 @@ const OrderList = () => {
   }
   const rows: Row[] = [];
 
-  orders &&
-    orders.forEach((item) => {
-      rows.push({
-        id: item._id,
-        itemsQty: item.orderItems.length,
-        amount: item.totalPrice,
-        status: item.orderStatus,
-      });
+  orders?.forEach((item) => {
+    rows.push({
+      id: item._id,
+      itemsQty: item.orderItems.length,
+      amount: item.totalPrice,
+      status: item.orderStatus,
     });
+  });
 
   return (
     <Fragment>
