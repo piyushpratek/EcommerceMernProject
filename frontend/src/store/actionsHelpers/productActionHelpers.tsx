@@ -154,7 +154,7 @@ export const updateProduct = (updateProductData: UpdateProduct) => async (dispat
             payload,
             config
         );
-        dispatch(updateProductSuccess(data.products));
+        dispatch(updateProductSuccess(data.product));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
