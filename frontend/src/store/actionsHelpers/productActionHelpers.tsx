@@ -133,18 +133,28 @@ export const createProduct = (productData: ProductData) => async (dispatch: Disp
 type UpdateProduct = { id: string; productData: ProductData };
 // Update Product
 export const updateProduct = (updateProductData: UpdateProduct) => async (dispatch: Dispatch) => {
-    const payload = updateProductData.productData;
+    const myForm = new FormData();
+    myForm.set("name", updateProductData?.productData?.name)
+    myForm.set('price', updateProductData?.productData?.price.toString());
+    myForm.set('description', updateProductData?.productData?.description);
+    myForm.set('category', updateProductData?.productData?.category);
+    myForm.set('Stock', updateProductData?.productData?.stock.toString());
+
+    updateProductData?.productData?.images.forEach((image) => {
+        myForm.append("images", image)
+    })
+    const payload = myForm
     try {
         dispatch(updateProductRequest())
         const config = {
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'multipart/form-data' },
         };
         const { data } = await axios.put(
             `/api/v1/admin/product/${updateProductData.id}`,
             payload,
             config
         );
-        dispatch(updateProductSuccess(data));
+        dispatch(updateProductSuccess(data.products));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
