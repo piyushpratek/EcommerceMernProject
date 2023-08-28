@@ -8,11 +8,10 @@ import {
   updateProfile,
   loadUser
 } from "../../store/actionsHelpers/userActionHelpers";
-import { updateProfileReset } from "../../store/slice/userSlice";
+import { setAlertMessage, updateProfileReset } from "../../store/slice/userSlice";
 import MetaData from "../layout/MetaData";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import { Alert, Snackbar } from '@mui/material';
 
 const UpdateProfile = () => {
   const dispatch = useAppDispatch();
@@ -59,12 +58,12 @@ const UpdateProfile = () => {
     }
 
     if (error) {
-      <Alert severity="error">{error}</Alert>
+      dispatch(setAlertMessage({ message: error, severity: 'error' }));
       dispatch(clearAllErrors());
     }
 
     if (isUpdated) {
-      <Alert severity="success">Profile Updated Successfully</Alert>
+      dispatch(setAlertMessage({ message: 'Profile Updated Successfully', severity: "success" }));
       dispatch(loadUser());
 
       navigate("/account");
@@ -129,13 +128,6 @@ const UpdateProfile = () => {
               </form>
             </div>
           </div>
-          {/* //TODO */}
-          <Snackbar open={!!error || isUpdated} autoHideDuration={6000} onClose={() => dispatch(clearAllErrors())}>
-
-            <Alert onClose={() => dispatch(clearAllErrors())} severity={error ? "error" : "success"} sx={{ width: '100%' }}>
-              {error ? error : "Profile Updated Successfully"}
-            </Alert>
-          </Snackbar>
         </Fragment>
       )}
     </Fragment>

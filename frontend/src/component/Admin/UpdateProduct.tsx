@@ -49,14 +49,12 @@ const UpdateProduct = () => {
   ];
 
   const productId = params?.id || "";
-
   useEffect(() => {
-    if (product && product?._id !== productId) {
+    if (product?._id !== productId) {
       dispatch(getProductDetails(productId));
     } else {
       setName(product?.name || "");
       setDescription(product?.description || "");
-      // setPrice(product?.price || 0);
       setPrice(Number(product?.price) || 0);
       setCategory(product?.category || "");
       setStock(product?.Stock || 0);
@@ -66,20 +64,19 @@ const UpdateProduct = () => {
       dispatch(setAlertMessage({ message: error, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-
     if (updateError) {
       dispatch(setAlertMessage({ message: updateError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-
     if (isUpdated) {
       dispatch(setAlertMessage({ message: 'Product Updated Successfully', severity: "success" }));
       navigate('/admin/products');
       dispatch(updateProductReset());
     }
+    console.log("isUpdated", isUpdated);
   }, [dispatch, error, navigate, isUpdated, productId, product, updateError]);
 
-  const updateProductSubmitHandler = (e) => {
+  const updateProductSubmitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const productData = {
       name,
@@ -92,7 +89,7 @@ const UpdateProduct = () => {
     dispatch(updateProduct({ id: productId, productData }));
   };
 
-  const updateProductImagesChange = (e) => {
+  const updateProductImagesChange = (e: any) => {
     const files = Array.from(e.target.files);
 
     // setImages([]);
