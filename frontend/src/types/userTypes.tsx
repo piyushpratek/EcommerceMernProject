@@ -1,11 +1,6 @@
 
-// Defining the types for User, UserProfile, and other relevant types
-// export interface Avatar {
-//     public_id: string;
-//     url: string;
-// }
-
 export interface User {
+    _id: string;
     id: string
     name: string;
     email: string;

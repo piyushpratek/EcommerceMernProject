@@ -19,6 +19,8 @@ Chart.register(LinearScale)
 
 const Dashboard = () => {
   const { products } = useAppSelector((state) => state.products);
+  const { orders } = useAppSelector((state) => state.order)
+  // const { users } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch();
   let outOfStock = 0;
   products &&
@@ -29,7 +31,7 @@ const Dashboard = () => {
     });
   useEffect(() => {
     dispatch(getAdminProduct());
-    // dispatch(getAllOrders());
+    dispatch(getAllOrders());
     // dispatch(getAllUsers());
   }, [dispatch]);
 
@@ -78,13 +80,12 @@ const Dashboard = () => {
             </Link>
             <Link to='/admin/orders'>
               <p>Orders</p>
-              {/* <p>{orders && orders.length}</p> */}
-              <p>4</p>
-
+              <p>{orders?.length}</p>
             </Link>
+
             <Link to='/admin/users'>
               <p>Users</p>
-              {/* <p>{users && users.length}</p> */}
+              {/* <p>{users?.length}</p> */}
               <p>2</p>
 
             </Link>

@@ -250,7 +250,9 @@ export const getAllUsers = () => async (dispatch: Dispatch) => {
         dispatch(allUsersRequest());
         const { data } = await axios.get(`/api/v1/admin/users`);
 
-        dispatch(allUsersSuccess(data));
+        dispatch(allUsersSuccess(data.users));
+        console.log("data", data.users);
+
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
