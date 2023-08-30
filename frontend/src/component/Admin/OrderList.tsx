@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 
@@ -24,9 +24,7 @@ const OrderList = () => {
 
   const { error, orders } = useAppSelector((state) => state.order);
 
-  const { error: deleteError, isDeleted } = useAppSelector(
-    (state) => state.order
-  );
+  const { error: deleteError, isDeleted } = useAppSelector((state) => state.order);
 
   const deleteOrderHandler = (id: any) => {
     dispatch(deleteOrder(id));
@@ -45,11 +43,7 @@ const OrderList = () => {
 
     if (isDeleted) {
       dispatch(
-        setAlertMessage({
-          message: 'Order Deleted Successfully',
-          severity: 'success',
-        })
-      );
+        setAlertMessage({ message: 'Order Deleted Successfully', severity: 'success' }));
       navigate('/admin/orders');
       dispatch(deleteOrderReset());
     }
@@ -57,7 +51,7 @@ const OrderList = () => {
     dispatch(getAllOrders());
   }, [dispatch, error, deleteError, navigate, isDeleted]);
 
-  const getStatusCellClassName = (params: any): string => {
+  const getStatusCellClassName = (params: GridCellParams): string => {
     const status = params.value as string
     return status === "Delivered" ? "greenColor" : "redColor";
   };

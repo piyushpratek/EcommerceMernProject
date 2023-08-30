@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import './productList.css';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,11 +19,13 @@ import { deleteUserReset } from '../../store/slice/userSlice';
 const UsersList = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, users, isDeleted } = useAppSelector((state) => state.user);
+
+  const { error, users, message, isDeleted } = useAppSelector((state) => state.user);
+  console.log("users?", users)
 
   const { error: deleteError } = useAppSelector((state) => state.user);
 
-  const deleteUserHandler = (id: any) => {
+  const deleteUserHandler = (id: string | any) => {
     dispatch(deleteUser(id));
   };
 
@@ -39,16 +41,15 @@ const UsersList = () => {
     }
 
     if (isDeleted) {
-      dispatch(setAlertMessage({ message: 'User deleted successfully.', severity: 'success' }));
+      dispatch(setAlertMessage({ message: message || 'User deleted successfully.', severity: 'success' }));
       navigate('/admin/users');
       dispatch(deleteUserReset());
     }
+    // dispatch(getAllUsers());
+  }, [dispatch, error, deleteError, navigate, isDeleted, message]);
 
-    dispatch(getAllUsers());
-  }, [dispatch, error, deleteError, navigate, isDeleted]);
-
-  const getStatusCellClassName = (params: any) => {
-    return params.getValue(params.id, 'role') === 'admin' ? 'greenColor' : 'redColor';
+  const getStatusCellClassName = (params: GridCellParams) => {
+    return params?.id === 'admin' ? 'greenColor' : 'redColor';
   };
 
   const columns: GridColDef[] = [
@@ -86,13 +87,13 @@ const UsersList = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link to={`/admin/user/${params.id}`}>
+            <Link to={`/admin/user/${params?.id}`}>
               <EditIcon />
             </Link>
 
             <Button
               onClick={() =>
-                deleteUserHandler(params.id)
+                deleteUserHandler(params?.id)
               }
             >
               <DeleteIcon />
@@ -114,10 +115,10 @@ const UsersList = () => {
 
   users?.forEach((item) => {
     rows.push({
-      id: item._id,
-      role: item.role,
-      email: item.email,
-      name: item.name,
+      id: item?._id,
+      role: item?.role,
+      email: item?.email,
+      name: item?.name,
     });
   });
 

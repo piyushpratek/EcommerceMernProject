@@ -18,6 +18,8 @@ export interface UserProfile {
     role: string;
     avatar: { url: string };
     createdAt: string
+    _id: string;
+
 }
 
 export type AllUsersData = User[];

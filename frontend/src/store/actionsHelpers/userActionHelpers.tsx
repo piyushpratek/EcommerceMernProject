@@ -60,6 +60,7 @@ type LoginData = {
     name: string;
     createdAt: string
     avatar?: (File | null) | undefined
+    role: string
 };
 
 type ForgotPassword = {
@@ -244,12 +245,11 @@ export const resetPassword = (payload: ResetPasword) => async (dispatch: Dispatc
     }
 };
 
-// Get All User
+// Get All Users
 export const getAllUsers = () => async (dispatch: Dispatch) => {
     try {
         dispatch(allUsersRequest());
         const { data } = await axios.get(`/api/v1/admin/users`);
-
         dispatch(allUsersSuccess(data.users));
         console.log("data", data.users);
 
@@ -266,16 +266,20 @@ export const getUserDetails = (id: string) => async (dispatch: Dispatch) => {
         dispatch(userDetailsRequest());
         const { data } = await axios.get(`/api/v1/admin/user/${id}`);
 
-        dispatch(userDetailsSuccess(data));
+        dispatch(userDetailsSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
         dispatch(userDetailsFail(message));
     }
 };
-
+type UpdateUserDataType = Omit<LoginData, 'password' | 'createdAt'>
 // Update User
-export const updateUser = (id: string, payload: LoginData) => async (dispatch: Dispatch) => {
+export const updateUser = (id: string, payload: UpdateUserDataType) => async (dispatch: Dispatch) => {
+    const myForm = new FormData();
+    myForm.set('name', payload.name);
+    myForm.set('email', payload.email);
+    myForm.set('role', payload.role);
     try {
         dispatch(updateUserRequest());
 
@@ -283,11 +287,11 @@ export const updateUser = (id: string, payload: LoginData) => async (dispatch: D
 
         const { data } = await axios.put(
             `/api/v1/admin/user/${id}`,
-            payload,
+            myForm,
             config
         );
 
-        dispatch(updateUserSuccess(data));
+        dispatch(updateUserSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
@@ -302,7 +306,7 @@ export const deleteUser = (id: string) => async (dispatch: Dispatch) => {
 
         const { data } = await axios.delete(`/api/v1/admin/user/${id}`);
 
-        dispatch(deleteUserSuccess(data));
+        dispatch(deleteUserSuccess(data.user));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

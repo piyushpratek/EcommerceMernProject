@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
 import './productReviews.css';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
@@ -30,11 +30,11 @@ const ProductReviews = () => {
 
   const [productId, setProductId] = useState('');
 
-  const deleteReviewHandler = (reviewId) => {
-    dispatch(deleteReviews(reviewId, productId));
+  const deleteReviewHandler = (reviewId: GridRowId) => {
+    dispatch(deleteReviews(reviewId as any, productId));
   };
 
-  const productReviewsSubmitHandler = (e) => {
+  const productReviewsSubmitHandler = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(getAllReviews(productId));
   };
