@@ -13,10 +13,6 @@ import {
     loadUserRequest,
     loadUserSuccess,
 
-    allUsersFail,
-    allUsersRequest,
-    allUsersSuccess,
-
     clearErrors,
 
     deleteUserFail,
@@ -42,14 +38,13 @@ import {
     updateProfileRequest,
     updateProfileSuccess,
 
-    userDetailsFail,
-    userDetailsRequest,
-    userDetailsSuccess,
     updateUserRequest,
     updateUserSuccess,
     updateUserFail,
     setAlertMessage
 } from '../slice/userSlice';
+import { allUsersRequest, allUsersSuccess, allUsersFail } from '../slice/allUsersSlice';
+import { userDetailsRequest, userDetailsSuccess, userDetailsFail } from '../slice/userDetailsSlice';
 
 export interface ErrorResponse {
     message: string;

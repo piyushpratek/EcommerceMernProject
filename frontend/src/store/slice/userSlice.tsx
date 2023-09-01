@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserProfile, AllUsersData } from "../../types/userTypes";
+import { User, UserProfile } from "../../types/userTypes";
 
 type AlertSeverity = 'error' | 'warning' | 'info' | 'success';
 type AlertMessageType = { message: string, severity: AlertSeverity };
@@ -12,7 +12,6 @@ interface UserState {
     message: string | null;
     success: boolean | null;
     error: string | null;
-    users: User[];
     alertMessage: AlertMessageType;
 }
 
@@ -25,13 +24,12 @@ const initialState: UserState = {
     message: null,
     success: null,
     error: null,
-    users: [],
     alertMessage: {
         message: '',
         severity: 'info',
     },
 };
-
+//Todo- change to userSlice to loggedInUserlice
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -144,17 +142,6 @@ const userSlice = createSlice({
         resetPasswordReset(state) {
             state.success = false;
         },
-        allUsersRequest(state) {
-            state.loading = true;
-        },
-        allUsersSuccess(state, action: PayloadAction<AllUsersData>) {
-            state.loading = false;
-            state.users = action.payload;
-        },
-        allUsersFail(state, action: PayloadAction<string>) {
-            state.loading = false;
-            state.error = action.payload;
-        },
         deleteUserRequest(state) {
             state.loading = true;
         },
@@ -168,17 +155,6 @@ const userSlice = createSlice({
         },
         deleteUserReset(state) {
             state.isDeleted = false;
-        },
-        userDetailsRequest(state) {
-            state.loading = true;
-        },
-        userDetailsSuccess(state, action: PayloadAction<UserProfile>) {
-            state.loading = false;
-            state.user = action.payload;
-        },
-        userDetailsFail(state, action: PayloadAction<string>) {
-            state.loading = false;
-            state.error = action.payload;
         },
         updateUserRequest(state) {
             state.loading = true;
@@ -219,10 +195,6 @@ export const {
     loadUserSuccess,
     loadUserFail,
 
-    allUsersRequest,
-    allUsersSuccess,
-    allUsersFail,
-
     clearErrors,
 
     deleteUserRequest,
@@ -251,10 +223,6 @@ export const {
     updateProfileSuccess,
     updateProfileFail,
     updateProfileReset,
-
-    userDetailsRequest,
-    userDetailsSuccess,
-    userDetailsFail,
 
     updateUserRequest,
     updateUserSuccess,

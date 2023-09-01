@@ -1,10 +1,12 @@
-// store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
 import userSlice from './slice/userSlice';
+import allUsersSlice from './slice/allUsersSlice';
+import userDetailsSlice from './slice/userDetailsSlice';
+
 import { deleteReviewReducer } from './slice/Products/deleteReviewSlice';
 import { newProductReducer } from './slice/Products/newProductSlice';
 import { newReviewReducer } from './slice/Products/newReviewSlice';
@@ -23,7 +25,9 @@ export const store = configureStore({
         deletereview: deleteReviewReducer,
         cart: cartSlice,
         order: orderSlice,
-        user: userSlice
+        user: userSlice,
+        allUsers: allUsersSlice,
+        userDetails: userDetailsSlice
 
     },
     // Other store configurations if needed...

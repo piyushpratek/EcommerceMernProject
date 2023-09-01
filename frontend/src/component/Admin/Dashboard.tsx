@@ -20,7 +20,8 @@ Chart.register(LinearScale)
 const Dashboard = () => {
   const { products } = useAppSelector((state) => state.products);
   const { orders } = useAppSelector((state) => state.order)
-  // const { users } = useAppSelector((state) => state.user)
+  const { users } = useAppSelector((state) => state.allUsers)
+
   const dispatch = useAppDispatch();
   let outOfStock = 0;
   products &&
@@ -82,11 +83,11 @@ const Dashboard = () => {
               <p>Orders</p>
               <p>{orders?.length}</p>
             </Link>
-
+            {/* TODO no. of users value is not updating -on dashboard page refresh  */}
             <Link to='/admin/users'>
               <p>Users</p>
-              {/* <p>{users?.length}</p> */}
-              <p>2</p>
+              <p>{users?.length}</p>
+              {/* <p>2</p> */}
 
             </Link>
           </div>

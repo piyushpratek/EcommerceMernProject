@@ -22,7 +22,7 @@ const UpdateUser = () => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>()
 
-  const { loading, error, user } = useAppSelector((state) => state.user);
+  const { loading, error, user } = useAppSelector((state) => state.userDetails);
 
   const {
     loading: updateLoading,

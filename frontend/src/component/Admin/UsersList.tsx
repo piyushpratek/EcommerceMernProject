@@ -14,13 +14,13 @@ import {
   clearAllErrors,
   deleteUser,
 } from '../../store/actionsHelpers/userActionHelpers';
-import { deleteUserReset } from '../../store/slice/userSlice';
+// import { deleteUserReset } from '../../store/slice/userSlice';
 
 const UsersList = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { error, users, message, isDeleted } = useAppSelector((state) => state.user);
+  const { error, users } = useAppSelector((state) => state.allUsers);
   console.log("users?", users)
 
   const { error: deleteError } = useAppSelector((state) => state.user);
@@ -39,14 +39,14 @@ const UsersList = () => {
       dispatch(setAlertMessage({ message: deleteError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-
-    if (isDeleted) {
-      dispatch(setAlertMessage({ message: message || 'User deleted successfully.', severity: 'success' }));
-      navigate('/admin/users');
-      dispatch(deleteUserReset());
-    }
+    //TODO = add deleteUserReset
+    // if (isDeleted) {
+    //   dispatch(setAlertMessage({ message: message || 'User deleted successfully.', severity: 'success' }));
+    //   navigate('/admin/users');
+    //   dispatch(deleteUserReset());
+    // }
     dispatch(getAllUsers());
-  }, [dispatch, error, deleteError, navigate, isDeleted, message]);
+  }, [dispatch, error, deleteError, navigate]);
 
   const getStatusCellClassName = (params: GridCellParams) => {
     return params?.id === 'admin' ? 'greenColor' : 'redColor';
