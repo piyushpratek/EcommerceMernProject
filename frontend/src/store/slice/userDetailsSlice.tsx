@@ -7,17 +7,17 @@ interface UsersDetailsState {
     success: boolean | null;
     error: string | null;
     user: User | UserProfile | null;
-    //Todo check below fields rae used or not 
-    // isDeleted: boolean;
+    isUpdated: boolean;
+    isDeleted: boolean;
     // message: string | null;
 }
-//am back.. still there ?
 const initialState: UsersDetailsState = {
     loading: true,
     success: null,
     error: null,
     user: null,
-    // isDeleted: false,
+    isDeleted: false,
+    isUpdated: false,
     // message: null,
 };
 
@@ -35,6 +35,33 @@ const userDetailsSlice = createSlice({
         userDetailsFail(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
+        }, deleteUserRequest(state) {
+            state.loading = true;
+        },
+        deleteUserSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isDeleted = action.payload;
+        },
+        deleteUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        deleteUserReset(state) {
+            state.isDeleted = false;
+        },
+        updateUserRequest(state) {
+            state.loading = true;
+        },
+        updateUserSuccess(state, action: PayloadAction<boolean>) {
+            state.loading = false;
+            state.isUpdated = action.payload;
+        },
+        updateUserFail(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        updateUserReset(state) {
+            state.isUpdated = false;
         },
     },
 });
@@ -43,6 +70,14 @@ export const {
     userDetailsRequest,
     userDetailsSuccess,
     userDetailsFail,
+    deleteUserRequest,
+    deleteUserSuccess,
+    deleteUserFail,
+    deleteUserReset,
+    updateUserRequest,
+    updateUserSuccess,
+    updateUserFail,
+    updateUserReset,
 } = userDetailsSlice.actions;
 
 export default userDetailsSlice.reducer

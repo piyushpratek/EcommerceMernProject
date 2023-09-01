@@ -8,7 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import SideBar from './Sidebar';
 
-import { updateUserReset } from '../../store/slice/userSlice';
+import { updateUserReset } from '../../store/slice/userDetailsSlice';
 import {
   getUserDetails,
   updateUser,
@@ -53,7 +53,7 @@ const UpdateUser = () => {
       dispatch(setAlertMessage({ message: updateError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-
+    //TODO below message cant see
     if (isUpdated) {
       dispatch(
         setAlertMessage({

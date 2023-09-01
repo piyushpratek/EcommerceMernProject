@@ -8,7 +8,6 @@ interface UserState {
     isAuthenticated: boolean;
     user: User | UserProfile | null;
     isUpdated: boolean;
-    isDeleted: boolean;
     message: string | null;
     success: boolean | null;
     error: string | null;
@@ -20,7 +19,6 @@ const initialState: UserState = {
     isAuthenticated: false,
     user: null,
     isUpdated: false,
-    isDeleted: false,
     message: null,
     success: null,
     error: null,
@@ -142,34 +140,7 @@ const userSlice = createSlice({
         resetPasswordReset(state) {
             state.success = false;
         },
-        deleteUserRequest(state) {
-            state.loading = true;
-        },
-        deleteUserSuccess(state, action: PayloadAction<boolean>) {
-            state.loading = false;
-            state.isDeleted = action.payload;
-        },
-        deleteUserFail(state, action: PayloadAction<string>) {
-            state.loading = false;
-            state.error = action.payload;
-        },
-        deleteUserReset(state) {
-            state.isDeleted = false;
-        },
-        updateUserRequest(state) {
-            state.loading = true;
-        },
-        updateUserSuccess(state, action: PayloadAction<boolean>) {
-            state.loading = false;
-            state.isUpdated = action.payload;
-        },
-        updateUserFail(state, action: PayloadAction<string>) {
-            state.loading = false;
-            state.error = action.payload;
-        },
-        updateUserReset(state) {
-            state.isUpdated = false;
-        },
+
         clearErrors(state) {
             state.error = null;
         },
@@ -197,11 +168,6 @@ export const {
 
     clearErrors,
 
-    deleteUserRequest,
-    deleteUserSuccess,
-    deleteUserFail,
-    deleteUserReset,
-
     forgotPasswordRequest,
     forgotPasswordSuccess,
     forgotPasswordFail,
@@ -223,11 +189,6 @@ export const {
     updateProfileSuccess,
     updateProfileFail,
     updateProfileReset,
-
-    updateUserRequest,
-    updateUserSuccess,
-    updateUserFail,
-    updateUserReset,
 
     setAlertMessage,
     clearAlertMessage,

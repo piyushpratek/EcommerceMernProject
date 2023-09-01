@@ -15,10 +15,6 @@ import {
 
     clearErrors,
 
-    deleteUserFail,
-    deleteUserRequest,
-    deleteUserSuccess,
-
     forgotPasswordFail,
     forgotPasswordRequest,
     forgotPasswordSuccess,
@@ -38,13 +34,10 @@ import {
     updateProfileRequest,
     updateProfileSuccess,
 
-    updateUserRequest,
-    updateUserSuccess,
-    updateUserFail,
     setAlertMessage
 } from '../slice/userSlice';
 import { allUsersRequest, allUsersSuccess, allUsersFail } from '../slice/allUsersSlice';
-import { userDetailsRequest, userDetailsSuccess, userDetailsFail } from '../slice/userDetailsSlice';
+import { userDetailsRequest, userDetailsSuccess, userDetailsFail, deleteUserFail, deleteUserRequest, deleteUserSuccess, updateUserFail, updateUserRequest, updateUserSuccess } from '../slice/userDetailsSlice';
 
 export interface ErrorResponse {
     message: string;
