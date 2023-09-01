@@ -33,7 +33,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getAdminProduct());
     dispatch(getAllOrders());
-    // dispatch(getAllUsers());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
   const lineState = {
@@ -83,11 +83,10 @@ const Dashboard = () => {
               <p>Orders</p>
               <p>{orders?.length}</p>
             </Link>
-            {/* TODO no. of users value is not updating -on dashboard page refresh  */}
+
             <Link to='/admin/users'>
               <p>Users</p>
               <p>{users?.length}</p>
-              {/* <p>2</p> */}
 
             </Link>
           </div>
