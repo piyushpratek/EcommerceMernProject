@@ -45,7 +45,7 @@ const UsersList = () => {
       navigate('/admin/users');
       dispatch(deleteUserReset());
     }
-    // dispatch(getAllUsers());
+    dispatch(getAllUsers());
   }, [dispatch, error, deleteError, navigate, isDeleted, message]);
 
   const getStatusCellClassName = (params: GridCellParams) => {
