@@ -1,3 +1,4 @@
+export type UserRole = 'user' | 'admin';
 
 export interface User {
     _id: string;
@@ -6,7 +7,7 @@ export interface User {
     email: string;
     password: string;
     avatar?: { url: string }
-    role: string
+    role: UserRole
     createdAt: string
 }
 

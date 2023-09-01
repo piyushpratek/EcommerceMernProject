@@ -76,6 +76,22 @@ const App = () => {
       {isAuthenticated && <UserOptions user={user} />}
 
       <Routes>
+        {/* TESTING ONLY */}
+        <Route path="/a" element={<div>route /a</div>} />
+        <Route path="/b" element={
+          <ProtectedRoute isAdminOnlyRoute={false} >
+            <div>route /b</div>
+          </ProtectedRoute>
+        }
+        />
+        <Route path="/c" element={
+          <ProtectedRoute isAdminOnlyRoute={true} >
+            <div>route /c</div>
+          </ProtectedRoute>
+        }
+        />
+
+        {/* TESTING ONLY */}
 
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />

@@ -21,7 +21,6 @@ const categories = [
 
 const Products = () => {
     const dispatch = useAppDispatch();
-    // const params = useParams()
     const { keyword } = useParams();
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
