@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserProfile } from "../../types/userTypes";
+import { User, UserProfile } from "../../../types/userTypes";
 
 type AlertSeverity = 'error' | 'warning' | 'info' | 'success';
 type AlertMessageType = { message: string, severity: AlertSeverity };

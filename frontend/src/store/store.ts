@@ -3,9 +3,9 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
-import userSlice from './slice/userSlice';
-import allUsersSlice from './slice/allUsersSlice';
-import userDetailsSlice from './slice/userDetailsSlice';
+import userSlice from './slice/user/userSlice';
+import allUsersSlice from './slice/user/allUsersSlice';
+import userDetailsSlice from './slice/user/userDetailsSlice';
 
 import { deleteReviewReducer } from './slice/Products/deleteReviewSlice';
 import { newProductReducer } from './slice/Products/newProductSlice';

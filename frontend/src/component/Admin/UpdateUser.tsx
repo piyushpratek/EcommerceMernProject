@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Button from '@mui/material/Button';
 import MetaData from '../layout/MetaData';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -8,7 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import SideBar from './Sidebar';
 
-import { updateUserReset } from '../../store/slice/userDetailsSlice';
+import { updateUserReset } from '../../store/slice/user/userDetailsSlice';
 import {
   getUserDetails,
   updateUser,

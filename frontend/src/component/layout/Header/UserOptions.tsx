@@ -10,7 +10,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { useNavigate } from "react-router-dom";
-import { setAlertMessage } from "../../../store/slice/userSlice";
+import { setAlertMessage } from "../../../store/slice/user/userSlice";
 
 const UserOptions = ({ user }) => {
   const { cartItems } = useAppSelector((state) => state.cart);

@@ -2,7 +2,7 @@ import { Fragment, useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import './productList.css';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Button from '@mui/material/Button';
 import MetaData from '../layout/MetaData';
 import { Link, useNavigate } from 'react-router-dom';

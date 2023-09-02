@@ -8,7 +8,7 @@ import {
   updateProfile,
   loadUser
 } from "../../store/actionsHelpers/userActionHelpers";
-import { setAlertMessage, updateProfileReset } from "../../store/slice/userSlice";
+import { setAlertMessage, updateProfileReset } from "../../store/slice/user/userSlice";
 import MetaData from "../layout/MetaData";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";

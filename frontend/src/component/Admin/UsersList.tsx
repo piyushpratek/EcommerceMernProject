@@ -3,7 +3,7 @@ import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
 import './productList.css';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Link, useNavigate } from 'react-router-dom';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Button from '@mui/material/Button';
 import MetaData from '../layout/MetaData';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,7 +14,7 @@ import {
   clearAllErrors,
   deleteUser,
 } from '../../store/actionsHelpers/userActionHelpers';
-import { deleteUserReset } from '../../store/slice/userDetailsSlice';
+import { deleteUserReset } from '../../store/slice/user/userDetailsSlice';
 
 const UsersList = () => {
   const dispatch = useAppDispatch();

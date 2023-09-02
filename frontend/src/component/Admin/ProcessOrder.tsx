@@ -10,7 +10,7 @@ import {
 } from '../../store/actionsHelpers/orderActionHelpers';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import Loader from '../layout/Loader/Loader';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import Button from '@mui/material/Button';
 import { updateOrderReset } from '../../store/slice/orderSlice';

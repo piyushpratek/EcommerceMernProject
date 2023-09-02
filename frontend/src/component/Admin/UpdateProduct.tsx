@@ -5,7 +5,7 @@ import {
   updateProduct,
   getProductDetails,
 } from '../../store/actionsHelpers/productActionHelpers';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Button from '@mui/material/Button';
 import MetaData from '../layout/MetaData';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';

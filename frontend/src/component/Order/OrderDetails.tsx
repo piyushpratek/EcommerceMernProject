@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 import { getOrderDetails, clearAllErrors } from "../../store/actionsHelpers/orderActionHelpers";
 import Loader from "../layout/Loader/Loader";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { setAlertMessage } from "../../store/slice/userSlice";
+import { setAlertMessage } from "../../store/slice/user/userSlice";
 
 const OrderDetails = () => {
   const { order, error, loading } = useAppSelector((state) => state.order);

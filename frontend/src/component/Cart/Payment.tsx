@@ -17,7 +17,7 @@ import EventIcon from '@mui/icons-material/Event';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { createOrder, clearAllErrors } from '../../store/actionsHelpers/orderActionHelpers.tsx';
 import './payment.css';
-import { setAlertMessage } from '../../store/slice/userSlice.tsx';
+import { setAlertMessage } from '../../store/slice/user/userSlice.tsx';
 import { ErrorResponse } from '../../store/actionsHelpers/userActionHelpers.tsx';
 
 const Payment = () => {

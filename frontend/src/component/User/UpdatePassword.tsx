@@ -6,7 +6,7 @@ import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import { updatePasswordReset } from "../../store/slice/userSlice";
+import { updatePasswordReset } from "../../store/slice/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";

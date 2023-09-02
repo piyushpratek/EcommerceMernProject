@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User, UserProfile } from "../../types/userTypes";
+import { User, UserProfile } from "../../../types/userTypes";
 
 //Todo rename this to updateUserSlice 
 interface UsersDetailsState {

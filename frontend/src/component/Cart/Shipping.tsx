@@ -12,7 +12,7 @@ import { Country, State } from "country-state-city";
 import CheckoutSteps from "./CheckoutSteps";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-import { setAlertMessage } from "../../store/slice/userSlice";
+import { setAlertMessage } from "../../store/slice/user/userSlice";
 
 const Shipping = () => {
   const dispatch = useAppDispatch();

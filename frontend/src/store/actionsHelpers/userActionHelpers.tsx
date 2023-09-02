@@ -35,9 +35,9 @@ import {
     updateProfileSuccess,
 
     setAlertMessage
-} from '../slice/userSlice';
-import { allUsersRequest, allUsersSuccess, allUsersFail } from '../slice/allUsersSlice';
-import { userDetailsRequest, userDetailsSuccess, userDetailsFail, deleteUserFail, deleteUserRequest, deleteUserSuccess, updateUserFail, updateUserRequest, updateUserSuccess } from '../slice/userDetailsSlice';
+} from '../slice/user/userSlice';
+import { allUsersRequest, allUsersSuccess, allUsersFail } from '../slice/user/allUsersSlice';
+import { userDetailsRequest, userDetailsSuccess, userDetailsFail, deleteUserFail, deleteUserRequest, deleteUserSuccess, updateUserFail, updateUserRequest, updateUserSuccess } from '../slice/user/userDetailsSlice';
 
 export interface ErrorResponse {
     message: string;

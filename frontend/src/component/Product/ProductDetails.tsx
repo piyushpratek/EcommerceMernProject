@@ -10,7 +10,7 @@ import ReviewCard from './ReviewCard';
 import Loader from '../layout/Loader/Loader';
 import MetaData from '../layout/MetaData';
 import { addItemsToCart } from '../../store/actionsHelpers/cartActionHelpers';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';

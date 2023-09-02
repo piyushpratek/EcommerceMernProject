@@ -24,7 +24,7 @@ import ResetPassword from './component/User/ResetPassword.tsx';
 import Cart from './component/Cart/Cart.tsx';
 import Shipping from './component/Cart/Shipping.tsx';
 import { Alert, Snackbar } from '@mui/material';
-import { clearAlertMessage } from './store/slice/userSlice.tsx';
+import { clearAlertMessage } from './store/slice/user/userSlice.tsx';
 import ConfirmOrder from './component/Cart/ConfirmOrder.tsx';
 import axios from 'axios';
 

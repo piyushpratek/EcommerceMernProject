@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import './productList.css';
 import MetaData from '../layout/MetaData';
 import SideBar from './Sidebar';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';

@@ -8,7 +8,7 @@ import { productDetailsRequest, productDetailsSuccess, productDetailsFail } from
 import { allReviewRequest, allReviewSuccess, allReviewFail } from '../slice/Products/productReviewsSlice';
 import { allProductRequest, allProductSuccess, allProductFail, adminProductSuccess, adminProductRequest, adminProductFail } from '../slice/Products/allProductsSlice';
 import { updateProductRequest, updateProductSuccess, updateProductFail, deleteProductRequest, deleteProductSuccess, deleteProductFail } from '../slice/Products/updateDeleteProductSlice';
-import { setAlertMessage } from '../slice/userSlice';
+import { setAlertMessage } from '../slice/user/userSlice';
 
 export type ProductData = {
     name: string;

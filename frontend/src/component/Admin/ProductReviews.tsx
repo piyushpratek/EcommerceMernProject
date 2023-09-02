@@ -13,7 +13,7 @@ import StarsIcon from '@mui/icons-material/Stars';
 import MetaData from '../layout/MetaData';
 import SideBar from './Sidebar';
 import { deleteReviewReset } from '../../store/slice/Products/deleteReviewSlice';
-import { setAlertMessage } from '../../store/slice/userSlice';
+import { setAlertMessage } from '../../store/slice/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const ProductReviews = () => {
