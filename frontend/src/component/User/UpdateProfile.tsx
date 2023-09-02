@@ -29,7 +29,10 @@ const UpdateProfile = () => {
 
   const updateProfileSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateProfile({ name, email, avatar }));
+    dispatch(updateProfile({
+      name, email, avatar,
+      role: ""
+    }));
   };
 
   const updateProfileDataChange = (e: ChangeEvent<HTMLInputElement>) => {
