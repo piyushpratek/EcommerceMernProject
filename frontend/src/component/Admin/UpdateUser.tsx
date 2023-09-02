@@ -48,12 +48,12 @@ const UpdateUser = () => {
       dispatch(setAlertMessage({ message: error, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-
     if (updateError) {
       dispatch(setAlertMessage({ message: updateError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
     //TODO below message cant see
+    console.log("isUpdated? =", isUpdated);
     if (isUpdated) {
       dispatch(
         setAlertMessage({ message: 'User Updated Successfully', severity: 'success', })
@@ -66,6 +66,7 @@ const UpdateUser = () => {
   const updateUserSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = { name, email, role };
+    console.log('Dispatching updateUser action...');
     dispatch(updateUser(userId, formData));
   };
 

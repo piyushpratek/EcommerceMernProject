@@ -57,7 +57,7 @@ export interface NewReviewState {
 }
 
 export interface ProductReviewsState {
-    reviews: Review[]; // Replace `any[]` with the actual type for reviews
+    reviews: Review[];
     loading: boolean;
     error: string | null;
 }

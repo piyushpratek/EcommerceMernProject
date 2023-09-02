@@ -233,7 +233,7 @@ export const resetPassword = (payload: ResetPasword) => async (dispatch: Dispatc
     }
 };
 
-// Get All Users
+// Get All Users 
 export const getAllUsers = () => async (dispatch: Dispatch) => {
     try {
         dispatch(allUsersRequest());
@@ -279,7 +279,7 @@ export const updateUser = (id: string, payload: UpdateUserDataType) => async (di
             config
         );
 
-        dispatch(updateUserSuccess(data.user));
+        dispatch(updateUserSuccess(data.success));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

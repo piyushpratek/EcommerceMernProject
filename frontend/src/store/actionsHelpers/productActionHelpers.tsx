@@ -198,7 +198,7 @@ export const getAllReviews = (id: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(allReviewRequest());
         const { data } = await axios.get(`/api/v1/reviews?id=${id}`);
-        dispatch(allReviewSuccess(data));
+        dispatch(allReviewSuccess(data.reviews));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

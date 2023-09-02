@@ -43,6 +43,8 @@ import ProcessOrder from './component/Admin/ProcessOrder.tsx';
 import UsersList from './component/Admin/UsersList.tsx';
 import UpdateUser from './component/Admin/UpdateUser.tsx';
 import ProductReviews from './component/Admin/ProductReviews.tsx';
+import Contact from './component/layout/Contact/Contact.tsx';
+import About from './component/layout/About/About.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -83,6 +85,8 @@ const App = () => {
         <Route path="/products/:keyword" element={<Products />} />
 
         <Route path="/search" element={<Search />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
 
         <Route path="/account" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
