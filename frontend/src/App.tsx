@@ -45,6 +45,7 @@ import UpdateUser from './component/Admin/UpdateUser.tsx';
 import ProductReviews from './component/Admin/ProductReviews.tsx';
 import Contact from './component/layout/Contact/Contact.tsx';
 import About from './component/layout/About/About.tsx';
+import NotFound from './component/layout/Not Found/NotFound.tsx';
 
 const App = () => {
   const { isAuthenticated, user, alertMessage } = useAppSelector((state) => state.user);
@@ -71,6 +72,8 @@ const App = () => {
     store.dispatch(loadUser())
     getStripeApiKey()
   }, [])
+
+  // window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <>
@@ -227,6 +230,12 @@ const App = () => {
         }
         />
 
+        <Route
+          path="*"
+          element={
+            window.location.pathname === "/process/payment" ? null : <NotFound />
+          }
+        />
       </Routes >
 
       <Snackbar open={Boolean(alertMessage.message)} autoHideDuration={6_000} onClose={() => dispatch(clearAlertMessage())}>

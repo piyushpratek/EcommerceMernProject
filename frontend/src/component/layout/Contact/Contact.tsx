@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 const Contact = () => {
   return (
     <div className="contactContainer">
-      <a className="mailBtn" href="mailto:mymailforabhi@gmail.com">
+      <a className="mailBtn" href="mailto:piyushprateek231996@gmail.com">
         <Button>Contact: piyushprateek231996@gmail.com</Button>
       </a>
     </div>

@@ -24,17 +24,21 @@ const Dashboard = () => {
 
   const dispatch = useAppDispatch();
   let outOfStock = 0;
-  products &&
-    products?.forEach((item) => {
-      if (item.Stock === 0) {
-        outOfStock += 1;
-      }
-    });
+  products?.forEach((item) => {
+    if (item.Stock === 0) {
+      outOfStock += 1;
+    }
+  });
   useEffect(() => {
     dispatch(getAdminProduct());
     dispatch(getAllOrders());
     dispatch(getAllUsers());
   }, [dispatch]);
+
+  let totalAmount = 0;
+  orders?.forEach((item) => {
+    totalAmount += item.totalPrice;
+  });
 
   const lineState = {
     labels: ['Initial Amount', 'Amount Earned'],
@@ -43,7 +47,7 @@ const Dashboard = () => {
         label: 'TOTAL AMOUNT',
         backgroundColor: ['tomato'],
         hoverBackgroundColor: ['rgb(197, 72, 49)'],
-        data: [0, 4000],
+        data: [0, totalAmount],
       },
     ],
   };
@@ -69,14 +73,14 @@ const Dashboard = () => {
         <div className='dashboardSummary'>
           <div>
             <p>
-              Total Amount <br /> ₹2000
-              {/* {totalAmount} */}
+              Total Amount <br />
+              ₹{totalAmount}
             </p>
           </div>
           <div className='dashboardSummaryBox2'>
             <Link to='/admin/products'>
               <p>Product</p>
-              <p>{products && products.length}</p>
+              <p>{products?.length}</p>
             </Link>
             <Link to='/admin/orders'>
               <p>Orders</p>

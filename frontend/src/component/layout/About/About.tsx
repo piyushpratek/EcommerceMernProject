@@ -27,12 +27,11 @@ const About = () => {
               Visit Instagram
             </Button>
             <span>
-              This is a sample wesbite made by @PiyushPrateek. Only with the
-              purpose to learn MERN Stack
+              This website is a creative endeavor by @PiyushPrateek, designed with a passion for learning the intricacies of the MERN Stack and tackling complex challenges head-on.
             </span>
           </div>
           <div className="aboutSectionContainer2">
-            <Typography component="h2">Our Brands</Typography>
+            <Typography component="h2">Visit Me</Typography>
             <a
               href="https://www.linkedin.com/in/piyush-prateek-9a922912b/"
               target="blank"
