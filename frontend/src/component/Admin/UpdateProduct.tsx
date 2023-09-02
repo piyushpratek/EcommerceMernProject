@@ -73,7 +73,6 @@ const UpdateProduct = () => {
       navigate('/admin/products');
       dispatch(updateProductReset());
     }
-    console.log("isUpdated", isUpdated);
   }, [dispatch, error, navigate, isUpdated, productId, product, updateError]);
 
   const updateProductSubmitHandler = (e: { preventDefault: () => void; }) => {

@@ -37,7 +37,6 @@ const UsersList = () => {
       dispatch(setAlertMessage({ message: deleteError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-    //TODO cannot see below message 
     if (isDeleted) {
       dispatch(setAlertMessage({ message: message || 'User deleted successfully.', severity: 'success' }));
       navigate('/admin/users');

@@ -56,12 +56,8 @@ const UpdateUser = () => {
     //TODO below message cant see
     if (isUpdated) {
       dispatch(
-        setAlertMessage({
-          message: 'User Updated Successfully',
-          severity: 'success',
-        })
+        setAlertMessage({ message: 'User Updated Successfully', severity: 'success', })
       );
-
       navigate('/admin/users');
       dispatch(updateUserReset());
     }

@@ -239,7 +239,6 @@ export const getAllUsers = () => async (dispatch: Dispatch) => {
         dispatch(allUsersRequest());
         const { data } = await axios.get(`/api/v1/admin/users`);
         dispatch(allUsersSuccess(data.users));
-        console.log("data", data.users);
 
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
@@ -261,8 +260,9 @@ export const getUserDetails = (id: string) => async (dispatch: Dispatch) => {
         dispatch(userDetailsFail(message));
     }
 };
-type UpdateUserDataType = Omit<LoginData, 'password' | 'createdAt'>
+
 // Update User
+type UpdateUserDataType = Omit<LoginData, 'password' | 'createdAt'>
 export const updateUser = (id: string, payload: UpdateUserDataType) => async (dispatch: Dispatch) => {
     const myForm = new FormData();
     myForm.set('name', payload.name);
@@ -294,7 +294,7 @@ export const deleteUser = (id: string) => async (dispatch: Dispatch) => {
 
         const { data } = await axios.delete(`/api/v1/admin/user/${id}`);
 
-        dispatch(deleteUserSuccess(data.user));
+        dispatch(deleteUserSuccess(data));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";

@@ -9,7 +9,7 @@ interface UsersDetailsState {
     user: User | UserProfile | null;
     isUpdated: boolean;
     isDeleted: boolean;
-    // message: string | null;
+    message: string | null | boolean;
 }
 const initialState: UsersDetailsState = {
     loading: true,
@@ -18,7 +18,7 @@ const initialState: UsersDetailsState = {
     user: null,
     isDeleted: false,
     isUpdated: false,
-    // message: null,
+    message: null,
 };
 
 const userDetailsSlice = createSlice({
@@ -41,6 +41,8 @@ const userDetailsSlice = createSlice({
         deleteUserSuccess(state, action: PayloadAction<boolean>) {
             state.loading = false;
             state.isDeleted = action.payload;
+            state.message = action.payload
+
         },
         deleteUserFail(state, action: PayloadAction<string>) {
             state.loading = false;

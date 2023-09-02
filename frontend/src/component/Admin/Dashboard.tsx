@@ -77,7 +77,6 @@ const Dashboard = () => {
             <Link to='/admin/products'>
               <p>Product</p>
               <p>{products && products.length}</p>
-              {/* <p>50</p> */}
             </Link>
             <Link to='/admin/orders'>
               <p>Orders</p>
