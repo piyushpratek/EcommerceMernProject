@@ -27,7 +27,6 @@ const UpdateUser = () => {
   const {
     loading: updateLoading,
     error: updateError,
-    isUpdated,
   } = useAppSelector((state) => state.user);
 
   const [name, setName] = useState('');
@@ -52,22 +51,14 @@ const UpdateUser = () => {
       dispatch(setAlertMessage({ message: updateError, severity: 'error' }));
       dispatch(clearAllErrors());
     }
-    //TODO below message cant see
-    console.log("isUpdated? =", isUpdated);
-    if (isUpdated) {
-      dispatch(
-        setAlertMessage({ message: 'User Updated Successfully', severity: 'success', })
-      );
-      navigate('/admin/users');
-      dispatch(updateUserReset());
-    }
-  }, [dispatch, error, isUpdated, navigate, updateError, user, userId]);
+  }, [dispatch, error, navigate, updateError, user, userId]);
 
   const updateUserSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = { name, email, role };
-    console.log('Dispatching updateUser action...');
     dispatch(updateUser(userId, formData));
+    navigate('/admin/users');
+    dispatch(updateUserReset());
   };
 
   return (

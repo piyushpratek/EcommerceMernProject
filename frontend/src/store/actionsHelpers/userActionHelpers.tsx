@@ -280,6 +280,7 @@ export const updateUser = (id: string, payload: UpdateUserDataType) => async (di
         );
 
         dispatch(updateUserSuccess(data.success));
+        dispatch(setAlertMessage({ message: 'User Updated Successfully', severity: 'success', }));
     } catch (error) {
         const axiosError = error as AxiosError<ErrorResponse>;
         const message = axiosError?.response?.data?.message || "Error Occurred";
