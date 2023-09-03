@@ -112,8 +112,6 @@ const UpdateUser = () => {
                 disabled={
                   updateLoading ? true : false || role === '' ? true : false
                 }
-              //  disabled={updateLoading || role === ''}
-
               >
                 Update
               </Button>
