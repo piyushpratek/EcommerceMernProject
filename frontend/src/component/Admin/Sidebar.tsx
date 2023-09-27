@@ -1,5 +1,5 @@
 import "./sidebar.css";
-import logo from "../../images/logo.png";
+import logo from "../../Images/logo.png";
 import { Link } from "react-router-dom";
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
