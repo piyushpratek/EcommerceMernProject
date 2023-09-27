@@ -54,7 +54,8 @@ const LoginSignUp = () => {
   const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register({
-      name, email, password, avatar, createdAt: ""
+      name, email, password, avatar, createdAt: "",
+      role: ""
     }));
   };
 
