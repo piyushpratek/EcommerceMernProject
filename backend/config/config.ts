@@ -25,19 +25,21 @@ if (!envPath) {
   logger.error('Please use a valid value of NODE_ENV variable.')
   process.exit(1)
 }
-
+// import env values from file `envPath`
 dotenv.config({ path: envPath })
+
+// Validation for environment variables from `envPath` file
+if (!process.env.PORT) {
+  logger.error('Please define PORT in your .env file.')
+  process.exit(1)
+}
+
 if (!process.env.MONGO_URI) {
   logger.error('Please define MONGO_URI in your .env file.')
   process.exit(1)
 }
 if (!process.env.JWT_SECRET) {
   logger.error('Please define JWT_SECRET in your .env file.')
-  process.exit(1)
-}
-
-if (!process.env.PORT) {
-  logger.error('Please define PORT in your .env file.')
   process.exit(1)
 }
 
