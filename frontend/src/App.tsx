@@ -91,20 +91,21 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
 
+        {/* //TODO - check default value of isAdminOnlyRoute is false so we can remove below prop isAdminOnlyRoute={false}  */}
         <Route path="/account" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <Profile />
           </ProtectedRoute>
         }
         />
-
+        {/* //TODO - check default value of isAdminOnlyRoute is false so we can remove below prop isAdminOnlyRoute={false}  */}
         <Route path="/me/update" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <UpdateProfile />
           </ProtectedRoute>
         }
         />
-
+        {/* //TODO - check default value of isAdminOnlyRoute is false so we can remove below prop isAdminOnlyRoute={false}  */}
         <Route path="/password/update" element={
           <ProtectedRoute isAdminOnlyRoute={false} >
             <UpdatePassword />
