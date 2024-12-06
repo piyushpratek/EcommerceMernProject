@@ -1,34 +1,37 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import cartSlice from './slice/cartSlice';
-import orderSlice from './slice/orderSlice';
-import userSlice from './slice/user/userSlice';
-import allUsersSlice from './slice/user/allUsersSlice';
-import userDetailsSlice from './slice/user/userDetailsSlice';
-
-import { deleteReviewReducer } from './slice/Products/deleteReviewSlice';
-import { newProductReducer } from './slice/Products/newProductSlice';
-import { newReviewReducer } from './slice/Products/newReviewSlice';
-import { productDetailsReducer } from './slice/Products/productDetailsSlice';
-import { productReviewsReducer } from './slice/Products/productReviewsSlice';
-import { productsReducer } from './slice/Products/allProductsSlice';
-import { updateDeleleteproductReducer } from './slice/Products/updateDeleteProductSlice';
+import { deleteReviewSlice } from './slice/Products/deleteReviewSlice';
+import { newProductSlice } from './slice/Products/newProductSlice';
+import { newReviewSlice } from './slice/Products/newReviewSlice';
+import { productDetailsSlice } from './slice/Products/productDetailsSlice';
+import { productReviewsSlice } from './slice/Products/productReviewsSlice';
+import { productsSlice } from './slice/Products/allProductsSlice';
+import { updateDeleleteproductSlice } from './slice/Products/updateDeleteProductSlice';
+import { cartSlice } from './slice/cartSlice';
+import { orderSlice } from './slice/orderSlice';
+import { userSlice } from './slice/user/userSlice';
+import { allUsersSlice } from './slice/user/allUsersSlice';
+import { userDetailsSlice } from './slice/user/userDetailsSlice';
 export const store = configureStore({
     reducer: {
-        products: productsReducer,
-        newProduct: newProductReducer,
-        updatedeleteproduct: updateDeleleteproductReducer,
-        productDetails: productDetailsReducer,
-        newReview: newReviewReducer,
-        productReviews: productReviewsReducer,
-        deletereview: deleteReviewReducer,
-        cart: cartSlice,
-        order: orderSlice,
-        user: userSlice,
-        allUsers: allUsersSlice,
-        userDetails: userDetailsSlice
-
+        ...([
+            productsSlice,
+            newProductSlice,
+            updateDeleleteproductSlice,
+            productDetailsSlice,
+            newReviewSlice,
+            productReviewsSlice,
+            deleteReviewSlice,
+            cartSlice,
+            orderSlice,
+            userSlice,
+            allUsersSlice,
+            userDetailsSlice
+        ].reduce((acc, slice) => {
+            acc[slice.name] = slice.reducer
+            return acc
+        }, {})),
     },
     // Other store configurations if needed...
 });

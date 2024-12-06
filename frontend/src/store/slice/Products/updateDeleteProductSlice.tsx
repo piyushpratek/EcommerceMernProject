@@ -9,7 +9,7 @@ const initialUpdateDeleteProductState: UpdateDeleteProductState = {
 };
 
 //update/delete product
-const updateDeleleteproductSlice = createSlice({
+export const updateDeleleteproductSlice = createSlice({
     name: 'updatedeleteproduct',
     initialState: initialUpdateDeleteProductState,
     reducers: {
@@ -58,4 +58,3 @@ export const {
     updateProductReset,
     clearErrors,
 } = updateDeleleteproductSlice.actions;
-export const updateDeleleteproductReducer = updateDeleleteproductSlice.reducer

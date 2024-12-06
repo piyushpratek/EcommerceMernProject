@@ -19,7 +19,7 @@ const initialState: AllUsersState = {
     message: null,
 };
 
-const allUsersSlice = createSlice({
+export const allUsersSlice = createSlice({
     name: "allUsers",
     initialState,
     reducers: {
@@ -42,5 +42,3 @@ export const {
     allUsersSuccess,
     allUsersFail,
 } = allUsersSlice.actions;
-
-export default allUsersSlice.reducer

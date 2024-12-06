@@ -8,7 +8,7 @@ const initialReviewState: ReviewState = {
 };
 
 // delete review
-const deleteReviewSlice = createSlice({
+export const deleteReviewSlice = createSlice({
     name: 'deletereview',
     initialState: initialReviewState,
     reducers: {
@@ -39,4 +39,3 @@ export const {
     deleteReviewReset,
     clearErrors,
 } = deleteReviewSlice.actions;
-export const deleteReviewReducer = deleteReviewSlice.reducer;

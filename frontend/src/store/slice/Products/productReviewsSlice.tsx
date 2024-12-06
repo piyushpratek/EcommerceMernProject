@@ -8,7 +8,7 @@ const initialProductReviewsState: ProductReviewsState = {
 };
 
 //product review
-const productReviewsSlice = createSlice({
+export const productReviewsSlice = createSlice({
     name: 'productReviews',
     initialState: initialProductReviewsState,
     reducers: {
@@ -35,4 +35,3 @@ export const {
     allReviewFail,
     clearErrors
 } = productReviewsSlice.actions;
-export const productReviewsReducer = productReviewsSlice.reducer;

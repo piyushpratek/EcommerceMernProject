@@ -28,7 +28,7 @@ const initialState: UserState = {
     },
 };
 //Todo- change to userSlice to loggedInUserlice
-const userSlice = createSlice({
+export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
@@ -193,5 +193,3 @@ export const {
     setAlertMessage,
     clearAlertMessage,
 } = userSlice.actions;
-
-export default userSlice.reducer

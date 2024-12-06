@@ -21,7 +21,7 @@ const initialNewProductState: NewProductState = {
 };
 
 // New product add
-const newProductSlice = createSlice({
+export const newProductSlice = createSlice({
     name: 'newProduct',
     initialState: initialNewProductState,
     reducers: {
@@ -53,4 +53,3 @@ export const {
     newProductReset,
     clearErrors,
 } = newProductSlice.actions;
-export const newProductReducer = newProductSlice.reducer;

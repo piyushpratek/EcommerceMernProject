@@ -19,7 +19,7 @@ const initialProductsState: ProductsState = {
 };
 
 //All  Products  slice
-const productsSlice = createSlice({
+export const productsSlice = createSlice({
     name: 'products',
     initialState: initialProductsState,
     reducers: {
@@ -61,4 +61,3 @@ export const {
     allProductFail, adminProductRequest, adminProductFail,
     clearErrors,
 } = productsSlice.actions;
-export const productsReducer = productsSlice.reducer;

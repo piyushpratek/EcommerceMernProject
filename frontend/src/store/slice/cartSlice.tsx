@@ -34,7 +34,7 @@ const initialState: CartState = {
     shippingInfo: initialShippingInfo as ShippingInfo,
 };
 
-const cartSlice = createSlice({
+export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
@@ -62,4 +62,3 @@ const cartSlice = createSlice({
 });
 
 export const { addToCart, removeCartItem, saveShippingInfoAction } = cartSlice.actions;
-export default cartSlice.reducer;

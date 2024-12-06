@@ -21,7 +21,7 @@ const initialProductDetailsState: ProductDetailsState = {
 };
 
 //product details
-const productDetailsSlice = createSlice({
+export const productDetailsSlice = createSlice({
     name: 'productDetails',
     initialState: initialProductDetailsState,
     reducers: {
@@ -48,4 +48,3 @@ export const {
     productDetailsFail,
     clearErrors
 } = productDetailsSlice.actions;
-export const productDetailsReducer = productDetailsSlice.reducer;

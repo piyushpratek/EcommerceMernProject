@@ -21,7 +21,7 @@ const initialState: UsersDetailsState = {
     message: null,
 };
 
-const userDetailsSlice = createSlice({
+export const userDetailsSlice = createSlice({
     name: "userDetails",
     initialState,
     reducers: {
@@ -81,5 +81,3 @@ export const {
     updateUserFail,
     updateUserReset,
 } = userDetailsSlice.actions;
-
-export default userDetailsSlice.reducer

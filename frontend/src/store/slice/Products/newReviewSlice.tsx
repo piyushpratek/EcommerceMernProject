@@ -8,7 +8,7 @@ const initialNewReviewState: NewReviewState = {
 };
 
 //new review
-const newReviewSlice = createSlice({
+export const newReviewSlice = createSlice({
     name: 'newReview',
     initialState: initialNewReviewState,
     reducers: {
@@ -39,4 +39,3 @@ export const {
     newReviewReset,
     clearErrors
 } = newReviewSlice.actions;
-export const newReviewReducer = newReviewSlice.reducer;
